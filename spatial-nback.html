@@ -58,8 +58,9 @@
   //     n_backs: [1, 2, 3],
   //     trials_per_level: 20
   // });
-
-  jsPsych.run([instructions, practice, spatial1Back]);
-</script>
+  jatos.onLoad(() => {
+    jsPsych.run([instructions, practice, spatial1Back]);
+  });
+  </script>
 
 </html>
