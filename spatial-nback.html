@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Spatial N-Back Task</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <script src="jatos.js"></script>
+  <script src="https://unpkg.com/jspsych"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.1.0"></script>
+  <script src="dist/timeline-spatial-nback.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/jspsych/css/jspsych.css">
+  <link rel="stylesheet" href="dist/spatial-styles.css">
+</head>
+
+<body></body>
+<script>
+
+  const jsPsych = initJsPsych({
+      on_trial_start: jatos.addAbortButton,
+      on_finish: function () {
+      jatos.startNextComponent(jsPsych.data.get().json())
+      // jsPsych.data.displayData();
+    }
+  });
+
+  const mainTimeline = [];
+
+  const grid = "<div class='nback-grid-instructions' style='border: 3px solid #000; box-sizing: border-box; display: inline-block;'><div style='display: flex;'><div id='cell-0-0' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div><div id='cell-0-1' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div><div id='cell-0-2' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div></div><div style='display: flex;'><div id='cell-1-0' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div><div id='cell-1-1' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div><div id='cell-1-2' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div></div><div style='display: flex;'><div id='cell-2-0' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div><div id='cell-2-1' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div><div id='cell-2-2' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div></div></div>";
+  const instruction_pages = [
+    "We now ask you to play a type of game.",
+    "You will see a series of positions on a 3×3 grid<br><br>" + grid,
+    "Tap O if the current position matches the one you saw just before it.",
+    "Remember positions from ONE trial ago.",
+    "Tap O if the positions match. Tap X if they do not match.",
+    "Try to respond as quickly and accurately as you can.",
+    "Let's start with a short practice round.",
+  ];
+
+  const instructions1 = jsPsychTimelineSpatialNback.createInstructions(instruction_pages);
+  mainTimeline.push(instructions1);
+
+  const practice1 = jsPsychTimelineSpatialNback.createPracticeTimeline({
+    n_back: 1,
+    total_trials: 8,
+    target_percentage: 50, // Percentage of trials that are targets
+    stimulus_duration: 850, // Duration for which each stimulus is shown
+    isi_duration: 500, // Inter-stimulus interval duration
+    feedback_duration: 500, // Duration for which feedback is shown
+    buttons: ["O", "X"], // Button labels for responses
+  });
+
+  const confirm1 = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: '<p>Press CONTINUE to start the main task. It will be a little faster.</p>',
+    choices: ['CONTINUE'],
+  };
+
+  const spatial1Back = jsPsychTimelineSpatialNback.createTimeline({
+    rows: 3,
+    cols: 3,
+    n_back: 1,
+    total_trials: 25,
+    target_percentage: 50,
+    stimulus_duration: 500,
+    isi_duration: 500,
+    feedback_duration: 0,
+    buttons: ["O", "X"],                                                                         //overrides text.ts
+    stimulus_color: "#2196F3",
+  });
+  mainTimeline.push(instructions1);
+  mainTimeline.push(practice1);
+  mainTimeline.push(confirm1);
+  mainTimeline.push(spatial1Back);
+
+  const instructions2 = jsPsychTimelineSpatialNback.createInstructions([
+    "Now we will play the 2-back game.",
+    "Remember positions from TWO trials ago.",
+    "Let's start with a short practice round for the 2-back task.",
+  ]);
+
+  const practice2 = jsPsychTimelineSpatialNback.createPracticeTimeline({
+    n_back: 2,
+    total_trials: 8,
+    target_percentage: 50, // Percentage of trials that are targets
+    stimulus_duration: 850, // Duration for which each stimulus is shown
+    isi_duration: 500, // Inter-stimulus interval duration
+    feedback_duration: 500, // Duration for which feedback is shown
+    buttons: ["O", "X"], // Button labels for responses
+  });
+  
+  const confirm2 = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: '<p>Press CONTINUE to start main 2-back task block.</p>',
+    choices: ['CONTINUE'],
+  };
+
+  const spatial2Back = jsPsychTimelineSpatialNback.createTimeline({
+    rows: 3,
+    cols: 3,
+    n_back: 2,
+    total_trials: 25,
+    target_percentage: 50,
+    stimulus_duration: 500,
+    isi_duration: 500,
+    feedback_duration: 0,
+    buttons: ["O", "X"],
+    stimulus_color: "#2196F3",
+  });
+  mainTimeline.push(instructions2);
+  mainTimeline.push(practice2);
+  mainTimeline.push(confirm2);
+  mainTimeline.push(spatial2Back);
+  mainTimeline.push(confirm2);
+  mainTimeline.push(spatial2Back);
+
+  const instructions3 = jsPsychTimelineSpatialNback.createInstructions([
+    "Now we will play the 3-back game.",
+    "Remember positions from THREE trials ago.",
+    "This is the most challenging part of the task.",
+    "Please don't worry if it feels difficult, this is expected.",
+    // "However, if it feels too frustrating to continue, you may switch to the previous 2-back task.",
+    "We encourage you to give this final part your best shot.",
+    "Let's start with a short practice round for the 3-back task.",
+  ]);
+
+  const practice3 = jsPsychTimelineSpatialNback.createPracticeTimeline({
+    n_back: 3,
+    total_trials: 8,
+    target_percentage: 50, // Percentage of trials that are targets
+    stimulus_duration: 850, // Duration for which each stimulus is shown
+    isi_duration: 500, // Inter-stimulus interval duration
+    feedback_duration: 500, // Duration for which feedback is shown
+    buttons: ["O", "X"], // Button labels for responses
+  });
+
+  const confirm3 = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: '<p>Press CONTINUE to start a 3-back task block.</p>',
+    choices: ['CONTINUE'],
+  };
+
+  const spatial3Back = jsPsychTimelineSpatialNback.createTimeline({
+    rows: 3,
+    cols: 3,
+    n_back: 3,
+    total_trials: 25,
+    target_percentage: 50,
+    stimulus_duration: 500,
+    isi_duration: 500,
+    feedback_duration: 0,
+    buttons: ["O", "X"],
+    stimulus_color: "#2196F3",
+  });
+  mainTimeline.push(instructions3);
+  mainTimeline.push(practice3);
+  mainTimeline.push(confirm3);
+  mainTimeline.push(spatial3Back);
+  mainTimeline.push(confirm3);
+  mainTimeline.push(spatial3Back);
+
+  jatos.onLoad(() => {
+    jsPsych.run(mainTimeline);
+  });
+  </script>
+
+</html>
