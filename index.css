@@ -90,6 +90,36 @@ body {
     user-select: none !important;
 }
 
+/* Enhanced styles for round info jsPsych buttons only */
+.round-info .jspsych-btn {
+    background-color: #3498db !important;
+    color: white !important;
+    border: none !important;
+    padding: clamp(20px, 6vw, 35px) clamp(40px, 8vw, 60px) !important;
+    font-size: clamp(20px, 5vw, 30px) !important;
+    border-radius: 50px !important;
+    cursor: pointer !important;
+    margin: 20px !important;
+    transition: all 0.2s ease !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+    font-weight: bold !important;
+    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4) !important;
+    min-height: 60px !important;
+    min-width: 150px !important;
+}
+
+.round-info .jspsych-btn:hover {
+    background-color: #2980b9 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.5) !important;
+}
+
+.round-info .jspsych-btn:active {
+    transform: translateY(0px) !important;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3) !important;
+}
+
 /* INSTRUCTIONS TRIAL STYLES */
 
 .instructions-container {
@@ -280,30 +310,33 @@ body {
 /* Card grid responsive design */
 .card-grid { 
     display: grid; 
-    gap: clamp(5px, 1.5vw, 12px);
-    width: 90vw;
-    max-width: 700px;
-    margin: 10px auto;
-    padding: 0;
+    gap: clamp(10px, 2.5vw, 20px);
+    width: 95vw;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 15px;
     box-sizing: border-box;
+    grid-template-columns: repeat(4, 1fr);
 }
 
 /* Card responsive sizing */
 .card { 
     width: 100%;
-    aspect-ratio: 2/3;
-    min-height: 60px;
-    height: clamp(80px, 15vw, 130px);
-    border: 2px solid #333; 
-    border-radius: 8px; 
+    aspect-ratio: 3/4;
+    min-height: 100px;
+    height: auto;
+    border: 3px solid #2c3e50; 
+    border-radius: 12px; 
     cursor: pointer; 
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    font-size: clamp(16px, 4vw, 26px);
+    font-size: clamp(24px, 6vw, 40px);
     font-weight: bold; 
     transition: all 0.3s ease;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .card-back { 
@@ -329,37 +362,45 @@ body {
 /* Game info responsive */
 .game-info { 
     text-align: center; 
-    margin: clamp(2px, 1vh, 8px) 0;
-    font-size: clamp(12px, 2.5vw, 16px);
+    margin: 15px 0;
+    font-size: clamp(16px, 3.5vw, 22px);
     width: 100%;
-    padding: 0 10px;
+    padding: 10px;
     box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .game-info h3 {
-    margin: 2px 0;
-    font-size: clamp(16px, 3vw, 20px);
+    margin: 5px 0;
+    font-size: clamp(18px, 4vw, 24px);
+    color: #2c3e50;
 }
 
 /* Round info responsive */
 .round-info { 
     background: white; 
-    padding: clamp(8px, 2vw, 15px);
-    border-radius: 8px; 
-    margin: 5px auto; 
+    padding: clamp(20px, 4vw, 30px);
+    border-radius: 12px; 
+    margin: 20px auto; 
     width: 85vw;
     max-width: 500px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    font-size: clamp(12px, 2.5vw, 16px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-size: clamp(16px, 3.5vw, 20px);
+    border: 2px solid #e2e8f0;
 }
 
 .round-info h2 {
-    font-size: clamp(16px, 3.5vw, 22px);
-    margin: 3px 0;
+    font-size: clamp(24px, 5vw, 32px);
+    margin: 10px 0 15px 0;
+    color: #2c3e50;
+    font-weight: bold;
 }
 
 .round-info p {
-    margin: 5px 0;
+    margin: 8px 0;
+    line-height: 1.4;
 }
 
 /* Button container */
@@ -374,23 +415,29 @@ body {
     background-color: #EF4444; 
     color: white; 
     border: none; 
-    padding: clamp(10px, 2vw, 15px) clamp(20px, 3vw, 30px);
-    font-size: clamp(14px, 2vw, 18px);
-    border-radius: 6px; 
+    padding: clamp(20px, 6vw, 35px) clamp(40px, 8vw, 60px);
+    font-size: clamp(20px, 5vw, 30px);
+    border-radius: 50px; 
     cursor: pointer; 
-    margin: 10px;
+    margin: 20px;
     transition: all 0.2s ease;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+    font-weight: bold;
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+    min-height: 60px;
+    min-width: 200px;
 }
 
 .stop-button:hover { 
     background-color: #DC2626; 
-    transform: scale(1.05);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
 }
 
 .stop-button:active {
-    transform: scale(0.98);
+    transform: translateY(0px);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
 /* Score display */
@@ -437,12 +484,13 @@ body {
     /* Card grid responsive adjustments */
     .card-grid {
         grid-template-columns: repeat(3, 1fr) !important;
-        gap: 8px;
+        gap: 10px;
+        width: 95vw;
     }
     
     .card {
-        height: clamp(70px, 20vw, 100px);
-        font-size: clamp(14px, 4vw, 20px);
+        font-size: clamp(16px, 4.5vw, 24px);
+        border-width: 2px;
     }
 }
 
@@ -464,10 +512,12 @@ body {
     .card-grid {
         grid-template-columns: repeat(2, 1fr) !important;
         width: 95vw;
+        gap: 12px;
     }
     
     .card {
-        height: clamp(90px, 35vw, 120px);
+        font-size: clamp(18px, 5vw, 28px);
+        border-width: 2px;
     }
 }
 
