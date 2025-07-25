@@ -51,9 +51,9 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         mod
     ));
 
-    // ../../node_modules/auto-bind/index.js
+    // node_modules/auto-bind/index.js
     var require_auto_bind = __commonJS({
-        "../../node_modules/auto-bind/index.js"(exports, module) {
+        "node_modules/auto-bind/index.js"(exports, module) {
             var getAllProperties = (object) => {
                 const properties = /* @__PURE__ */ new Set();
                 do {
@@ -88,9 +88,9 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/lib/alea.js
+    // node_modules/seedrandom/lib/alea.js
     var require_alea = __commonJS({
-        "../../node_modules/seedrandom/lib/alea.js"(exports, module) {
+        "node_modules/seedrandom/lib/alea.js"(exports, module) {
             (function (global, module2, define2) {
                 function Alea(seed) {
                     var me = this, mash = Mash();
@@ -180,9 +180,9 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/lib/xor128.js
+    // node_modules/seedrandom/lib/xor128.js
     var require_xor128 = __commonJS({
-        "../../node_modules/seedrandom/lib/xor128.js"(exports, module) {
+        "node_modules/seedrandom/lib/xor128.js"(exports, module) {
             (function (global, module2, define2) {
                 function XorGen(seed) {
                     var me = this, strseed = "";
@@ -254,9 +254,9 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/lib/xorwow.js
+    // node_modules/seedrandom/lib/xorwow.js
     var require_xorwow = __commonJS({
-        "../../node_modules/seedrandom/lib/xorwow.js"(exports, module) {
+        "node_modules/seedrandom/lib/xorwow.js"(exports, module) {
             (function (global, module2, define2) {
                 function XorGen(seed) {
                     var me = this, strseed = "";
@@ -335,9 +335,9 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/lib/xorshift7.js
+    // node_modules/seedrandom/lib/xorshift7.js
     var require_xorshift7 = __commonJS({
-        "../../node_modules/seedrandom/lib/xorshift7.js"(exports, module) {
+        "node_modules/seedrandom/lib/xorshift7.js"(exports, module) {
             (function (global, module2, define2) {
                 function XorGen(seed) {
                     var me = this;
@@ -432,9 +432,9 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/lib/xor4096.js
+    // node_modules/seedrandom/lib/xor4096.js
     var require_xor4096 = __commonJS({
-        "../../node_modules/seedrandom/lib/xor4096.js"(exports, module) {
+        "node_modules/seedrandom/lib/xor4096.js"(exports, module) {
             (function (global, module2, define2) {
                 function XorGen(seed) {
                     var me = this;
@@ -544,9 +544,9 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/lib/tychei.js
+    // node_modules/seedrandom/lib/tychei.js
     var require_tychei = __commonJS({
-        "../../node_modules/seedrandom/lib/tychei.js"(exports, module) {
+        "node_modules/seedrandom/lib/tychei.js"(exports, module) {
             (function (global, module2, define2) {
                 function XorGen(seed) {
                     var me = this, strseed = "";
@@ -623,9 +623,9 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/seedrandom.js
+    // node_modules/seedrandom/seedrandom.js
     var require_seedrandom = __commonJS({
-        "../../node_modules/seedrandom/seedrandom.js"(exports, module) {
+        "node_modules/seedrandom/seedrandom.js"(exports, module) {
             (function (global, pool, math) {
                 var width = 256, chunks = 6, digits = 52, rngname = "random", startdenom = math.pow(width, chunks), significance = math.pow(2, digits), overflow = significance * 2, mask = width - 1, nodecrypto;
                 function seedrandom2(seed, options, callback) {
@@ -771,9 +771,9 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/index.js
+    // node_modules/seedrandom/index.js
     var require_seedrandom2 = __commonJS({
-        "../../node_modules/seedrandom/index.js"(exports, module) {
+        "node_modules/seedrandom/index.js"(exports, module) {
             var alea = require_alea();
             var xor128 = require_xor128();
             var xorwow = require_xorwow();
@@ -791,9 +791,9 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         }
     });
 
-    // ../../node_modules/random-words/index.js
+    // node_modules/random-words/index.js
     var require_random_words = __commonJS({
-        "../../node_modules/random-words/index.js"(exports, module) {
+        "node_modules/random-words/index.js"(exports, module) {
             var seedrandom2 = require_seedrandom2();
             var wordList = [
                 // Borrowed from xkcd password generator which borrowed it from wherever
@@ -2823,7 +2823,7 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         }
     });
 
-    // ../../node_modules/jspsych/dist/index.js
+    // node_modules/jspsych/dist/index.js
     __toESM(require_auto_bind(), 1);
     __toESM(require_random_words(), 1);
     __toESM(require_alea(), 1);
@@ -2887,7 +2887,7 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         window.AudioContext = webkitAudioContext;
     }
 
-    // ../../node_modules/@jspsych/plugin-html-keyboard-response/dist/index.js
+    // node_modules/@jspsych/plugin-html-keyboard-response/dist/index.js
     var version = "2.1.0";
     var info = {
         name: "html-keyboard-response",
@@ -3065,7 +3065,7 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         _HtmlKeyboardResponsePlugin.info = info;
     })();
 
-    // ../../node_modules/@jspsych/plugin-html-button-response/dist/index.js
+    // node_modules/@jspsych/plugin-html-button-response/dist/index.js
     var version2 = "2.1.0";
     var info2 = {
         name: "html-button-response",
@@ -3283,7 +3283,7 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         _HtmlButtonResponsePlugin.info = info2;
     })();
 
-    // ../../node_modules/@jspsych/plugin-instructions/dist/index.js
+    // node_modules/@jspsych/plugin-instructions/dist/index.js
     var version3 = "2.1.0";
     var info3 = {
         name: "instructions",
@@ -3620,6 +3620,45 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         _InstructionsPlugin.info = info3;
     })();
 
+    // src/text.ts
+    var trial_text = {
+        // Button texts
+        continue_button: "Continue",
+        start_button: "Start",
+        ready_button: "I'm Ready",
+        end_button: "End",
+        // Instruction pages buttons text, these will always have arrows < and >
+        // these do not work right now due to CSS fixed position, might fix later
+        next_button: "",
+        back_button: "",
+        // Task completion messages
+        task_complete_header: "Task Complete!",
+        task_complete_message: "Thank you for participating in the speeded matching task.",
+        // Practice phase text
+        practice_header: "Practice Round",
+        practice_intro_message: "We'll now do a practice round to show you how the task works.",
+        practice_look_instruction: "Look at this picture",
+        practice_tap_instruction: "Tap the matching picture below",
+        practice_complete_header: "Are you ready?",
+        practice_complete_message: "Practice complete! Ready for the full test?",
+        // Main task instructions
+        main_task_prompt: "Tap the matching picture below",
+        // Fixation and inter-trial
+        fixation_cross: "+",
+        // Feedback messages (optional)
+        correct_feedback: "Correct!",
+        incorrect_feedback: "Try again",
+        // Timing messages
+        too_slow_message: "Please respond faster"
+    };
+    var instruction_pages = [
+        "<b>Welcome to the Columbia Card Task</b><br>You will be playing multiple rounds of a card selection game.",
+        "In each round, you'll see a grid of face-down cards. Most cards give you points, but some cards lose points and end the round.",
+        "Click on cards to turn them over and earn points. You can stop anytime to keep your points, or keep selecting for more.",
+        "Before each round, you'll see how many loss cards there are, how many points you gain per card, and how many points you lose if you hit a loss card.",
+        "Your goal is to earn as many points as possible across all rounds. Choose your strategy wisely!"
+    ];
+
     // src/index.ts
     var default_n_cards = 16;
     var default_cols = 4;
@@ -3730,22 +3769,78 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         }
         jsPsych.finishTrial();
     }
-    function createInstructions() {
-        const instructions = {
+    function speakText(text) {
+        if ("speechSynthesis" in window) {
+            if ("speechSynthesis" in window) {
+                speechSynthesis.cancel();
+            }
+            setTimeout(() => {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.8;
+                utterance.volume = 0.8;
+                utterance.voice = speechSynthesis.getVoices()[0] || null;
+                speechSynthesis.speak(utterance);
+            }, 100);
+        }
+    }
+    function extractTextFromHtml(htmlString) {
+        var _a;
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlString, "text/html");
+        return ((_a = doc.body.textContent) == null ? void 0 : _a.replace(/\s+/g, " ").trim()) || "";
+    }
+    function createInstructions(instruction_pages_data = instruction_pages, enable_tts = false) {
+        let handleButtonClick = null;
+        return {
             type: InstructionsPlugin,
-            pages: [
-                `<h1>Columbia Card Task</h1>
-              <p>Select cards to earn points. Most cards give you points, but some lose points and end the round.</p>
-              <p>You can stop anytime to keep your points, or keep selecting for more.</p>`,
-                `<h2>Strategy</h2>
-              <p>Before each round, you'll see:</p>
-              <ul><li>Number of loss cards</li><li>Points per gain card</li><li>Loss penalty</li></ul>
-              <p>Use this info to decide your risk!</p>`
-            ],
+            pages: instruction_pages_data.map((page) => `<div class="instructions-container"><p>${page}</p></div>`),
             show_clickable_nav: true,
-            allow_backward: false
+            allow_keys: true,
+            key_forward: "ArrowRight",
+            key_backward: "ArrowLeft",
+            button_label_previous: trial_text.back_button,
+            button_label_next: trial_text.next_button,
+            on_start: function () {
+                speechSynthesis.cancel();
+            },
+            on_load: function () {
+                if (enable_tts) {
+                    const speakCurrentPage = () => {
+                        const instructionsContent = document.querySelector(".instructions-container");
+                        if (instructionsContent) {
+                            const pageText = extractTextFromHtml(instructionsContent.innerHTML);
+                            if (pageText.trim()) {
+                                speakText(pageText);
+                            }
+                        }
+                    };
+                    handleButtonClick = (event) => {
+                        const target = event.target;
+                        if (target && (target.id === "jspsych-instructions-next" || target.id === "jspsych-instructions-back")) {
+                            speechSynthesis.cancel();
+                            setTimeout(speakCurrentPage, 200);
+                        }
+                    };
+                    document.addEventListener("click", handleButtonClick);
+                    setTimeout(speakCurrentPage, 300);
+                }
+            },
+            on_finish: function (data) {
+                speechSynthesis.cancel();
+                if (handleButtonClick) {
+                    document.removeEventListener("click", handleButtonClick);
+                    handleButtonClick = null;
+                }
+                if (enable_tts) {
+                    speechSynthesis.cancel();
+                }
+                if (window.instructionsNavCleanup) {
+                    window.instructionsNavCleanup();
+                    delete window.instructionsNavCleanup;
+                }
+                data.phase = "instructions";
+            }
         };
-        return instructions;
     }
     function createRoundInfo(round_num, totalRounds, round_config) {
         const round_info = {
@@ -3817,12 +3912,13 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         cols = default_cols,
         rounds = default_rounds,
         show_instructions = true,
-        show_results = true
+        show_results = true,
+        enable_tts = false
     } = {}) {
         resetState();
         const timeline = [];
         if (show_instructions) {
-            timeline.push(createInstructions());
+            timeline.push(createInstructions(instruction_pages, enable_tts));
         }
         rounds.forEach((round_config, idx) => {
             const round_num = idx + 1;
@@ -3854,4 +3950,4 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
 
 })({});
 //# sourceMappingURL=out.js.map
-  //# sourceMappingURL=index.global.js.map
+//# sourceMappingURL=index.global.js.map

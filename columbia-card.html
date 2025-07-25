@@ -2,31 +2,33 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>jsPsychTimelineColumbiaCardTask Example</title>
+    <title>Columbia Card Task</title>
     <script src="jatos.js"></script>
-    <script src="https://unpkg.com/jspsych"></script>
-    <script src="../dist/columbia-card.js"></script>
-    <!-- Load the published timeline package here, e.g.
-<script src="https://unpkg.com/columbia-card-task"></script>
-<script src="../dist/index.global.js"></script> -->
-    <link rel="stylesheet" href="https://unpkg.com/jspsych/css/jspsych.css">
-    <link rel="stylesheet" href="../src/index.css" />
+    <script src="https://unpkg.com/jspsych@8.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-instructions@2.0.0"></script>
+    <link href="https://unpkg.com/jspsych@8.0.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <link href="dist/columbia-card-styles.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body></body>
+<script src="dist/columbia-card.js"></script>
 <script>
-    const jsPsych = initJsPsych({
-            on_finish: () => jatos.startNextComponent(jsPsych.data.get().json())
+    jatos.onLoad(function () {
+        // Initialize jsPsych with JATOS integration
+        const jsPsych = initJsPsych({
+            on_finish: function () {
+                // Send data to JATOS
+                const data = jsPsych.data.get().json();
+                jatos.submitResultData(data, jatos.startNextComponent);
+            }
         });
 
-    const task = jsPsychTimelineColumbiaCardTask.createTimeline(jsPsych, {});
-
-    jatos.onLoad(() => {
-            jsPsych.run([task]);
-        });
-
-    jsPsych.run([task])
+        // Create and run the timeline
+        const timeline = jsPsychTimelineColumbiaCardTask.createTimeline(jsPsych);
+        jsPsych.run(timeline);
+    });
 </script>
 
 </html>
