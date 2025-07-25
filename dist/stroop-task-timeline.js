@@ -3649,6 +3649,72 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
     };
 
     // src/index.ts
+    var ESSENTIAL_STYLES = `
+  body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+  }
+  
+  #jspsych-target {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+  }
+  
+  .jspsych-content {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      flex-direction: column !important;
+      max-width: none !important;
+  }
+  
+  .jspsych-content-wrapper {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+      min-height: 100vh !important;
+      padding: 20px !important;
+  }
+  
+  .jspsych-btn {
+      font-size: 18px !important;
+      font-weight: bold !important;
+      padding: 15px 25px !important;
+      margin: 10px !important;
+      border: 2px solid #333 !important;
+      border-radius: 8px !important;
+      min-width: 100px !important;
+      min-height: 60px !important;
+      cursor: pointer !important;
+  }
+  
+  .stimulus {
+      font-size: 60px;
+      font-weight: bold;
+      margin: 20px 0;
+  }
+  `;
+    function injectEssentialStyles() {
+        if (typeof document !== "undefined") {
+            const styleElement = document.createElement("style");
+            styleElement.textContent = ESSENTIAL_STYLES;
+            document.head.appendChild(styleElement);
+        }
+    }
     var DEFAULT_TRIAL_TIMEOUT = 3e3;
     var DEFAULT_FIXATION_DURATION = { min: 300, max: 1e3 };
     var WORDS = ["RED", "GREEN", "BLUE", "YELLOW"];
@@ -3801,47 +3867,11 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         };
         return debrief;
     }
-    function createResults(jsPsych) {
-        const results = {
-            type: HtmlButtonResponsePlugin,
-            stimulus: () => {
-                const trials = jsPsych.data.get().filter({ task: "response" });
-                if (trials.count() === 0) {
-                    return `<p>No trial data found.</p>`;
-                }
-                const congruentTrials = trials.filter({ congruent: true });
-                const incongruentTrials = trials.filter({ congruent: false });
-                const congruentCorrect = congruentTrials.filter({ correct: true });
-                const incongruentCorrect = incongruentTrials.filter({ correct: true });
-                const congruentAccuracy = congruentTrials.count() > 0 ? Math.round(congruentCorrect.count() / congruentTrials.count() * 100) : 0;
-                const incongruentAccuracy = incongruentTrials.count() > 0 ? Math.round(incongruentCorrect.count() / incongruentTrials.count() * 100) : 0;
-                const congruentRt = congruentCorrect.count() > 0 ? Math.round(congruentCorrect.select("rt").mean()) : 0;
-                const incongruentRt = incongruentCorrect.count() > 0 ? Math.round(incongruentCorrect.select("rt").mean()) : 0;
-                const stroopEffect = incongruentRt - congruentRt;
-                return `
-                  <div style="text-align: center; max-width: 600px; margin: 0 auto;">
-                      <h2>Experiment Complete!</h2>
-                      <div style="text-align: left; background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                          <p><strong>Congruent trials:</strong> ${congruentAccuracy}% correct, ${congruentRt}ms average</p>
-                          <p><strong>Incongruent trials:</strong> ${incongruentAccuracy}% correct, ${incongruentRt}ms average</p>
-                          <p><strong>Stroop Effect:</strong> ${stroopEffect}ms</p>
-                      </div>
-                      <p>Thank you for participating!</p>
-                  </div>
-              `;
-            },
-            choices: ["Download Data"],
-            on_finish: () => {
-                jsPsych.data.displayData();
-            }
-        };
-        return results;
-    }
     function createTimeline(jsPsych, {
-        practice_trials_per_condition = 2,
+        practice_trials_per_condition = 3,
         congruent_main_trials = 4,
         incongruent_main_trials = 4,
-        trial_timeout = 3e3,
+        trial_timeout = 2e3,
         fixation_duration = { min: 300, max: 1500 },
         show_practice_feedback = true,
         include_fixation = true,
@@ -3855,6 +3885,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         choice_of_colors = ["RED", "GREEN", "BLUE", "YELLOW"]
     } = {}) {
         resetState();
+        injectEssentialStyles();
         const timeline = [];
         const stimuli = generateStimuli(choice_of_colors);
         const congruentStimuli = stimuli.filter((s) => s.congruent);
@@ -3887,9 +3918,6 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
             }
             timeline.push(createStroopTrial(stimulus, false, trial_timeout, number_of_rows, number_of_columns, choice_of_colors));
         }
-        if (show_results) {
-            timeline.push(createResults(jsPsych));
-        }
         return timeline;
     }
     var timelineComponents = {
@@ -3897,8 +3925,8 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         createFixation,
         createStroopTrial,
         createPracticeFeedback,
-        createPracticeDebrief,
-        createResults
+        createPracticeDebrief
+        //createResults
     };
     var utils = {
         resetState,
@@ -3914,4 +3942,4 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
 
 })({});
 //# sourceMappingURL=out.js.map
-  //# sourceMappingURL=index.global.js.map
+//# sourceMappingURL=index.global.js.map
