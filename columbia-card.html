@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>jsPsychTimelineColumbiaCardTask Example</title>
+    <script src="jatos.js"></script>
+    <script src="https://unpkg.com/jspsych"></script>
+    <script src="../dist/columbia-card.js"></script>
+    <!-- Load the published timeline package here, e.g.
+<script src="https://unpkg.com/columbia-card-task"></script>
+<script src="../dist/index.global.js"></script> -->
+    <link rel="stylesheet" href="https://unpkg.com/jspsych/css/jspsych.css">
+    <link rel="stylesheet" href="../src/index.css" />
+</head>
+
+<body></body>
+<script>
+    const jsPsych = initJsPsych({
+            on_finish: () => jatos.startNextComponent(jsPsych.data.get().json())
+        });
+
+    const task = jsPsychTimelineColumbiaCardTask.createTimeline(jsPsych, {});
+
+    jatos.onLoad(() => {
+            jsPsych.run([task]);
+        });
+
+    jsPsych.run([task])
+</script>
+
+</html>

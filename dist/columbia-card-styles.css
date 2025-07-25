@@ -1,0 +1,388 @@
+/* Aggressive override of jsPsych default styles */
+.jspsych-display-element {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+.jspsych-content-wrapper {
+    width: 100% !important;
+    max-width: none !important;
+    height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+}
+
+.jspsych-content {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Remove any default margins on all jsPsych elements */
+[class*="jspsych-"] {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* GENERAL STYLES */
+
+h1,
+h2,
+h3 {
+    line-height: 1.6;
+    margin: 3vmin;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+p {
+    margin: 3vmin 1vmin;
+    font-size: clamp(14px, 4vmin, 24px);
+    line-height: 1.6;
+    /* Prevent horizontal overflow */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Base styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Styles for any normal HTML button */
+.continue-button {
+    padding: clamp(15px, 6vmin, 35px) clamp(15px, 8vmin, 40px);
+    font-size: clamp(15px, 6vmin, 35px);
+    border-radius: 1vmin;
+    cursor: pointer;
+    margin: 2vmin;
+    margin-top: 10vh;
+    transition: background-color 0.3s;
+    min-height: 48px;
+
+    /* Disable double-click zoom */
+    touch-action: manipulation !important;
+    user-select: none !important;
+}
+
+/* INSTRUCTIONS TRIAL STYLES */
+
+.instructions-container {
+    max-width: 90vw;
+    /* Limit width for better readability */
+    margin: 0 auto;
+    /* Center the container */
+    padding: 2vmin;
+    /* Add some padding */
+    box-sizing: border-box;
+    /* Include padding in width calculations */
+    overflow-x: hidden;
+    /* Prevent horizontal overflow */
+}
+
+/* Mobile-friendly instruction navigation buttons */
+.jspsych-instructions-nav {
+    display: flex;
+    gap: 25vw;
+    justify-content: center;
+    margin-top: auto;
+    padding: clamp(20px, 5vmin, 40px) !important;
+    min-height: clamp(20px, 50vmin, 250px);
+    align-items: flex-end;
+}
+
+/* Instruction navigation button styles */
+.jspsych-instructions-nav .jspsych-btn {
+    background-color: #fff;
+    color: #000;
+    width: 20vmin;
+    height: 20vmin;
+    border: 3px solid #ccc;
+    border-radius: 50%;
+    font-size: clamp(15px, 7vmin, 35px);
+    cursor: pointer;
+    min-height: 100px;
+    min-width: 100px;
+    font-weight: 600;
+
+    /* Disable double-click zoom */
+    touch-action: manipulation !important;
+    user-select: none !important;
+}
+
+.jspsych-instructions-nav .jspsych-btn:active {
+    background-color: #f0f0f0;
+    border-color: #999;
+}
+
+.jspsych-instructions-nav .jspsych-btn:disabled {
+    visibility: hidden;
+    /* Keeps the space but hides the button */
+}
+
+/* Card grid responsive design */
+.card-grid {
+    display: grid;
+    gap: clamp(5px, 1.5vw, 12px);
+    width: 90vw;
+    max-width: 700px;
+    margin: 10px auto;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Card responsive sizing */
+.card {
+    width: 100%;
+    aspect-ratio: 2/3;
+    min-height: 60px;
+    height: clamp(80px, 15vw, 130px);
+    border: 2px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(16px, 4vw, 26px);
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.card-back {
+    background: linear-gradient(45deg, #4169E1, #6495ED);
+    color: white;
+}
+
+.card-back:hover {
+    background: linear-gradient(45deg, #1E3A8A, #3B82F6);
+    transform: scale(1.05);
+}
+
+.card-gain {
+    background: linear-gradient(45deg, #22C55E, #16A34A);
+    color: white;
+}
+
+.card-loss {
+    background: linear-gradient(45deg, #EF4444, #DC2626);
+    color: white;
+}
+
+/* Game info responsive */
+.game-info {
+    text-align: center;
+    margin: clamp(2px, 1vh, 8px) 0;
+    font-size: clamp(12px, 2.5vw, 16px);
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.game-info h3 {
+    margin: 2px 0;
+    font-size: clamp(16px, 3vw, 20px);
+}
+
+/* Round info responsive */
+.round-info {
+    background: white;
+    padding: clamp(8px, 2vw, 15px);
+    border-radius: 8px;
+    margin: 5px auto;
+    width: 85vw;
+    max-width: 500px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: clamp(12px, 2.5vw, 16px);
+}
+
+.round-info h2 {
+    font-size: clamp(16px, 3.5vw, 22px);
+    margin: 3px 0;
+}
+
+.round-info p {
+    margin: 5px 0;
+}
+
+/* Button container */
+.button-container {
+    text-align: center;
+    margin: clamp(15px, 2vh, 25px) 0;
+    width: 100%;
+}
+
+/* Stop button responsive */
+.stop-button {
+    background-color: #EF4444;
+    color: white;
+    border: none;
+    padding: clamp(10px, 2vw, 15px) clamp(20px, 3vw, 30px);
+    font-size: clamp(14px, 2vw, 18px);
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 10px;
+    transition: all 0.2s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.stop-button:hover {
+    background-color: #DC2626;
+    transform: scale(1.05);
+}
+
+.stop-button:active {
+    transform: scale(0.98);
+}
+
+/* Score display */
+.score-display {
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-weight: bold;
+    color: #1E3A8A;
+}
+
+/* Message area */
+#message {
+    font-size: clamp(16px, 2.5vw, 20px);
+    margin: 10px 0;
+    min-height: 30px;
+}
+
+/* Styles for tablets */
+@media (max-width: 768px) {
+    .jspsych-instructions-nav {
+        position: fixed;
+        bottom: 30vmin;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* Add padding to prevent content from going under fixed buttons */
+    .instructions-container {
+        padding-bottom: 45vmin;
+        /* 30vmin for button position + 5vmin safety */
+    }
+
+    /* Card grid responsive adjustments */
+    .card-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 8px;
+    }
+
+    .card {
+        height: clamp(70px, 20vw, 100px);
+        font-size: clamp(14px, 4vw, 20px);
+    }
+}
+
+/* Styles for phones to override tablet */
+@media (max-width: 480px) {
+
+    /* Smaller padding for phone to allow more text */
+    .instructions-container {
+        padding-bottom: 40vmin;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        width: 95vw;
+    }
+
+    .card {
+        height: clamp(90px, 35vw, 120px);
+    }
+}
+
+/* Landscape mode adjustments */
+@media (orientation: landscape) {
+    .jspsych-instructions-nav {
+        bottom: 3vh;
+        gap: 30vw;
+    }
+
+    .card {
+        height: clamp(100px, 12vw, 130px);
+    }
+}
+
+/* Responsive grid columns */
+@media (max-width: 600px) {
+    .card-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 8px;
+    }
+
+    .card {
+        height: clamp(70px, 20vw, 100px);
+        font-size: clamp(14px, 4vw, 20px);
+    }
+}
+
+@media (max-width: 400px) {
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        width: 95vw;
+    }
+
+    .card {
+        height: clamp(90px, 35vw, 120px);
+    }
+}
+
+@media (min-width: 768px) {
+    .card {
+        height: clamp(100px, 12vw, 130px);
+    }
+}
+
+/* Viewport meta tag enforcement */
+@viewport {
+    width: device-width;
+    initial-scale: 1;
+    maximum-scale: 1;
+    user-scalable: no;
+}
+
+/* Ensure clickable areas are large enough for mobile */
+@media (hover: none) and (pointer: coarse) {
+
+    .card,
+    .stop-button,
+    .jspsych-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* Prevent zoom on mobile */
+@media (max-width: 768px) {
+    html {
+        touch-action: manipulation;
+    }
+}
