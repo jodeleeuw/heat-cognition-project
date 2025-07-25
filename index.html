@@ -1,28 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<html>
+  <head>
     <title>Columbia Card Task</title>
-    
-    <!-- JATOS - try local first, fallback to CDN -->
-    <script src="jatos.js" onerror="this.onerror=null; this.src='https://unpkg.com/@jatos/jatos-js@3.0.6/dist/jatos.js'"></script>
-    
-    <!-- jsPsych v8.2.1 -->
-    <script src="https://unpkg.com/jspsych@8.2.1/dist/index.browser.min.js"></script>
-    
-    <!-- jsPsych plugins -->
-    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0/dist/index.browser.min.js"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.0.0/dist/index.browser.min.js"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-instructions@2.0.0/dist/index.browser.min.js"></script>
-    
-    <!-- jsPsych CSS -->
-    <link href="https://unpkg.com/jspsych@8.2.1/css/jspsych.css" rel="stylesheet" type="text/css" />
-    
-    <!-- Custom CSS -->
-    <link href="styles.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-    <script src="experiment.js"></script>
-</body>
+    <script src="jatos.js"></script>
+    <script src="https://unpkg.com/jspsych@8.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-instructions@2.0.0"></script>
+    <link href="https://unpkg.com/jspsych@8.0.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <link href="index.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body></body>
+  <script src="index.global.js"></script>
+  <script>
+    jatos.onLoad(function() {
+      // Initialize jsPsych with JATOS integration
+      const jsPsych = initJsPsych({
+        on_finish: function() {
+          // Send data to JATOS
+          const data = jsPsych.data.get().json();
+          jatos.submitResultData(data, jatos.startNextComponent);
+        }
+      });
+
+      // Create and run the timeline
+      const timeline = jsPsychTimelineColumbiaCardTask.createTimeline(jsPsych);
+      jsPsych.run(timeline);
+    });
+  </script>
 </html>
