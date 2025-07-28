@@ -3757,7 +3757,10 @@ var jsPsychTimelineSpatialNback = (function (exports) {
         correct_color,
         incorrect_color,
         on_load: function() {
+          var _a;
           const buttonContainer = document.getElementById("nback-buttons-container");
+          (_a = document.getElementById("nback-grid-container")) == null ? void 0 : _a.classList.add("timeline-trial");
+          buttonContainer.classList.add("timeline-btn-container");
           if (buttonContainer) {
             buttonContainer.style.setProperty("--button-count", buttons.length.toString());
           }
