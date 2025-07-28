@@ -3089,11 +3089,30 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
     })();
 
     // src/index.ts
+    function createInstructions(jsPsych) {
+        const instructionTrial = {
+            type: HtmlButtonResponsePlugin,
+            stimulus: `
+        <div style="font-size: 18px; line-height: 1.5; max-width: 600px; margin: 0 auto;">
+          <h2>Go/No-Go Task Instructions</h2>
+          <p>${englishText.instructionText}</p>
+          <p><strong>GO trials:</strong> ${englishText.goTrialInstructions}</p>
+          <p><strong>NO-GO trials:</strong> ${englishText.noGoTrialInstructions}</p>
+          <p>${englishText.generalInstructions}</p>
+          <p>${englishText.startPrompt}</p>
+        </div>
+      `,
+            choices: [englishText.startButton],
+            data: { trial_type: englishText.trialTypes.instructions }
+        };
+        return instructionTrial;
+    }
+
     function createTimeline(jsPsych, config = {}) {
         const {
-            goStimuli = ["GO", "X", "O"],
-            noGoStimuli = ["NO-GO", "Y", "Z"],
-            buttonText = "Click",
+            goStimuli = [englishText.defaultGoStimulus, "X", "O"],
+            noGoStimuli = [englishText.defaultNoGoStimulus, "Y", "Z"],
+            buttonText = englishText.defaultButtonText,
             responseTimeout = 1500,
             interTrialInterval = 500,
             numTrials = 100,
@@ -3101,8 +3120,8 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
             varyStimulus = true,
             showResultsDetails = true
         } = config;
-        const actualGoStimuli = varyStimulus ? goStimuli : ["GO"];
-        const actualNoGoStimuli = varyStimulus ? noGoStimuli : ["NO GO"];
+        const actualGoStimuli = varyStimulus ? goStimuli : [englishText.defaultGoStimulus];
+        const actualNoGoStimuli = varyStimulus ? noGoStimuli : [englishText.defaultNoGoStimulus];
         const generateTrials = () => {
             const trials2 = [];
             let goTrialCount = 0;
@@ -3121,29 +3140,14 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
                     noGoTrialCount++;
                 }
                 trials2.push({
-                    stimulus: `<div style="font-size: 48px; font-weight: bold; color: ${isGoTrial ? "green" : "red"}">${stimulus}</div>`,
-                    trial_type: isGoTrial ? "go" : "no-go",
+                    stimulus: `<div style="font-size: 48px; font-weight: bold; color: ${isGoTrial ? englishText.goColor : englishText.noGoColor}">${stimulus}</div>`,
+                    trial_type: isGoTrial ? englishText.stimulusTypes.go : englishText.stimulusTypes.noGo,
                     correct_response: isGoTrial ? 0 : null
                 });
             }
             return trials2;
         };
         const trials = generateTrials();
-        const instructionTrial = {
-            type: HtmlButtonResponsePlugin,
-            stimulus: `
-        <div style="font-size: 18px; line-height: 1.5; max-width: 600px; margin: 0 auto;">
-          <h2>Go/No-Go Task Instructions</h2>
-          <p>In this task, you will see different stimuli appear on the screen.</p>
-          <p><strong>GO trials:</strong> When you see a green stimulus, click the button as quickly as possible.</p>
-          <p><strong>NO-GO trials:</strong> When you see a red stimulus, do NOT click the button.</p>
-          <p>Try to respond as quickly and accurately as possible.</p>
-          <p>Click "Start" when you're ready to begin.</p>
-        </div>
-      `,
-            choices: ["Start"],
-            data: { trial_type: "instructions" }
-        };
         const goNoGoTrial = {
             type: HtmlButtonResponsePlugin,
             stimulus: jsPsych.timelineVariable("stimulus"),
@@ -3151,12 +3155,12 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
             trial_duration: responseTimeout,
             response_ends_trial: true,
             data: {
-                trial_type: "go-no-go",
+                trial_type: englishText.trialTypes.goNoGo,
                 stimulus_type: jsPsych.timelineVariable("trial_type"),
                 correct_response: jsPsych.timelineVariable("correct_response")
             },
             on_finish: (data) => {
-                const isGoTrial = data.stimulus_type === "go";
+                const isGoTrial = data.stimulus_type === englishText.stimulusTypes.go;
                 const responded = data.response !== null && data.response !== void 0;
                 if (isGoTrial) {
                     data.correct = responded;
@@ -3208,18 +3212,18 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
                 }
                 return `
           <div style="font-size: 18px; line-height: 1.5; max-width: 600px; margin: 0 auto;">
-            <h2>Task Complete!</h2>
-            <p><strong>Overall Accuracy:</strong> ${accuracy}%</p>
-            <p><strong>Average Response Time (GO trials):</strong> ${meanRT}ms</p>
-            <p>Thank you for completing the Go/No-Go task!</p>
+            <h2>${englishText.taskComplete}</h2>
+            <p><strong>${englishText.overallAccuracy}:</strong> ${accuracy}%</p>
+            <p><strong>${englishText.averageResponseTime}:</strong> ${meanRT}ms</p>
+            <p>${englishText.thankYouMessage}</p>
           </div>
         `;
             },
-            choices: ["Finish"],
-            data: { trial_type: "debrief" }
+            choices: [englishText.finishButton],
+            data: { trial_type: englishText.trialTypes.debrief }
         };
         return {
-            timeline: [instructionTrial, trialProcedure, debriefTrial]
+            timeline: [trialProcedure, debriefTrial]
         };
     }
     var timelineUnits = {
