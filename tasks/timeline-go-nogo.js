@@ -3330,19 +3330,20 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
             buttonText = englishText.defaultButtonText,
             responseTimeout = 1500,
             interTrialInterval = 500,
-            numTrials = 100,
-            goTrialProbability = 0.7,
+            numBlocks = 3,
+            trialsPerBlock = 50,
+            goTrialProbability = 0.75,
             varyStimulus = true,
             showResultsDetails = true,
             colorText = false
         } = config;
         const actualGoStimuli = varyStimulus ? goStimuli : [englishText.defaultGoStimulus];
         const actualNoGoStimuli = varyStimulus ? noGoStimuli : [englishText.defaultNoGoStimulus];
-        const generateTrials = () => {
+        const generateTrialsForBlock = (blockNumber) => {
             const trials2 = [];
             let goTrialCount = 0;
             let noGoTrialCount = 0;
-            for (let i = 0; i < numTrials; i++) {
+            for (let i = 0; i < trialsPerBlock; i++) {
                 const randomValue = Math.random();
                 const isGoTrial = randomValue < goTrialProbability;
                 let stimulus;
@@ -3359,12 +3360,12 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
                 trials2.push({
                     stimulus: `<div style="font-size: 48px; font-weight: bold; color: ${color}">${stimulus}</div>`,
                     trial_type: isGoTrial ? englishText.stimulusTypes.go : englishText.stimulusTypes.noGo,
-                    correct_response: isGoTrial ? 0 : null
+                    correct_response: isGoTrial ? 0 : null,
+                    block: blockNumber
                 });
             }
             return trials2;
         };
-        const trials = generateTrials();
         const goNoGoTrial = {
             type: HtmlButtonResponsePlugin,
             stimulus: jsPsych.timelineVariable("stimulus"),
@@ -3396,11 +3397,45 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
             trial_duration: interTrialInterval,
             response_ends_trial: false
         };
-        const trialProcedure = {
-            timeline: [goNoGoTrial, interTrialIntervalTrial],
-            timeline_variables: trials,
-            randomize_order: true
-        };
+        // Generate blocks with break screens
+        const blocks = [];
+        for (let blockNum = 1; blockNum <= numBlocks; blockNum++) {
+            const blockTrials = generateTrialsForBlock(blockNum);
+            
+            // Add block trials
+            const blockProcedure = {
+                timeline: [goNoGoTrial, interTrialIntervalTrial],
+                timeline_variables: blockTrials,
+                randomize_order: true
+            };
+            blocks.push(blockProcedure);
+            
+            // Add block break page between blocks (except after last block)
+            if (blockNum < numBlocks) {
+                const blockBreakTrial = {
+                    type: HtmlButtonResponsePlugin,
+                    stimulus: `
+                        <div style="font-size: 18px; line-height: 1.5; max-width: 600px; margin: 0 auto; text-align: center; padding: 0 20px;">
+                            <h2 style="color: #28a745; margin-bottom: 20px;">Block ${blockNum} Complete!</h2>
+                            
+                            <div style="margin: 30px 0;">
+                                <p style="font-size: 20px; margin-bottom: 15px;">You have completed block ${blockNum} of ${numBlocks}.</p>
+                                <p style="font-size: 18px; margin-bottom: 15px;">${englishText.blockBreakText}</p>
+                                <div style="margin: 15px 0;">
+                                    <p><strong>${englishText.blockReminder}</strong></p>
+                                    <p><strong>GO trials:</strong> ${englishText.goTrialInstructions}</p>
+                                    <p><strong>NO-GO trials:</strong> ${englishText.noGoTrialInstructions}</p>
+                                </div>
+                                <p style="margin-top: 20px;">Click below to continue to block ${blockNum + 1}.</p>
+                            </div>
+                        </div>
+                    `,
+                    choices: [`Continue to Block ${blockNum + 1}`],
+                    data: { trial_type: englishText.trialTypes.blockInstructions, block: blockNum }
+                };
+                blocks.push(blockBreakTrial);
+            }
+        }
         const debriefTrial = {
             type: HtmlButtonResponsePlugin,
             stimulus: () => {
@@ -3440,7 +3475,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
             data: { trial_type: englishText.trialTypes.debrief }
         };
         return {
-            timeline: [trialProcedure, debriefTrial]
+            timeline: [...blocks, debriefTrial]
         };
     }
     var timelineUnits = {

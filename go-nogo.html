@@ -23,10 +23,6 @@
     // Configuration options - uncomment and modify as needed
     const config = {
 
-        // Default stimuli (plain text)
-        // goStimulus: 'X',                          // Default GO stimulus
-        // noGoStimulus: 'O',                        // Default NO-GO stimulus
-
         // Text stimuli examples
         // goStimulus: 'GO',                         // Single GO stimulus
         // noGoStimulus: 'NO-GO',                    // Single NO-GO stimulus
@@ -48,6 +44,8 @@
         buttonText: 'Click',                       // Button label
         responseTimeout: 500,                     // Max time to respond (ms)
         interTrialInterval: 500,                   // Pause between trials (ms)
+        numBlocks: 3,                              // Number of blocks
+        trialsPerBlock: 50,                        // Number of trials per block
         goTrialProbability: 0.75,                  // Probability of GO trials (0-1)
         showResultsDetails: true,                  // Show detailed results
         colorText: false                           // Use colored text (true = green/red, false = black)
