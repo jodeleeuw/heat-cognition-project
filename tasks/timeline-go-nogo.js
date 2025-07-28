@@ -3089,7 +3089,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
     })();
 
     // src/index.ts
-    function createInstructions(jsPsych) {
+    function createInstructions(jsPsych, englishText) {
         const instructionTrial = {
             type: HtmlButtonResponsePlugin,
             stimulus: `
@@ -3108,7 +3108,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
         return instructionTrial;
     }
 
-    function createTimeline(jsPsych, config = {}) {
+    function createTimeline(jsPsych, config = {}, englishText) {
         const {
             goStimuli = [englishText.defaultGoStimulus, "X", "O"],
             noGoStimuli = [englishText.defaultNoGoStimulus, "Y", "Z"],
@@ -3242,6 +3242,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
         }
     };
 
+    exports.createInstructions = createInstructions;
     exports.createTimeline = createTimeline;
     exports.timelineUnits = timelineUnits;
     exports.utils = utils;

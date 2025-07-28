@@ -7,12 +7,15 @@
     <title>Go/No-Go Task</title>
     <script src="jatos.js"></script>
     <script src="https://unpkg.com/jspsych"></script>
-    <script src="tasks/timeline-go-nogo.js"></script>
+    <script src="./tasks/timeline-go-nogo.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/jspsych/css/jspsych.css">
 </head>
 
 <body></body>
-<script>
+<script type="module">
+    import textModule from './text/go-nogo-text.js';
+    const { englishText } = textModule;
+
     const jsPsych = initJsPsych({
         // on_finish: () => jsPsych.data.displayData('json'),
         on_finish: () => jatos.startNextComponent(jsPsych.data.get().json())
@@ -44,15 +47,16 @@
         // noGoStimulus: '<div><img src="images/stop.png" style="width: 100px;"><br>DON\'T PRESS</div>',
 
         buttonText: 'Click',                       // Button label
-        responseTimeout: 1500,                     // Max time to respond (ms)
+        responseTimeout: 500,                     // Max time to respond (ms)
         interTrialInterval: 500,                   // Pause between trials (ms)
         goTrialProbability: 0.75,                  // Probability of GO trials (0-1)
         showResultsDetails: true                   // Show detailed results
     };
 
-    const task = jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, config);
     jatos.onLoad(() => {
-        jsPsych.run([task]);
+        const instructions = jsPsychTimelineGoNogoTimeline.createInstructions(jsPsych, englishText);
+        const task = jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, config, englishText);
+        jsPsych.run([instructions, task]);
     });
 </script>
 

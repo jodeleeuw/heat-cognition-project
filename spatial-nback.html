@@ -16,7 +16,7 @@
 <script>
 
     const jsPsych = initJsPsych({
-        on_trial_start: jatos.addAbortButton,
+        // on_trial_start: jatos.addAbortButton,
         on_finish: function () {
             jatos.startNextComponent(jsPsych.data.get().json())
             // jsPsych.data.displayData();

@@ -1,4 +1,4 @@
-export const englishText = {
+var englishText = {
   // Default stimuli
   defaultGoStimulus: 'Y',
   defaultNoGoStimulus: 'X',
@@ -50,8 +50,8 @@ export const englishText = {
   
   // Results/Debrief
   taskComplete: 'Task Complete!',
-  overallAccuracy: 'Overall Accuracy:',
-  averageResponseTime: 'Average Response Time (GO trials):',
+  overallAccuracy: 'Overall Accuracy',
+  averageResponseTime: 'Average Response Time (GO trials)',
   thankYouMessage: 'Thank you for completing the Go/No-Go task!',
   finishButton: 'Finish',
   
@@ -89,4 +89,7 @@ export const englishText = {
     accuracy: 'accuracy',
     rt: 'rt'
   }
-}
+};
+
+// Make englishText globally availables
+export default { englishText };
