@@ -91,5 +91,3 @@ var englishText = {
   }
 };
 
-// Make englishText globally availables
-export default { englishText };

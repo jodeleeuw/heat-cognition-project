@@ -3108,17 +3108,233 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
         return instructionTrial;
     }
 
+    function createPractice(jsPsych, englishText, colorText = true) {
+        const formatStimulus = (stimulus, isGoTrial) => {
+            const color = colorText ? (isGoTrial ? englishText.goColor : englishText.noGoColor) : 'black';
+            const borderStyle = colorText ? `border: 3px solid ${color};` : '';
+            return `
+                <style>
+                    .go-nogo-stimulus-content {
+                        font-size: 48px;
+                        font-weight: bold;
+                        color: ${color};
+                        ${borderStyle}
+                        display: inline-block;
+                        padding: 20px;
+                    }
+                </style>
+                <div class="go-nogo-stimulus-content">${stimulus}</div>
+            `;
+        };
+
+
+        // Page 2: GO Practice
+        const goPage = {
+            type: HtmlButtonResponsePlugin,
+            stimulus: `
+                <div style="font-size: 18px; line-height: 1.5; max-width: 600px; margin: 0 auto; padding: 0 20px;">
+                    <h2 style="text-align: center; color: #28a745; margin-bottom: 20px;">${englishText.goPageTitle}</h2>
+                    
+                    <div style="text-align: center; margin: 20px 0;">
+                        <p>${englishText.goPageText}</p>
+                        <p style="color: #28a745; font-weight: bold; font-size: 20px;">${englishText.goPageAction}</p>
+                        <p>${englishText.goPageInstructions}</p>
+                    </div>
+                    
+                    <div id="trial-container" style="text-align: center; margin: 30px 0; min-height: 180px;">
+                        <div style="margin: 15px 0;">
+                            ${formatStimulus(englishText.defaultGoStimulus, true)}
+                        </div>
+                        <button id="practice-button" class="jspsych-btn">
+                            ${englishText.defaultButtonText}
+                        </button>
+                    </div>
+                    
+                    <div id="feedback-container" style="text-align: center; margin: 15px 0; min-height: 40px; font-weight: bold; font-size: 18px;"></div>
+                </div>
+            `,
+            choices: [],
+            trial_duration: null,
+            response_ends_trial: false,
+            on_start: () => {
+                setTimeout(() => {
+                    const buttons = document.querySelectorAll('.jspsych-btn');
+                    buttons.forEach(btn => {
+                        if (btn.id !== 'practice-button') {
+                            btn.style.display = 'none';
+                        }
+                    });
+                }, 50);
+            },
+            on_load: () => {
+                let practiceCompleted = false;
+                
+                function showFeedback(message, isCorrect) {
+                    const feedbackEl = document.getElementById('feedback-container');
+                    if (feedbackEl) {
+                        feedbackEl.innerHTML = message;
+                        feedbackEl.style.color = isCorrect ? '#28a745' : '#dc3545';
+                        
+                        setTimeout(() => {
+                            if (practiceCompleted) {
+                                jsPsych.finishTrial();
+                            }
+                        }, 2000);
+                    }
+                }
+                
+                const practiceButton = document.getElementById('practice-button');
+                if (practiceButton) {
+                    practiceButton.addEventListener('click', function() {
+                        if (!practiceCompleted) {
+                            practiceCompleted = true;
+                            practiceButton.disabled = true;
+                            practiceButton.style.opacity = '0.5';
+                            
+                            showFeedback(englishText.goFeedbackMessage, true);
+                        }
+                    });
+                }
+            },
+            data: { trial_type: englishText.trialTypes.instructions }
+        };
+
+        // Page 3: NO-GO Practice
+        const noGoPage = {
+            type: HtmlButtonResponsePlugin,
+            stimulus: `
+                <div style="font-size: 18px; line-height: 1.5; max-width: 600px; margin: 0 auto; padding: 0 20px;">
+                    <h2 style="text-align: center; color: #dc3545; margin-bottom: 20px;">${englishText.noGoPageTitle}</h2>
+                    
+                    <div style="text-align: center; margin: 20px 0;">
+                        <p>${englishText.noGoPageText}</p>
+                        <p style="color: #dc3545; font-weight: bold; font-size: 20px;">${englishText.noGoPageAction}</p>
+                        <p>${englishText.noGoPageInstructions}</p>
+                    </div>
+                    
+                    <div id="trial-container" style="text-align: center; margin: 30px 0; min-height: 180px;">
+                        <div style="margin: 15px 0;">
+                            ${formatStimulus(englishText.defaultNoGoStimulus, false)}
+                        </div>
+                        <button id="practice-button" class="jspsych-btn">
+                            ${englishText.waitButton}
+                        </button>
+                    </div>
+                    
+                    <div id="feedback-container" style="text-align: center; margin: 15px 0; min-height: 40px; font-weight: bold; font-size: 18px;"></div>
+                    
+                    <div id="ready-message" style="text-align: center; margin-top: 20px; display: none;">
+                        <p style="font-weight: bold; color: #28a745;">${englishText.readyToStart}</p>
+                    </div>
+                </div>
+            `,
+            choices: [],
+            trial_duration: null,
+            response_ends_trial: false,
+            on_start: () => {
+                setTimeout(() => {
+                    const buttons = document.querySelectorAll('.jspsych-btn');
+                    buttons.forEach(btn => {
+                        if (btn.id !== 'practice-button') {
+                            btn.style.display = 'none';
+                        }
+                    });
+                }, 50);
+            },
+            on_load: () => {
+                let practiceCompleted = false;
+                let clicked = false;
+                let startTime = Date.now();
+                
+                function showFeedback(message, isCorrect) {
+                    const feedbackEl = document.getElementById('feedback-container');
+                    if (feedbackEl) {
+                        feedbackEl.innerHTML = message;
+                        feedbackEl.style.color = isCorrect ? '#28a745' : '#dc3545';
+                    }
+                }
+                
+                function checkAndAdvance() {
+                    const elapsedTime = Date.now() - startTime;
+                    if (elapsedTime >= 3000 && !practiceCompleted) {
+                        practiceCompleted = true;
+                        const practiceButton = document.getElementById('practice-button');
+                        if (practiceButton) {
+                            practiceButton.disabled = true;
+                            practiceButton.style.opacity = '0.5';
+                        }
+                        
+                        if (clicked) {
+                            showFeedback('Remember you are not supposed to click for NO-GO stimulus', false);
+                        } else {
+                            showFeedback(englishText.noGoFeedbackMessage, true);
+                            const readyMessage = document.getElementById('ready-message');
+                            if (readyMessage) {
+                                readyMessage.style.display = 'block';
+                            }
+                        }
+                        
+                        setTimeout(() => {
+                            jsPsych.finishTrial();
+                        }, 2000);
+                    }
+                }
+                
+                const practiceButton = document.getElementById('practice-button');
+                if (practiceButton) {
+                    practiceButton.addEventListener('click', function() {
+                        if (!practiceCompleted) {
+                            clicked = true;
+                            showFeedback('Remember you are not supposed to click for NO-GO stimulus', false);
+                        }
+                    });
+                }
+                
+                const checkInterval = setInterval(() => {
+                    if (practiceCompleted) {
+                        clearInterval(checkInterval);
+                    } else {
+                        checkAndAdvance();
+                    }
+                }, 100);
+            },
+            data: { trial_type: englishText.trialTypes.instructions }
+        };
+
+        // Final practice page
+        const practiceCompletePage = {
+            type: HtmlButtonResponsePlugin,
+            stimulus: `
+                <div style="font-size: 18px; line-height: 1.5; max-width: 600px; margin: 0 auto; text-align: center; padding: 0 20px;">
+                    <h2 style="color: #28a745; margin-bottom: 20px;">${englishText.practiceCompleteTitle}</h2>
+                    
+                    <div style="margin: 30px 0;">
+                        <p style="font-size: 20px; margin-bottom: 15px;">${englishText.practiceCompleteMessage}</p>
+                        <p style="font-size: 18px; margin-bottom: 20px;">${englishText.startTaskPrompt}</p>
+                    </div>
+                </div>
+            `,
+            choices: [englishText.beginTaskButton],
+            data: { trial_type: englishText.trialTypes.instructions }
+        };
+
+        return {
+            timeline: [goPage, noGoPage, practiceCompletePage]
+        };
+    }
+
     function createTimeline(jsPsych, config = {}, englishText) {
         const {
-            goStimuli = [englishText.defaultGoStimulus, "X", "O"],
-            noGoStimuli = [englishText.defaultNoGoStimulus, "Y", "Z"],
+            goStimuli = [englishText.defaultGoStimulus],
+            noGoStimuli = [englishText.defaultNoGoStimulus],
             buttonText = englishText.defaultButtonText,
             responseTimeout = 1500,
             interTrialInterval = 500,
             numTrials = 100,
             goTrialProbability = 0.7,
             varyStimulus = true,
-            showResultsDetails = true
+            showResultsDetails = true,
+            colorText = false
         } = config;
         const actualGoStimuli = varyStimulus ? goStimuli : [englishText.defaultGoStimulus];
         const actualNoGoStimuli = varyStimulus ? noGoStimuli : [englishText.defaultNoGoStimulus];
@@ -3139,8 +3355,9 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
                     stimulus = actualNoGoStimuli[stimulusIndex];
                     noGoTrialCount++;
                 }
+                const color = colorText ? (isGoTrial ? englishText.goColor : englishText.noGoColor) : 'black';
                 trials2.push({
-                    stimulus: `<div style="font-size: 48px; font-weight: bold; color: ${isGoTrial ? englishText.goColor : englishText.noGoColor}">${stimulus}</div>`,
+                    stimulus: `<div style="font-size: 48px; font-weight: bold; color: ${color}">${stimulus}</div>`,
                     trial_type: isGoTrial ? englishText.stimulusTypes.go : englishText.stimulusTypes.noGo,
                     correct_response: isGoTrial ? 0 : null
                 });
@@ -3243,6 +3460,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
     };
 
     exports.createInstructions = createInstructions;
+    exports.createPractice = createPractice;
     exports.createTimeline = createTimeline;
     exports.timelineUnits = timelineUnits;
     exports.utils = utils;

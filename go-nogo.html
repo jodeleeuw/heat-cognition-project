@@ -8,13 +8,12 @@
     <script src="jatos.js"></script>
     <script src="https://unpkg.com/jspsych"></script>
     <script src="./tasks/timeline-go-nogo.js"></script>
+    <script src="text/go-nogo-text.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/jspsych/css/jspsych.css">
 </head>
 
 <body></body>
-<script type="module">
-    import textModule from './text/go-nogo-text.js';
-    const { englishText } = textModule;
+<script>
 
     const jsPsych = initJsPsych({
         // on_finish: () => jsPsych.data.displayData('json'),
@@ -50,13 +49,15 @@
         responseTimeout: 500,                     // Max time to respond (ms)
         interTrialInterval: 500,                   // Pause between trials (ms)
         goTrialProbability: 0.75,                  // Probability of GO trials (0-1)
-        showResultsDetails: true                   // Show detailed results
+        showResultsDetails: true,                  // Show detailed results
+        colorText: false                           // Use colored text (true = green/red, false = black)
     };
 
     jatos.onLoad(() => {
         const instructions = jsPsychTimelineGoNogoTimeline.createInstructions(jsPsych, englishText);
+        const practice = jsPsychTimelineGoNogoTimeline.createPractice(jsPsych, englishText, config.colorText);
         const task = jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, config, englishText);
-        jsPsych.run([instructions, task]);
+        jsPsych.run([instructions, practice, task]);
     });
 </script>
 
