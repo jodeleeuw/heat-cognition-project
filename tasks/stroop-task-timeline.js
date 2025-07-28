@@ -3920,12 +3920,38 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         }
         return timeline;
     }
+    function createInstructions(instruction_pages_data, choice_of_colors = ['red', 'blue', 'green', 'yellow']) {
+        // Handle both array and object with pages property
+        const pages = Array.isArray(instruction_pages_data) ? instruction_pages_data : instruction_pages_data.pages;
+        return {
+            type: InstructionsPlugin,
+            pages: pages.map((page) => {
+                // If page is a function, call it with choice_of_colors parameter
+                if (typeof page === 'function') {
+                    return page(choice_of_colors);
+                }
+                // Otherwise, wrap string pages in instructions container
+                return `<div class="instructions-container"><p>${page}</p></div>`;
+            }),
+            show_clickable_nav: true,
+            allow_keys: true,
+            key_forward: "ArrowRight",
+            key_backward: "ArrowLeft",
+            button_label_previous: "Previous",
+            button_label_next: "Next",
+            data: {
+                task: "stroop",
+                phase: "instructions"
+            }
+        };
+    }
     var timelineComponents = {
         createWelcomeAndInstructions,
         createFixation,
         createStroopTrial,
         createPracticeFeedback,
-        createPracticeDebrief
+        createPracticeDebrief,
+        createInstructions
         //createResults
     };
     var utils = {
@@ -3935,6 +3961,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
     };
 
     exports.createTimeline = createTimeline;
+    exports.createInstructions = createInstructions;
     exports.timelineComponents = timelineComponents;
     exports.utils = utils;
 
@@ -3942,4 +3969,4 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
 
 })({});
 //# sourceMappingURL=out.js.map
-  //# sourceMappingURL=index.global.js.map
+//# sourceMappingURL=index.global.js.map

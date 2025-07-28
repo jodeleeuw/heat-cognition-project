@@ -25,7 +25,12 @@
 
     const mainTimeline = [];
 
-    const instructions1 = jsPsychTimelineStroopTimeline.createInstructions(InstructionsText);
+    const instructions1 = jsPsychTimelineStroopTimeline.createInstructions(InstructionsText, [
+        'red',
+        'blue', 
+        'green',
+        'yellow'
+    ]);
 
     const block1 = jsPsychTimelineStroopTimeline.createTimeline (jsPsych, {
         practice_trials_per_condition: 3,               // Number of practice trials per condition
