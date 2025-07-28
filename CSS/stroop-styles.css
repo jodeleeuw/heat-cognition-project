@@ -39,9 +39,9 @@ body {
 }
 
 .jspsych-btn {
-    font-size: 18px !important;
+    font-size: 50px !important;
     font-weight: bold !important;
-    padding: 15px 25px !important;
+    padding: 50px 80px !important;
     margin: 10px !important;
     border: 2px solid #333 !important;
     border-radius: 8px !important;
@@ -65,8 +65,8 @@ body {
 @media (max-width: 768px) {
     .jspsych-btn {
         min-height: 70px !important;
-        font-size: 16px !important;
-        padding: 25px 10px !important;
+        font-size: 50px !important;
+        padding: 50px 80px !important;
     }
 
     .jspsych-btn-group {
@@ -84,15 +84,6 @@ body {
     margin: 20px 0;
 }
 
-/* .instructions-container {
-    max-width: 700px;
-    margin: 20px auto;
-    text-align: left;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-} */
 
 .instructions-container {
     max-width: 90vw;
@@ -106,6 +97,7 @@ body {
     overflow-x: hidden;
     /* Prevent horizontal overflow */
     min-height: 60vh;
+    line-height: 1.5;
     /* Ensure consistent height */
     display: flex;
     flex-direction: column;
@@ -113,9 +105,12 @@ body {
     text-align: center;
 }
 
-.instructions-container p,
+.instructions-container p {
+    font-size: 70px;
+}
+
 .instructions-container li {
-    font-size: 18px;
+    font-size: 70px;
 }
 
 .color-example-container {
@@ -171,13 +166,25 @@ body {
 
 /* Fixed positioning for instruction navigation buttons */
 .jspsych-instructions-nav {
-    position: fixed !important;
-    bottom: 20px !important;
+    position: absolute !important;
+    bottom: 5vh !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     z-index: 1000 !important;
     display: flex !important;
-    gap: 20px !important;
+    gap: 25vw !important;
+}
+
+.jspsych-instructions-nav .jspsych-btn {
+    width: 25vmin !important;
+    height: 25vmin !important;
+    border: 3px solid #ccc !important;
+    border-radius: 50% !important;
+    font-size: clamp(40px, 7vmin, 50px) !important;
+    cursor: pointer !important;
+    min-height: 100px !important;
+    min-width: 100px !important;
+    font-weight: 600 !important;
 }
 
 /* Ensure content doesn't overlap with fixed buttons */

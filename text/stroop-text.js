@@ -1,13 +1,10 @@
 const InstructionsText = {
     pages: [
         `<div class="instructions-container">
-            <h1>Welcome to the Stroop Task</h1>
-        </div>`,
-        `<div class="instructions-container">
             <p>In this task, you will see words that name colors (like RED, BLUE, GREEN)</p>
         </div>`,
         `<div class="instructions-container">
-            <p>The color of the letters might not match the word, for example <span style="color: red;">RED</span> (in <span style="color: blue;">blue</span>), <span style="color: blue;">BLUE</span> (in <span style="color: green;">green</span>).</p>
+            <p>The color of the letters might not match the word, for example <span style="color: blue;">RED</span>, <span style="color: green;">BLUE</span>.</p>
             <p>Your job is to press the button that matches the color of the word, not what the word says.</p>
             <p>In the above example, you would press first a blue button; then a green button.</p>
         </div>`,
