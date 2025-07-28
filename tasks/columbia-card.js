@@ -1,12 +1,29 @@
-var jsPsychTimelineStroopTimeline = (function (exports) {
+var jsPsychTimelineColumbiaCardTask = (function (exports) {
     'use strict';
 
     var __create = Object.create;
     var __defProp = Object.defineProperty;
+    var __defProps = Object.defineProperties;
     var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+    var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
     var __getOwnPropNames = Object.getOwnPropertyNames;
+    var __getOwnPropSymbols = Object.getOwnPropertySymbols;
     var __getProtoOf = Object.getPrototypeOf;
     var __hasOwnProp = Object.prototype.hasOwnProperty;
+    var __propIsEnum = Object.prototype.propertyIsEnumerable;
+    var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+    var __spreadValues = (a, b) => {
+        for (var prop in b || (b = {}))
+            if (__hasOwnProp.call(b, prop))
+                __defNormalProp(a, prop, b[prop]);
+        if (__getOwnPropSymbols)
+            for (var prop of __getOwnPropSymbols(b)) {
+                if (__propIsEnum.call(b, prop))
+                    __defNormalProp(a, prop, b[prop]);
+            }
+        return a;
+    };
+    var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
         get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
     }) : x)(function (x) {
@@ -34,9 +51,9 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         mod
     ));
 
-    // ../../node_modules/auto-bind/index.js
+    // node_modules/auto-bind/index.js
     var require_auto_bind = __commonJS({
-        "../../node_modules/auto-bind/index.js"(exports, module) {
+        "node_modules/auto-bind/index.js"(exports, module) {
             var getAllProperties = (object) => {
                 const properties = /* @__PURE__ */ new Set();
                 do {
@@ -71,9 +88,9 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/lib/alea.js
+    // node_modules/seedrandom/lib/alea.js
     var require_alea = __commonJS({
-        "../../node_modules/seedrandom/lib/alea.js"(exports, module) {
+        "node_modules/seedrandom/lib/alea.js"(exports, module) {
             (function (global, module2, define2) {
                 function Alea(seed) {
                     var me = this, mash = Mash();
@@ -163,9 +180,9 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/lib/xor128.js
+    // node_modules/seedrandom/lib/xor128.js
     var require_xor128 = __commonJS({
-        "../../node_modules/seedrandom/lib/xor128.js"(exports, module) {
+        "node_modules/seedrandom/lib/xor128.js"(exports, module) {
             (function (global, module2, define2) {
                 function XorGen(seed) {
                     var me = this, strseed = "";
@@ -237,9 +254,9 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/lib/xorwow.js
+    // node_modules/seedrandom/lib/xorwow.js
     var require_xorwow = __commonJS({
-        "../../node_modules/seedrandom/lib/xorwow.js"(exports, module) {
+        "node_modules/seedrandom/lib/xorwow.js"(exports, module) {
             (function (global, module2, define2) {
                 function XorGen(seed) {
                     var me = this, strseed = "";
@@ -318,9 +335,9 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/lib/xorshift7.js
+    // node_modules/seedrandom/lib/xorshift7.js
     var require_xorshift7 = __commonJS({
-        "../../node_modules/seedrandom/lib/xorshift7.js"(exports, module) {
+        "node_modules/seedrandom/lib/xorshift7.js"(exports, module) {
             (function (global, module2, define2) {
                 function XorGen(seed) {
                     var me = this;
@@ -415,9 +432,9 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/lib/xor4096.js
+    // node_modules/seedrandom/lib/xor4096.js
     var require_xor4096 = __commonJS({
-        "../../node_modules/seedrandom/lib/xor4096.js"(exports, module) {
+        "node_modules/seedrandom/lib/xor4096.js"(exports, module) {
             (function (global, module2, define2) {
                 function XorGen(seed) {
                     var me = this;
@@ -527,9 +544,9 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/lib/tychei.js
+    // node_modules/seedrandom/lib/tychei.js
     var require_tychei = __commonJS({
-        "../../node_modules/seedrandom/lib/tychei.js"(exports, module) {
+        "node_modules/seedrandom/lib/tychei.js"(exports, module) {
             (function (global, module2, define2) {
                 function XorGen(seed) {
                     var me = this, strseed = "";
@@ -606,9 +623,9 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/seedrandom.js
+    // node_modules/seedrandom/seedrandom.js
     var require_seedrandom = __commonJS({
-        "../../node_modules/seedrandom/seedrandom.js"(exports, module) {
+        "node_modules/seedrandom/seedrandom.js"(exports, module) {
             (function (global, pool, math) {
                 var width = 256, chunks = 6, digits = 52, rngname = "random", startdenom = math.pow(width, chunks), significance = math.pow(2, digits), overflow = significance * 2, mask = width - 1, nodecrypto;
                 function seedrandom2(seed, options, callback) {
@@ -754,9 +771,9 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         }
     });
 
-    // ../../node_modules/seedrandom/index.js
+    // node_modules/seedrandom/index.js
     var require_seedrandom2 = __commonJS({
-        "../../node_modules/seedrandom/index.js"(exports, module) {
+        "node_modules/seedrandom/index.js"(exports, module) {
             var alea = require_alea();
             var xor128 = require_xor128();
             var xorwow = require_xorwow();
@@ -774,9 +791,9 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         }
     });
 
-    // ../../node_modules/random-words/index.js
+    // node_modules/random-words/index.js
     var require_random_words = __commonJS({
-        "../../node_modules/random-words/index.js"(exports, module) {
+        "node_modules/random-words/index.js"(exports, module) {
             var seedrandom2 = require_seedrandom2();
             var wordList = [
                 // Borrowed from xkcd password generator which borrowed it from wherever
@@ -2806,7 +2823,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         }
     });
 
-    // ../../node_modules/jspsych/dist/index.js
+    // node_modules/jspsych/dist/index.js
     __toESM(require_auto_bind(), 1);
     __toESM(require_random_words(), 1);
     __toESM(require_alea(), 1);
@@ -2870,7 +2887,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         window.AudioContext = webkitAudioContext;
     }
 
-    // ../../node_modules/@jspsych/plugin-html-keyboard-response/dist/index.js
+    // node_modules/@jspsych/plugin-html-keyboard-response/dist/index.js
     var version = "2.1.0";
     var info = {
         name: "html-keyboard-response",
@@ -3048,7 +3065,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         _HtmlKeyboardResponsePlugin.info = info;
     })();
 
-    // ../../node_modules/@jspsych/plugin-html-button-response/dist/index.js
+    // node_modules/@jspsych/plugin-html-button-response/dist/index.js
     var version2 = "2.1.0";
     var info2 = {
         name: "html-button-response",
@@ -3266,7 +3283,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         _HtmlButtonResponsePlugin.info = info2;
     })();
 
-    // ../../node_modules/@jspsych/plugin-instructions/dist/index.js
+    // node_modules/@jspsych/plugin-instructions/dist/index.js
     var version3 = "2.1.0";
     var info3 = {
         name: "instructions",
@@ -3604,334 +3621,325 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
     })();
 
     // src/text.ts
-    var welcomeAndInstructionsText = {
-        pages: [
-            `<div class="instructions-container">
-              <h1>Welcome to the Stroop Task</h1>
-          </div>`,
-            `<div class="instructions-container">
-              <p>In this task, you will see words that name colors (like RED, BLUE, GREEN)</p>
-          </div>`,
-            `<div class="instructions-container">
-              <p>The color of the letters might not match the word, for example <span style="color: red;">RED</span> (in <span style="color: blue;">blue</span>), <span style="color: blue;">BLUE</span> (in <span style="color: green;">green</span>).</p>
-              <p>Your job is to press the button that matches the color of the word, not what the word says.</p>
-              <p>In the above example, you would press first a blue button; then a green button.</p>
-          </div>`,
-            (choiceOfColors) => `<div class="instructions-container">
-              <p>You will have to click one of the buttons that will appear below for each color:</p>
-              <div style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; margin: 20px 0;">
-                  ${(() => {
-                    const selectedColors = choiceOfColors || ["RED", "GREEN", "BLUE", "YELLOW"];
-                    const dynamicColors = selectedColors.map((colorName, index) => ({
-                        name: colorName,
-                        hex: colorName.toLowerCase(),
-                        index
-                    }));
-                    return dynamicColors.map((color) => `
-                          <div style="padding: 15px; border: 1px solid black; border-radius: 8px; margin: 10px; min-width: 120px; text-align: center; background-color: white;">
-                              <span style="color: black; font-size: 24px; font-weight: bold; display: block; margin-bottom: 5px;">${color.name}</span>
-                          </div>
-                      `).join("");
-                })()}
-              </div>
-          </div>`,
-            `<div class="instructions-container">
-              <p>More examples:</p>
-              <ul>
-                  <li>If the word RED appears in green ink \u2192 press GREEN</li>
-                  <li>If the word BLUE appears in blue ink \u2192 press BLUE</li>
-              </ul>
-          </div>`,
-            `<div class="instructions-container">
-              <p>Try to go as fast and as accurately as possible.</p>
-          </div>`
-        ]
+    var trial_text = {
+        // Button texts
+        continue_button: "Continue",
+        start_button: "Start",
+        ready_button: "I'm Ready",
+        end_button: "End",
+        // Instruction pages buttons text, these will always have arrows < and >
+        // these do not work right now due to CSS fixed position, might fix later
+        next_button: "",
+        back_button: "",
+        // Task completion messages
+        task_complete_header: "Task Complete!",
+        task_complete_message: "Thank you for participating in the speeded matching task.",
+        // Practice phase text
+        practice_header: "Practice Round",
+        practice_intro_message: "We'll now do a practice round to show you how the task works.",
+        practice_look_instruction: "Look at this picture",
+        practice_tap_instruction: "Tap the matching picture below",
+        practice_complete_header: "Are you ready?",
+        practice_complete_message: "Practice complete! Ready for the full test?",
+        // Main task instructions
+        main_task_prompt: "Tap the matching picture below",
+        // Fixation and inter-trial
+        fixation_cross: "+",
+        // Feedback messages (optional)
+        correct_feedback: "Correct!",
+        incorrect_feedback: "Try again",
+        // Timing messages
+        too_slow_message: "Please respond faster"
     };
+    var instruction_pages = [
+        "<b>Welcome to the Columbia Card Task</b><br>You will be playing multiple rounds of a card selection game.",
+        "In each round, you'll see a grid of face-down cards. Most cards give you points, but some cards lose points and end the round.",
+        "Click on cards to turn them over and earn points. You can stop anytime to keep your points, or keep selecting for more.",
+        "Before each round, you'll see how many loss cards there are, how many points you gain per card, and how many points you lose if you hit a loss card.",
+        "Your goal is to earn as many points as possible across all rounds. Choose your strategy wisely!"
+    ];
 
     // src/index.ts
-    var ESSENTIAL_STYLES = `
-  body {
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-  }
-  
-  #jspsych-target {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-      padding: 20px;
-      box-sizing: border-box;
-  }
-  
-  .jspsych-content {
-      max-width: 800px;
-      width: 100%;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      flex-direction: column !important;
-      max-width: none !important;
-  }
-  
-  .jspsych-content-wrapper {
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: center !important;
-      text-align: center !important;
-      min-height: 100vh !important;
-      padding: 20px !important;
-  }
-  
-  .jspsych-btn {
-      font-size: 18px !important;
-      font-weight: bold !important;
-      padding: 15px 25px !important;
-      margin: 10px !important;
-      border: 2px solid #333 !important;
-      border-radius: 8px !important;
-      min-width: 100px !important;
-      min-height: 60px !important;
-      cursor: pointer !important;
-  }
-  
-  .stimulus {
-      font-size: 60px;
-      font-weight: bold;
-      margin: 20px 0;
-  }
-  `;
-    function injectEssentialStyles() {
-        if (typeof document !== "undefined") {
-            const styleElement = document.createElement("style");
-            styleElement.textContent = ESSENTIAL_STYLES;
-            document.head.appendChild(styleElement);
-        }
-    }
-    var DEFAULT_TRIAL_TIMEOUT = 3e3;
-    var DEFAULT_FIXATION_DURATION = { min: 300, max: 1e3 };
-    var WORDS = ["RED", "GREEN", "BLUE", "YELLOW"];
+    var default_n_cards = 16;
+    var default_cols = 4;
+    var default_rounds = [
+        { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+        { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+        { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+        { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+        { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+        { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+        { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+        { loss_cards: 1, gain_amount: 10, loss_amount: 250 }
+    ];
     var state = {
-        practiceCompleted: false,
-        mainTrialsCompleted: 0,
-        totalTrials: 0
+        total_score: 0,
+        round_data: null,
+        rounds_completed: 0
     };
     function resetState() {
         state = {
-            practiceCompleted: false,
-            mainTrialsCompleted: 0,
-            totalTrials: 0
+            total_score: 0,
+            round_data: null,
+            rounds_completed: 0
         };
     }
-    function generateStimuli(selectedColors) {
-        const stimuli = [];
-        const colorsToUse = selectedColors ? selectedColors : WORDS;
-        const colorObjectsToUse = colorsToUse.map((colorName, index) => ({
-            name: colorName,
-            hex: colorName.toLowerCase(),
-            index
-        }));
-        for (const word of colorsToUse) {
-            for (const color of colorObjectsToUse) {
-                stimuli.push({
-                    word,
-                    color: color.hex,
-                    correct_response: color.index,
-                    congruent: word === color.name
-                });
-            }
+    function setupRound(jsPsych, cfg, round_num, cols, n_cards) {
+        const lossPositions = [];
+        while (lossPositions.length < cfg.loss_cards) {
+            const pos = Math.floor(Math.random() * n_cards);
+            if (!lossPositions.includes(pos))
+                lossPositions.push(pos);
         }
-        return stimuli;
-    }
-    function shuffleArray(array) {
-        const newArray = [...array];
-        for (let i = newArray.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-        }
-        return newArray;
-    }
-    function createWelcomeAndInstructions(choiceOfColors) {
-        const pages = welcomeAndInstructionsText.pages.map((page) => {
-            if (typeof page === "function") {
-                return page(choiceOfColors);
-            }
-            return page;
+        state.round_data = {
+            score: 0,
+            cards: 0,
+            ended: false,
+            start_time: Date.now(),
+            selections: []
+        };
+        const cards = document.querySelectorAll(".card");
+        cards.forEach((card, i) => {
+            card.addEventListener("click", function () {
+                if (!state.round_data || state.round_data.ended || !this.classList.contains("card-back"))
+                    return;
+                state.round_data.cards++;
+                state.round_data.selections.push({ card: i, time: Date.now() - state.round_data.start_time });
+                if (lossPositions.includes(i)) {
+                    this.className = "card card-loss";
+                    this.textContent = `-${cfg.loss_amount}`;
+                    state.round_data.score -= cfg.loss_amount;
+                    state.round_data.ended = true;
+                    const messageEl = document.getElementById("message");
+                    if (messageEl) {
+                        messageEl.innerHTML = '<b style="color:#EF4444">Loss card! Round ended.</b>';
+                    }
+                    setTimeout(() => endRound(jsPsych, cfg, round_num, false), 2e3);
+                } else {
+                    this.className = "card card-gain";
+                    this.textContent = `+${cfg.gain_amount}`;
+                    state.round_data.score += cfg.gain_amount;
+                    const scoreEl = document.getElementById("round-score");
+                    if (scoreEl) {
+                        scoreEl.textContent = state.round_data.score.toString();
+                    }
+                    if (state.round_data.cards === n_cards - cfg.loss_cards) {
+                        state.round_data.ended = true;
+                        const messageEl = document.getElementById("message");
+                        if (messageEl) {
+                            messageEl.innerHTML = '<b style="color:#22C55E">All gain cards found!</b>';
+                        }
+                        setTimeout(() => endRound(jsPsych, cfg, round_num, true), 2e3);
+                    }
+                }
+            });
         });
-        const welcomeAndInstructions = {
+        const stopBtn = document.getElementById("stop-btn");
+        if (stopBtn) {
+            stopBtn.addEventListener("click", function () {
+                if (state.round_data && !state.round_data.ended) {
+                    state.round_data.ended = true;
+                    const messageEl = document.getElementById("message");
+                    if (messageEl) {
+                        messageEl.innerHTML = '<b style="color:#1E3A8A">Round stopped!</b>';
+                    }
+                    setTimeout(() => endRound(jsPsych, cfg, round_num, true), 1500);
+                }
+            });
+        }
+    }
+    function endRound(jsPsych, cfg, round_num, voluntary) {
+        if (!state.round_data)
+            return;
+        state.total_score += state.round_data.score;
+        state.rounds_completed++;
+        const currentTrial = jsPsych.getCurrentTrial();
+        if (currentTrial) {
+            currentTrial.data = __spreadProps(__spreadValues({
+                task: "round_complete",
+                round: round_num
+            }, cfg), {
+                cards_selected: state.round_data.cards,
+                round_score: state.round_data.score,
+                total_score: state.total_score,
+                voluntary_stop: voluntary,
+                selections: state.round_data.selections,
+                rt: Date.now() - state.round_data.start_time
+            });
+        }
+        jsPsych.finishTrial();
+    }
+    function speakText(text) {
+        if ("speechSynthesis" in window) {
+            if ("speechSynthesis" in window) {
+                speechSynthesis.cancel();
+            }
+            setTimeout(() => {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.8;
+                utterance.volume = 0.8;
+                utterance.voice = speechSynthesis.getVoices()[0] || null;
+                speechSynthesis.speak(utterance);
+            }, 100);
+        }
+    }
+    function extractTextFromHtml(htmlString) {
+        var _a;
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlString, "text/html");
+        return ((_a = doc.body.textContent) == null ? void 0 : _a.replace(/\s+/g, " ").trim()) || "";
+    }
+    function createInstructions(instruction_pages_data = instruction_pages, enable_tts = false) {
+        let handleButtonClick = null;
+        return {
             type: InstructionsPlugin,
-            pages,
+            pages: instruction_pages_data.map((page) => `<div class="instructions-container"><p>${page}</p></div>`),
             show_clickable_nav: true,
             allow_keys: true,
             key_forward: "ArrowRight",
             key_backward: "ArrowLeft",
-            button_label_previous: "",
-            button_label_next: ""
-        };
-        return welcomeAndInstructions;
-    }
-    function createFixation(duration, randomize = true) {
-        const fixationDuration = duration || DEFAULT_FIXATION_DURATION;
-        const trial = {
-            type: HtmlKeyboardResponsePlugin,
-            stimulus: '<div style="font-size:60px;">+</div>',
-            choices: "NO_KEYS",
-            trial_duration: randomize ? () => {
-                return Math.floor(Math.random() * (fixationDuration.max - fixationDuration.min + 1)) + fixationDuration.min;
-            } : fixationDuration.min,
-            data: {
-                task: "fixation"
-            }
-        };
-        return trial;
-    }
-    function createStroopTrial(stimulus, isPractice, trialTimeout, numberOfRows, numberOfColumns, choiceOfColors) {
-        const trial = {
-            type: HtmlButtonResponsePlugin,
-            stimulus: `<div style="font-size: 48px; color: ${stimulus.color}; font-weight: bold;">${stimulus.word}</div>`,
-            choices: choiceOfColors,
-            button_layout: "grid",
-            grid_rows: numberOfRows,
-            grid_columns: numberOfColumns,
-            button_html: (choice) => `<div style="border: 3px solid black; width: 150px; height: 60px; margin: 20px; background-color: white; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; color: black;">${choice}</div>`,
-            margin_horizontal: "20px",
-            margin_vertical: "20px",
-            trial_duration: trialTimeout || DEFAULT_TRIAL_TIMEOUT,
-            data: {
-                task: isPractice ? "practice" : "response",
-                word: stimulus.word,
-                color: stimulus.color,
-                correct_response: stimulus.correct_response,
-                congruent: stimulus.congruent
+            button_label_previous: trial_text.back_button,
+            button_label_next: trial_text.next_button,
+            on_start: function () {
+                speechSynthesis.cancel();
             },
-            on_finish: (data) => {
-                data.correct = data.response === data.correct_response;
-                if (!isPractice) {
-                    state.mainTrialsCompleted++;
+            on_load: function () {
+                if (enable_tts) {
+                    const speakCurrentPage = () => {
+                        const instructionsContent = document.querySelector(".instructions-container");
+                        if (instructionsContent) {
+                            const pageText = extractTextFromHtml(instructionsContent.innerHTML);
+                            if (pageText.trim()) {
+                                speakText(pageText);
+                            }
+                        }
+                    };
+                    handleButtonClick = (event) => {
+                        const target = event.target;
+                        if (target && (target.id === "jspsych-instructions-next" || target.id === "jspsych-instructions-back")) {
+                            speechSynthesis.cancel();
+                            setTimeout(speakCurrentPage, 200);
+                        }
+                    };
+                    document.addEventListener("click", handleButtonClick);
+                    setTimeout(speakCurrentPage, 300);
                 }
+            },
+            on_finish: function (data) {
+                speechSynthesis.cancel();
+                if (handleButtonClick) {
+                    document.removeEventListener("click", handleButtonClick);
+                    handleButtonClick = null;
+                }
+                if (enable_tts) {
+                    speechSynthesis.cancel();
+                }
+                if (window.instructionsNavCleanup) {
+                    window.instructionsNavCleanup();
+                    delete window.instructionsNavCleanup;
+                }
+                data.phase = "instructions";
             }
         };
-        return trial;
     }
-    function createPracticeFeedback(jsPsych, selectedColors) {
-        const feedback = {
+    function createRoundInfo(round_num, totalRounds, round_config) {
+        const round_info = {
             type: HtmlButtonResponsePlugin,
             stimulus: () => {
-                const lastTrial = jsPsych.data.get().last(1).values()[0];
-                if (!lastTrial) {
-                    console.error("No trial data found");
-                    return '<div style="font-size: 24px; color: orange; text-align: center;"><p>No data available</p></div>';
-                }
-                const colorsToUse = selectedColors || ["RED", "GREEN", "BLUE", "YELLOW"];
-                const correctColorName = colorsToUse[lastTrial.correct_response];
-                console.log("correct_response index:", lastTrial.correct_response, "selectedColors:", selectedColors, "correctColorName:", correctColorName);
-                if (lastTrial.correct) {
-                    return '<div style="font-size: 24px; color: green; text-align: center;"><p>\u2713 CORRECT!</p></div>';
-                } else {
-                    return `<div style="font-size: 24px; color: red; text-align: center;"><p>\u2717 INCORRECT. The correct answer was ${lastTrial.color.toUpperCase()}.</p></div>`;
-                }
+                return `<div class="round-info">
+                  <h2>Round ${round_num} of ${totalRounds}</h2>
+                  <p>Loss cards: <b style="color:#EF4444">${round_config.loss_cards}</b></p>
+                  <p>Loss penalty: <b style="color:#EF4444">-${round_config.loss_amount}</b></p>
+                  <p>Gain per card: <b style="color:#22C55E">+${round_config.gain_amount}</b></p>
+                  <p>Total score: <span class="score-display">${state.total_score}</span></p>
+              </div>`;
             },
-            choices: ["Continue"],
-            trial_duration: 2e3
+            choices: ["Start"]
         };
-        return feedback;
+        return round_info;
     }
-    function createPracticeDebrief() {
-        const debrief = {
-            type: HtmlButtonResponsePlugin,
-            stimulus: `
-              <div style="max-width: 700px; margin: 0 auto; text-align: center; padding: 20px;">
-                  <h2>Practice Complete!</h2>
-                  <p>Great job! You've finished the practice trials.</p>
-                  <p>Now you'll begin the main experiment.</p>
-                  <p>Remember:</p>
-                  <ul style="text-align: left; display: inline-block;">
-                      <li>Respond to the <strong>ink color</strong>, not the word</li>
-                      <li>Be as fast and accurate as possible</li>
-                      <li>Click the colored buttons for Red, Green, Blue, Yellow</li>
-                  </ul>
-              </div>
-          `,
-            choices: ["Start Experiment"],
-            post_trial_gap: 500,
-            on_finish: () => {
-                state.practiceCompleted = true;
+    function createCardGame(jsPsych, round_num, round_config, n_cards, cols) {
+        const cardGame = {
+            type: HtmlKeyboardResponsePlugin,
+            stimulus: function () {
+                const cards = Array.from(
+                    { length: n_cards },
+                    (_, i) => `<div class="card card-back" id="card-${i}">?</div>`
+                ).join("");
+                return `<style>.card-grid { grid-template-columns: repeat(${cols}, 1fr) !important; }</style>
+                  <div class="game-info">
+                      <h3>Round ${round_num}</h3>
+                      <p>Score: <span id="round-score">0</span> | Total: ${state.total_score}</p>
+                  </div>
+                  <div class="card-grid">
+                      ${cards}
+                  </div>
+                  <div class="button-container">
+                      <button class="stop-button" id="stop-btn">Stop and Keep Points</button>
+                  </div>
+                  <div id="message"></div>`;
+            },
+            choices: "NO_KEYS",
+            on_load: function () {
+                setupRound(jsPsych, round_config, round_num, cols, n_cards);
             }
         };
-        return debrief;
+        return cardGame;
+    }
+    function createResults(jsPsych) {
+        const results = {
+            type: HtmlButtonResponsePlugin,
+            stimulus: function () {
+                const data = jsPsych.data.get().filter({ task: "round_complete" });
+                const avg_cards = data.count() > 0 ? data.select("cards_selected").mean() : 0;
+                let final_score = 0;
+                if (data.count() > 0) {
+                    const scores = data.select("total_score").values;
+                    final_score = scores[scores.length - 1];
+                }
+                return `<div class="round-info">
+                  <h2>Task Complete!</h2>
+                  <p>Final Score: <span class="score-display">${final_score}</span></p>
+                  <p>Average cards selected: ${avg_cards.toFixed(1)}</p>
+              </div>`;
+            },
+            choices: ["Continue"]
+        };
+        return results;
     }
     function createTimeline(jsPsych, {
-        practice_trials_per_condition = 3,
-        congruent_main_trials = 4,
-        incongruent_main_trials = 4,
-        trial_timeout = 2e3,
-        fixation_duration = { min: 300, max: 1500 },
-        show_practice_feedback = true,
-        include_fixation = true,
-        show_welcome_and_instructions = true,
+        n_cards = default_n_cards,
+        cols = default_cols,
+        rounds = default_rounds,
+        show_instructions = true,
         show_results = true,
-        randomise_main_trial_condition_order = true,
-        randomise_practice_trial_condition_order = true,
-        randomise_fixation_duration = true,
-        number_of_rows = 2,
-        number_of_columns = 2,
-        choice_of_colors = ["RED", "GREEN", "BLUE", "YELLOW"]
+        enable_tts = false
     } = {}) {
         resetState();
-        injectEssentialStyles();
         const timeline = [];
-        const stimuli = generateStimuli(choice_of_colors);
-        const congruentStimuli = stimuli.filter((s) => s.congruent);
-        const incongruentStimuli = stimuli.filter((s) => !s.congruent);
-        if (show_welcome_and_instructions) {
-            timeline.push(createWelcomeAndInstructions(choice_of_colors));
+        if (show_instructions) {
+            timeline.push(createInstructions(instruction_pages, enable_tts));
         }
-        let practiceStimuli = [];
-        practiceStimuli.push(...congruentStimuli.slice(0, practice_trials_per_condition));
-        practiceStimuli.push(...incongruentStimuli.slice(0, practice_trials_per_condition));
-        const shuffledPracticeStimuli = randomise_practice_trial_condition_order ? shuffleArray(practiceStimuli) : practiceStimuli;
-        for (const stimulus of shuffledPracticeStimuli) {
-            if (include_fixation) {
-                timeline.push(createFixation(fixation_duration, randomise_fixation_duration));
-            }
-            timeline.push(createStroopTrial(stimulus, true, trial_timeout, number_of_rows, number_of_columns, choice_of_colors));
-            if (show_practice_feedback) {
-                timeline.push(createPracticeFeedback(jsPsych, choice_of_colors));
-            }
-        }
-        timeline.push(createPracticeDebrief());
-        let mainStimuli = [];
-        mainStimuli.push(...congruentStimuli.slice(0, congruent_main_trials));
-        mainStimuli.push(...incongruentStimuli.slice(0, incongruent_main_trials));
-        const shuffledMainStimuli = randomise_main_trial_condition_order ? shuffleArray(mainStimuli) : mainStimuli;
-        state.totalTrials = shuffledMainStimuli.length;
-        for (const stimulus of shuffledMainStimuli) {
-            if (include_fixation) {
-                timeline.push(createFixation(fixation_duration, randomise_fixation_duration));
-            }
-            timeline.push(createStroopTrial(stimulus, false, trial_timeout, number_of_rows, number_of_columns, choice_of_colors));
+        rounds.forEach((round_config, idx) => {
+            const round_num = idx + 1;
+            timeline.push(createRoundInfo(round_num, rounds.length, round_config));
+            timeline.push(createCardGame(jsPsych, round_num, round_config, n_cards, cols));
+        });
+        if (show_results) {
+            timeline.push(createResults(jsPsych));
         }
         return timeline;
     }
     var timelineComponents = {
-        createWelcomeAndInstructions,
-        createFixation,
-        createStroopTrial,
-        createPracticeFeedback,
-        createPracticeDebrief
-        //createResults
+        createInstructions,
+        createRoundInfo,
+        createCardGame,
+        createResults
     };
     var utils = {
         resetState,
-        generateStimuli,
-        shuffleArray
+        setupRound,
+        endRound
     };
 
     exports.createTimeline = createTimeline;
@@ -3942,4 +3950,4 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
 
 })({});
 //# sourceMappingURL=out.js.map
-//# sourceMappingURL=index.global.js.map
+  //# sourceMappingURL=index.global.js.map
