@@ -35,7 +35,9 @@ body {
     justify-content: center !important;
     text-align: center !important;
     min-height: 100vh !important;
-    padding: 20px !important;
+    padding: 50px !important;
+    max-width: 95vm !important;
+    line-height: 1.8 !important;
 }
 
 .jspsych-btn {
@@ -47,6 +49,21 @@ body {
     border-radius: 8px !important;
     min-width: 100px !important;
     min-height: 60px !important;
+    cursor: pointer !important;
+}
+
+.practice-debrief-btn {
+    position: absolute !important;
+    bottom: 5vh !important;
+    font-size: 35px !important;
+    margin: 10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border: 2px solid #333 !important;
+    border-radius: 8px !important;
+    padding: 50px 80px !important;
+    min-width: 50px !important;
+    min-height: 30px !important;
     cursor: pointer !important;
 }
 
@@ -75,6 +92,11 @@ body {
         margin: 40px auto 40px 60px !important;
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
+    }
+    .jspsych-btn-group-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+        gap: 20px !important;
     }
 }
 

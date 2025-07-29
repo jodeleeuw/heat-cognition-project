@@ -3784,19 +3784,16 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         const debrief = {
             type: HtmlButtonResponsePlugin,
             stimulus: `
-              <div style="max-width: 700px; margin: 0 auto; text-align: center; padding: 20px;">
-                  <h2>Practice Complete!</h2>
-                  <p>Great job! You've finished the practice trials.</p>
-                  <p>Now you'll begin the main experiment.</p>
-                  <p>Remember:</p>
-                  <ul style="text-align: left; display: inline-block;">
-                      <li>Respond to the <strong>ink color</strong>, not the word</li>
-                      <li>Be as fast and accurate as possible</li>
-                      <li>Click the colored buttons for Red, Green, Blue, Yellow</li>
-                  </ul>
-              </div>
-          `,
+                <div class="jspsych-content-wrapper">
+                    <h2 style="font-size: 65px; margin-bottom: 30px; line-height: 1.8;">Practice Complete!</h2>
+                    <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;">Now you'll begin the main experiment.</p>
+                    <p style="font-size: 50px; margin-bottom: 20px; line-height: 1.8;"><strong>Remember:</strong></p>
+                    <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;"> Respond to the ink color, not the word</p>
+                    <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;"> Be as fast and accurate as possible</p>
+                </div>
+            `,
             choices: ["Start Experiment"],
+            button_html: (choice) => `<div class="practice-debrief-btn">${choice}</button>`,
             post_trial_gap: 500,
             on_finish: () => {
                 state.practiceCompleted = true;
