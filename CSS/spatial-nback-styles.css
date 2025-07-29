@@ -1,8 +1,6 @@
 /* GENERAL STYLES */
 
-h1,
-h2,
-h3 {
+h1, h2, h3 {
     line-height: 1.6;
     margin: 3vmin;
     word-wrap: break-word;
@@ -129,7 +127,7 @@ p {
 }
 
 /* Buttons container with dynamic button count */
-#nback-buttons-container {
+#timeline-btn-container {
     --button-count: 3;
     /* Default fallback, will be overridden by JavaScript */
 }
