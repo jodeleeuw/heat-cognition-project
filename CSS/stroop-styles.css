@@ -79,6 +79,54 @@ body {
     padding: 15px 30px !important;
 }
 
+/* Style the grid layout - 2x2 grid */
+.jspsych-btn-group-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: repeat(2, 1fr) !important;
+    gap: 50px !important;
+    /* Space between buttons */
+    margin: 20px auto !important;
+    max-width: 800px !important;
+    /* Control overall grid width */
+}
+
+/* Style the buttons inside the grid */
+.jspsych-btn-group-grid .jspsych-btn {
+    font-size: 40px !important;
+    /* Text size */
+    padding: 50px 80px !important;
+    /* Internal button spacing */
+    min-height: 120px !important;
+    /* Minimum button height */
+    min-width: 250px !important;
+    /* Minimum button width */
+    width: 100% !important;
+    /* Fill grid cell */
+}
+
+.stroop-response-btn {
+    border: 3px solid black !important;
+    width: 230px !important;
+    height: 100px !important;
+    margin: 30px !important;
+    background-color: white !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: bold !important;
+    color: black !important;
+    font-size: 40px !important;
+    padding: 25px !important;
+}
+
+/* This positions the entire button group lower 
+.jspsych-html-button-response-button {
+    margin-top: 20vh !important;
+} */
+
 @media (max-width: 768px) {
     .jspsych-btn {
         min-height: 70px !important;
@@ -95,8 +143,8 @@ body {
     }
     .jspsych-btn-group-grid {
         display: grid !important;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
-        gap: 20px !important;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+        gap: 30px !important;
     }
 }
 

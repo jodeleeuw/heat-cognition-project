@@ -3732,12 +3732,13 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
     function createStroopTrial(stimulus, isPractice, trialTimeout, numberOfRows, numberOfColumns, choiceOfColors) {
         const trial = {
             type: HtmlButtonResponsePlugin,
-            stimulus: `<div style="font-size: 48px; color: ${stimulus.color}; font-weight: bold;">${stimulus.word}</div>`,
+            //css_classes: ['stroop-trial'],
+            stimulus: `<div style="font-size: 120px; color: ${stimulus.color}; font-weight: bold; margin-bottom: 50px;">${stimulus.word}</div>`,
             choices: choiceOfColors,
             button_layout: "grid",
             grid_rows: numberOfRows,
             grid_columns: numberOfColumns,
-            button_html: (choice) => `<div style="border: 3px solid black; width: 150px; height: 60px; margin: 20px; background-color: white; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; color: black;">${choice}</div>`,
+            button_html: (choice) => `<div class="stroop-response-btn">${choice}</div>`,
             margin_horizontal: "20px",
             margin_vertical: "20px",
             trial_duration: trialTimeout || DEFAULT_TRIAL_TIMEOUT,
@@ -3770,12 +3771,13 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
                 const correctColorName = colorsToUse[lastTrial.correct_response];
                 console.log("correct_response index:", lastTrial.correct_response, "selectedColors:", selectedColors, "correctColorName:", correctColorName);
                 if (lastTrial.correct) {
-                    return '<div style="font-size: 24px; color: green; text-align: center;"><p>\u2713 CORRECT!</p></div>';
+                    return '<div style="font-size: 70px; color: green; text-align: center;"><p>\u2713 CORRECT!</p></div>';
                 } else {
-                    return `<div style="font-size: 24px; color: red; text-align: center;"><p>\u2717 INCORRECT. The correct answer was ${lastTrial.color.toUpperCase()}.</p></div>`;
+                    return `<div style="font-size: 60px; color: red; text-align: center;"><p style="margin: 0 0 8px 0;">\u2717 INCORRECT</p><p style="margin: 0;">The correct answer was ${lastTrial.color.toUpperCase()}.</p></div>`;
                 }
             },
             choices: ["Continue"],
+            button_html: (choice) => `<div class="practice-debrief-btn">${choice}</button>`,
             trial_duration: 2e3
         };
         return feedback;
