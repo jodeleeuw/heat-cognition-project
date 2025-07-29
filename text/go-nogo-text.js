@@ -1,4 +1,12 @@
-var englishText = {
+ const instructions_pages = [
+    "In this task, you will see different stimuli appear on the screen.",
+    "When you see a 'go' stimulus, click the button as quickly as possible.\nWhen you see a 'no go' stimulus, do NOT click the button.",
+    "Try to respond as quickly and accurately as possible.",
+    "Click 'Start' when you're ready to begin.",
+]
+
+
+ const englishText = {
   // Default stimuli
   defaultGoStimulus: 'Y',
   defaultNoGoStimulus: 'X',
@@ -6,8 +14,8 @@ var englishText = {
   
   // Instructions
   instructionText: 'In this task, you will see different stimuli appear on the screen.',
-  goTrialInstructions: 'When you see a "go" stimulus, click the button as quickly as possible.',
-  noGoTrialInstructions: 'When you see a "no go" stimulus, do NOT click the button.',
+  goTrialInstructions: 'When you see a green stimulus (text or image with green border), click the button as quickly as possible.',
+  noGoTrialInstructions: 'When you see a red stimulus (text or image with red border), do NOT click the button.',
   generalInstructions: 'Try to respond as quickly and accurately as possible.',
   startPrompt: 'Click "Start" when you\'re ready to begin.',
   startButton: 'Start',
@@ -50,8 +58,8 @@ var englishText = {
   
   // Results/Debrief
   taskComplete: 'Task Complete!',
-  overallAccuracy: 'Overall Accuracy',
-  averageResponseTime: 'Average Response Time (GO trials)',
+  overallAccuracy: 'Overall Accuracy:',
+  averageResponseTime: 'Average Response Time (GO trials):',
   thankYouMessage: 'Thank you for completing the Go/No-Go task!',
   finishButton: 'Finish',
   
@@ -62,6 +70,10 @@ var englishText = {
   // CSS colors
   goColor: 'green',
   noGoColor: 'red',
+
+  //button labels
+  back_button: 'Back',
+  next_button: 'Next',
   
   // Trial types (used in data)
   trialTypes: {
@@ -89,5 +101,4 @@ var englishText = {
     accuracy: 'accuracy',
     rt: 'rt'
   }
-};
-
+}
