@@ -3151,7 +3151,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
             const buttonGroupElement = document.createElement("div");
             buttonGroupElement.id = "jspsych-html-button-response-btngroup";
             if (trial.button_layout === "grid") {
-                buttonGroupElement.classList.add("jspsych-btn-group-grid");
+                buttonGroupElement.classList.add("timeline-btn-container");
                 if (trial.grid_rows === null && trial.grid_columns === null) {
                     throw new Error(
                         "You cannot set `grid_rows` to `null` without providing a value for `grid_columns`."
@@ -3732,13 +3732,12 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
     function createStroopTrial(stimulus, isPractice, trialTimeout, numberOfRows, numberOfColumns, choiceOfColors) {
         const trial = {
             type: HtmlButtonResponsePlugin,
-            //css_classes: ['stroop-trial'],
-            stimulus: `<div style="font-size: 120px; color: ${stimulus.color}; font-weight: bold; margin-bottom: 50px;">${stimulus.word}</div>`,
+            stimulus: `<div class="timeline-trial" style="color: ${stimulus.color};">${stimulus.word}</div>`,
             choices: choiceOfColors,
             button_layout: "grid",
             grid_rows: numberOfRows,
             grid_columns: numberOfColumns,
-            button_html: (choice) => `<div class="stroop-response-btn">${choice}</div>`,
+            button_html: (choice) => `<div class="timeline-html-btn">${choice}</div>`,
             margin_horizontal: "20px",
             margin_vertical: "20px",
             trial_duration: trialTimeout || DEFAULT_TRIAL_TIMEOUT,
@@ -3864,7 +3863,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
                     return page(choice_of_colors);
                 }
                 // Otherwise, wrap string pages in instructions container
-                return `<div class="instructions-container"><p>${page}</p></div>`;
+                return `<div class="timeline-instructions"><p>${page}</p></div>`;
             }),
             show_clickable_nav: true,
             allow_keys: true,
