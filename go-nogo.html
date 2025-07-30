@@ -2,37 +2,46 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Go/No-Go Task</title>
-  <script src="jatos.js"></script>
-  <script src="https://unpkg.com/jspsych"></script>
-  <script src="tasks/timeline-go-nogo.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/jspsych/css/jspsych.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go/No-Go Task</title>
+    <script src="jatos.js"></script>
+    <script src="https://unpkg.com/jspsych"></script>
+    <!-- <script src="jspsych"></script> -->
+    <script src="./tasks/go-nogo-timeline.js"></script>
+    <script src="text/go-nogo-text.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/jspsych/css/jspsych.css">
+      <link rel="stylesheet" href="../src/styles.css">
+
 </head>
 
 <body></body>
 <script>
-  const jsPsych = initJsPsych({
-    // on_finish: () => jsPsych.data.displayData('json'),
-    on_finish: () => jatos.startNextComponent(jsPsych.data.get().json())
-  });
 
-  // Configuration options - uncomment and modify as needed
-  const config = {
-    button_text: 'Click',                       // Button label
-    response_timeout: 500,                     // Max time to respond (ms)
-    inter_trial_interval: 500,                   // Pause between trials (ms)
-    go_trial_probability: 0.75,                  // Probability of GO trials (0-1)
-    show_results_details: true,                   // Show detailed results
-    num_blocks: 3,                        // Number of blocks
-    num_trials_per_block: 50,                // Number of trials per block
-  };
+    const jsPsych = initJsPsych({
+        // on_finish: () => jsPsych.data.displayData('json'),
+        on_finish: () => jatos.startNextComponent(jsPsych.data.get().json())
+    });
 
-  const go_nogo = jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, config);
-  jatos.onLoad(() => {
-    jsPsych.run([go_nogo]);
-  });
+    // Configuration options - uncomment and modify as needed
+    const config = {
+        buttonText: 'Click',                       // Button label
+        responseTimeout: 500,                     // Max time to respond (ms)
+        interTrialInterval: 500,                   // Pause between trials (ms)
+        numBlocks: 3,                              // Number of blocks
+        trialsPerBlock: 50,                        // Number of trials per block
+        goTrialProbability: 0.75,                  // Probability of GO trials (0-1)
+        showResultsDetails: true,                  // Show detailed results
+        colorText: false                           // Use colored text (true = green/red, false = black)
+    };
+
+    jatos.onLoad(() => {
+        const instructions = jsPsychTimelineGoNogoTimeline.createInstructions(jsPsych,{});
+        const practice = jsPsychTimelineGoNogoTimeline.timelineUnits.practiceTrial(jsPsych, config);
+        const task = jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, config);
+
+        jsPsych.run([instructions, ...practice, task]);
+    });
 </script>
 
 </html>

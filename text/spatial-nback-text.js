@@ -3,7 +3,7 @@
  * replaceable holders: {n_back}, {plural}, {trial}, {total}
  */
 
-export const trial_text = {
+const trial_text = {
     // Instruction pages buttons text, these will always have arrows < and >
     // these do not work right now due to CSS fixed position, might fix later
     next_button: "",
@@ -38,7 +38,7 @@ export const trial_text = {
  */
 
 const grid = "<div class='nback-grid-instructions' style='border: 3px solid #000; box-sizing: border-box; display: inline-block;'><div style='display: flex;'><div id='cell-0-0' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div><div id='cell-0-1' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div><div id='cell-0-2' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div></div><div style='display: flex;'><div id='cell-1-0' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div><div id='cell-1-1' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div><div id='cell-1-2' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div></div><div style='display: flex;'><div id='cell-2-0' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div><div id='cell-2-1' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div><div id='cell-2-2' style='width: 40px; height: 40px; border: 1px solid #ccc; box-sizing: border-box;'></div></div></div>";
-export const instruction_pages = [
+const instruction_pages = [
     "We now ask you to play a type of game.",
     "You will see a series of positions on a 3×3 grid<br><br>" + grid,
     "Tap O if the current position matches the one you saw just before it.",

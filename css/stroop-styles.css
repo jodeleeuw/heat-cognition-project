@@ -28,6 +28,14 @@ body {
     max-width: none !important;
 }
 
+.timeline-debrief {
+    font-size: 40px !important;
+    margin-bottom: 20px !important;
+    line-height: 1.8 !important;
+    width: 100%;
+    white-space: nowrap;
+}
+
 .jspsych-content-wrapper {
     display: flex !important;
     flex-direction: column !important;
@@ -36,7 +44,7 @@ body {
     text-align: center !important;
     min-height: 100vh !important;
     padding: 50px !important;
-    max-width: 95vm !important;
+    max-width: 95vw !important;
     line-height: 1.8 !important;
 }
 
@@ -80,7 +88,7 @@ body {
 }
 
 /* Style the grid layout - 2x2 grid */
-.jspsych-btn-group-grid {
+.timeline-btn-container {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
     grid-template-rows: repeat(2, 1fr) !important;
@@ -92,7 +100,7 @@ body {
 }
 
 /* Style the buttons inside the grid */
-.jspsych-btn-group-grid .jspsych-btn {
+.timeline-btn-container .jspsych-btn {
     font-size: 40px !important;
     /* Text size */
     padding: 50px 80px !important;
@@ -105,7 +113,7 @@ body {
     /* Fill grid cell */
 }
 
-.stroop-response-btn {
+.timeline-html-btn {
     border: 3px solid black !important;
     width: 230px !important;
     height: 100px !important;
@@ -122,10 +130,13 @@ body {
     padding: 25px !important;
 }
 
-/* This positions the entire button group lower 
-.jspsych-html-button-response-button {
-    margin-top: 20vh !important;
-} */
+.timeline-trial {
+    font-size: 120px !important;
+    font-weight: bold !important;
+    margin-bottom: 50px !important;
+    /* color will be set inline using CSS variable */
+}
+
 
 @media (max-width: 768px) {
     .jspsych-btn {
@@ -141,7 +152,7 @@ body {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
     }
-    .jspsych-btn-group-grid {
+    .timeline-btn-container {
         display: grid !important;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
         gap: 30px !important;
@@ -155,7 +166,7 @@ body {
 }
 
 
-.instructions-container {
+.timeline-instructions {
     max-width: 90vw;
     /* Limit width for better readability */
     margin: 0 auto;
@@ -175,11 +186,11 @@ body {
     text-align: center;
 }
 
-.instructions-container p {
+.timeline-instructions p {
     font-size: 70px;
 }
 
-.instructions-container li {
+.timeline-instructions li {
     font-size: 70px;
 }
 

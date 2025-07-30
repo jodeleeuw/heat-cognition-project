@@ -3151,7 +3151,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
             const buttonGroupElement = document.createElement("div");
             buttonGroupElement.id = "jspsych-html-button-response-btngroup";
             if (trial.button_layout === "grid") {
-                buttonGroupElement.classList.add("jspsych-btn-group-grid");
+                buttonGroupElement.classList.add("timeline-btn-container");
                 if (trial.grid_rows === null && trial.grid_columns === null) {
                     throw new Error(
                         "You cannot set `grid_rows` to `null` without providing a value for `grid_columns`."
@@ -3732,13 +3732,12 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
     function createStroopTrial(stimulus, isPractice, trialTimeout, numberOfRows, numberOfColumns, choiceOfColors) {
         const trial = {
             type: HtmlButtonResponsePlugin,
-            //css_classes: ['stroop-trial'],
-            stimulus: `<div style="font-size: 120px; color: ${stimulus.color}; font-weight: bold; margin-bottom: 50px;">${stimulus.word}</div>`,
+            stimulus: `<div class="timeline-trial" style="color: ${stimulus.color};">${stimulus.word}</div>`,
             choices: choiceOfColors,
             button_layout: "grid",
             grid_rows: numberOfRows,
             grid_columns: numberOfColumns,
-            button_html: (choice) => `<div class="stroop-response-btn">${choice}</div>`,
+            button_html: (choice) => `<div class="timeline-html-btn">${choice}</div>`,
             margin_horizontal: "20px",
             margin_vertical: "20px",
             trial_duration: trialTimeout || DEFAULT_TRIAL_TIMEOUT,
@@ -3777,25 +3776,47 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
                 }
             },
             choices: ["Continue"],
-            button_html: (choice) => `<div class="practice-debrief-btn">${choice}</button>`,
+            button_html: (choice) => `<div class="practice-debrief-btn timeline-html-btn">${choice}</button>`,
             trial_duration: 2e3
         };
         return feedback;
     }
+    // function createPracticeDebrief() {
+    //     const debrief = {
+    //         type: HtmlButtonResponsePlugin,
+    //         stimulus: `
+    //             <div class="jspsych-content-wrapper">
+    //                 <h2 style="font-size: 65px; margin-bottom: 30px; line-height: 1.8;">Practice Complete!</h2>
+    //                 <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;">Now you'll begin the main experiment.</p>
+    //                 <p style="font-size: 50px; margin-bottom: 20px; line-height: 1.8;"><strong>Remember:</strong></p>
+    //                 <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;"> Respond to the ink color, not the word</p>
+    //                 <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;"> Be as fast and accurate as possible</p>
+    //             </div>
+    //         `,
+    //         choices: ["Start"],
+    //         button_html: (choice) => `<div class="practice-debrief-btn timeline-html-btn">${choice}</button>`,
+    //         post_trial_gap: 500,
+    //         on_finish: () => {
+    //             state.practiceCompleted = true;
+    //         }
+    //     };
+    //     return debrief;
+    // }
     function createPracticeDebrief() {
         const debrief = {
             type: HtmlButtonResponsePlugin,
             stimulus: `
-                <div class="jspsych-content-wrapper">
-                    <h2 style="font-size: 65px; margin-bottom: 30px; line-height: 1.8;">Practice Complete!</h2>
-                    <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;">Now you'll begin the main experiment.</p>
-                    <p style="font-size: 50px; margin-bottom: 20px; line-height: 1.8;"><strong>Remember:</strong></p>
-                    <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;"> Respond to the ink color, not the word</p>
-                    <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;"> Be as fast and accurate as possible</p>
-                </div>
+            <div class="timeline-debrief">
+                ${practiceDebrief.debrief.map(text => {
+                // If it's already an h2, return as is
+                if (text.includes('<h2>')) return text;
+                // Otherwise wrap in p tags
+                return `<p>${text}</p>`;
+            }).join('')}
+            </div>
             `,
-            choices: ["Start Experiment"],
-            button_html: (choice) => `<div class="practice-debrief-btn">${choice}</button>`,
+            choices: ["Start"],
+            button_html: (choice) => `<div class="practice-debrief-btn timeline-html-btn">${choice}</button>`,
             post_trial_gap: 500,
             on_finish: () => {
                 state.practiceCompleted = true;
@@ -3864,7 +3885,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
                     return page(choice_of_colors);
                 }
                 // Otherwise, wrap string pages in instructions container
-                return `<div class="instructions-container"><p>${page}</p></div>`;
+                return `<div class="timeline-instructions"><p>${page}</p></div>`;
             }),
             show_clickable_nav: true,
             allow_keys: true,
