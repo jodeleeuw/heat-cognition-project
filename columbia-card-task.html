@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Columbia Card Task</title>
+    <script src="https://unpkg.com/jspsych@8.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-instructions@2.0.0"></script>
+    <script src="tasks/columbia-card-task-timeline.js"></script>
+    <script src="text/columbia-card-task-text.js"></script>
+    <!-- Remove jatos.js if not using JATOS -->
+    <!-- <script src="jatos.js"></script> -->
+    <link rel="stylesheet" href="https://unpkg.com/jspsych@8.0.0/css/jspsych.css">
+    <link rel="stylesheet" href="CSS/columbia-card-styles.css">
+</head>
+
+<body></body>
+<script>
+    // Initialize jsPsych
+    const jsPsych = initJsPsych({
+        on_finish: function () {
+            // If using JATOS:
+            // jatos.startNextComponent(jsPsych.data.get().json())
+
+            // For local testing:
+            jsPsych.data.displayData();
+        }
+    });
+
+    const mainTimeline = [];
+
+    // Create instructions
+    const instructions = jsPsychTimelineColumbiaCardTask.createInstructions(ColumbiaCardTaskText);
+    mainTimeline.push(instructions);
+
+    // Create main timeline with custom parameters
+    const cardTaskTimeline = jsPsychTimelineColumbiaCardTask.createTimeline(jsPsych, {
+        n_cards: 16,
+        cols: 4,
+        rounds: [
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 }
+        ],
+        show_instructions: false,  // Already added separately
+        show_results: true,
+        enable_tts: false,
+        text: ColumbiaCardTaskText  // Pass the text object
+    });
+
+    // Add the timeline trials (spread operator to add individual trials)
+    mainTimeline.push(...cardTaskTimeline);
+
+    // Run the experiment
+    // If using JATOS:
+    // jatos.onLoad(() => {
+    //     jsPsych.run(mainTimeline);
+    // });
+
+    // For local testing:
+    jsPsych.run(mainTimeline);
+</script>
+
+</html>
