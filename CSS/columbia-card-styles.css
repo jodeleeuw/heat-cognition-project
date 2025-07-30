@@ -1,338 +1,141 @@
-/* Aggressive override of jsPsych default styles */
-.jspsych-display-element {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    min-height: 100vh !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-}
-
-.jspsych-content-wrapper {
-    width: 100% !important;
-    max-width: none !important;
-    height: 100vh !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 10px !important;
-    box-sizing: border-box !important;
-    margin: 0 !important;
-}
-
-.jspsych-content {
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-/* Remove any default margins on all jsPsych elements */
-[class*="jspsych-"] {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-}
-
-/* GENERAL STYLES */
-
-h1,
-h2,
-h3 {
-    line-height: 1.6;
-    margin: 3vmin;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-p {
-    margin: 3vmin 1vmin;
-    font-size: clamp(14px, 4vmin, 24px);
-    line-height: 1.6;
-    /* Prevent horizontal overflow */
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-/* Base styles */
+/* Base timeline styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color: #f0f0f0;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
 }
 
-/* Styles for any normal HTML button */
-.continue-button {
-    /* background-color: #3498db;
-    color: white;
-    border: none; */
-    padding: clamp(15px, 6vmin, 35px) clamp(15px, 8vmin, 40px);
-    font-size: clamp(15px, 6vmin, 35px);
-    border-radius: 1vmin;
-    cursor: pointer;
-    margin: 2vmin;
-    margin-top: 10vh;
-    transition: background-color 0.3s;
-    min-height: 48px;
-
-    /* Disable double-click zoom */
-    touch-action: manipulation !important;
-    user-select: none !important;
-}
-
-/* Enhanced styles for round info jsPsych buttons only */
-.round-info .jspsych-btn {
-    background-color: #3498db !important;
-    color: white !important;
-    border: none !important;
-    padding: clamp(20px, 6vw, 35px) clamp(40px, 8vw, 60px) !important;
-    font-size: clamp(20px, 5vw, 30px) !important;
-    border-radius: 50px !important;
-    cursor: pointer !important;
-    margin: 20px !important;
-    transition: all 0.2s ease !important;
-    touch-action: manipulation !important;
-    -webkit-tap-highlight-color: transparent !important;
-    font-weight: bold !important;
-    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4) !important;
-    min-height: 60px !important;
-    min-width: 150px !important;
-}
-
-.round-info .jspsych-btn:hover {
-    background-color: #2980b9 !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.5) !important;
-}
-
-.round-info .jspsych-btn:active {
-    transform: translateY(0px) !important;
-    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3) !important;
-}
-
-/* INSTRUCTIONS TRIAL STYLES */
-
-.instructions-container {
-    max-width: 90vw;
-    /* Limit width for better readability */
-    margin: 0 auto;
-    /* Center the container */
-    padding: 2vmin;
-    /* Add some padding */
-    box-sizing: border-box;
-    /* Include padding in width calculations */
-    overflow-x: hidden;
-    /* Prevent horizontal overflow */
-}
-
-/* Mobile-friendly instruction navigation buttons */
-.jspsych-instructions-nav {
-    display: flex;
-    gap: 25vw;
-    justify-content: center;
-    margin-top: auto;
-    padding: clamp(20px, 5vmin, 40px) !important;
-    min-height: clamp(20px, 50vmin, 250px);
-    align-items: flex-end;
-}
-
-/* Instruction navigation button styles */
-.jspsych-instructions-nav .jspsych-btn {
-    background-color: #fff;
-    color: #000;
-    width: 20vmin;
-    height: 20vmin;
-    border: 3px solid #ccc;
-    border-radius: 50%;
-    font-size: clamp(15px, 7vmin, 35px);
-    cursor: pointer;
-    min-height: 100px;
-    min-width: 100px;
-    font-weight: 600;
-
-    /* Disable double-click zoom */
-    touch-action: manipulation !important;
-    user-select: none !important;
-}
-
-.jspsych-instructions-nav .jspsych-btn:active {
-    background-color: #f0f0f0;
-    border-color: #999;
-}
-
-.jspsych-instructions-nav .jspsych-btn:disabled {
-    visibility: hidden;
-    /* Keeps the space but hides the button */
-}
-
-/* PRACTICE TRIAL STYLES */
-
-/* pre-practice and post-practice round pages */
-.practice-instructions,
-.ready-screen {
-    max-width: 90vw;
-    /* Limit width for better readability */
-    margin: 0 auto;
-    /* Center the container */
-    padding: 2vmin;
-    /* Add some padding */
-    box-sizing: border-box;
-    /* Include padding in width calculations */
-    overflow-x: hidden;
-    /* Prevent horizontal overflow */
-    padding-bottom: 5vh;
-}
-
-/* EXPERIMENT TRIAL STYLES */
-
-/* Fixation cross (inter-trial), set to invisible by default */
-.fixation {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 8vmin;
-    color: #ffffff;
-    /* White color for invisibility */
-    font-weight: bold;
-    min-height: 20vmin;
-}
-
-.trial-container {
+/* Timeline trial container */
+.timeline-trial {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    font-family: Arial, sans-serif;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Timeline instructions container */
+.timeline-instructions {
+    max-width: 90vw;
+    margin: 0 auto;
     padding: 2vmin;
-}
-
-/* Task instructions in trial container, text on top. Usually there is none. */
-.task-instructions {
+    box-sizing: border-box;
+    overflow-x: hidden;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     text-align: center;
-
-    p {
-        font-size: clamp(15px, 6vmin, 35px);
-        margin: 2vmin;
-    }
 }
 
-/* Target stimulus*/
-.target-stimulus {
-    width: 30vmin;
-    height: 30vmin;
-    border: 3.5px solid #000000bd;
-    border-radius: 2vmin;
-    background-color: white;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2vmin 3vmin rgba(0, 0, 0, 0.15);
-    margin: 2vmin;
-
-    svg {
-        width: 100%;
-        height: 100%;
-    }
+.timeline-instructions h1 {
+    font-size: clamp(24px, 5vmin, 36px);
+    margin-bottom: 20px;
 }
 
-.target-stimulus.flash {
-    animation: flash-border 0.75s ease-in-out 3;
+.timeline-instructions p {
+    font-size: clamp(16px, 4vmin, 24px);
+    line-height: 1.6;
+    margin-bottom: 15px;
 }
 
-@keyframes flash-border {
-
-    0%,
-    100% {
-        border-color: #2c3e50;
-        box-shadow: 0 2vmin 3vmin rgba(0, 0, 0, 0.15);
-    }
-
-    50% {
-        border-color: #e74c3c;
-        box-shadow: 0 2vmin 4vmin rgba(231, 76, 60, 0.4);
-    }
-}
-
-/* Button layout - flexible responsive grid */
-#jspsych-html-button-response-btngroup {
+/* Timeline button container */
+.timeline-btn-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
     display: flex;
-    flex-wrap: wrap;
-    gap: 2vmin;
-    max-width: 95vw;
-    margin: 3vmin auto;
     justify-content: center;
-    align-items: center;
+    gap: 20px;
+    padding: clamp(20px, 5vmin, 40px);
 }
 
-
-/* Choice buttons - dynamic sizing based on available space */
-.choice-option {
-    border: 2px solid #bdc3c7;
-    border-radius: 2vmin;
-    background-color: white !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer !important;
+/* Timeline HTML button */
+.timeline-html-btn {
+    font-size: clamp(16px, 4vmin, 24px);
+    font-weight: bold;
+    padding: clamp(15px, 5vmin, 25px) clamp(25px, 6vmin, 40px);
+    margin: 10px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: white;
+    min-height: 48px;
+    min-width: 100px;
     transition: all 0.3s ease;
-    box-shadow: 0 1vmin 2vmin rgba(0, 0, 0, 0.1);
-    padding: 1.5vmin;
-    margin: 2px 5px;
-    /* Disable double-click zoom */
-    touch-action: manipulation !important;
-    user-select: none !important;
-    /* Fix the flexbox sizing */
-    flex: 0 0 auto;
-    /* Don't grow, don't shrink, use basis */
-    flex-basis: clamp(20vmin, calc(163vmin / var(--num-choices, 4)), 90vmin);
-    height: clamp(20vmin, calc(80vh / var(--num-choices, 4)), 33vmin);
-
-    /* Container-linked SVG scaling */
-    svg {
-        width: 100%;
-        height: 100%;
-    }
+    touch-action: manipulation;
+    user-select: none;
 }
 
-/* Hover effect for choice options, only visible on desktop */
-.choice-option:hover {
-    border-color: #3498db;
-    transform: translateY(-0.5vmin);
-    box-shadow: 0 2vmin 3vmin rgba(0, 0, 0, 0.15);
+.timeline-html-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Flashing for practice round */
-.choice-option.flash-choices {
-    animation: flash-choices 1s ease-in-out infinite;
+.timeline-html-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-@keyframes flash-choices {
-
-    0%,
-    100% {
-        border-color: #bdc3c7;
-        box-shadow: 0 1vmin 2vmin rgba(0, 0, 0, 0.1);
-    }
-
-    50% {
-        border-color: #f39c12;
-        box-shadow: 0 2vmin 3vmin rgba(243, 156, 18, 0.3);
-    }
+.timeline-html-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
-/* Card grid responsive design */
+/* Columbia Card Task specific styles */
+.round-info {
+    background: white;
+    padding: clamp(20px, 4vw, 30px);
+    border-radius: 12px;
+    margin: 20px auto;
+    width: 85vw;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-size: clamp(16px, 3.5vw, 20px);
+    border: 2px solid #e2e8f0;
+    margin-bottom: 120px;
+}
+
+/* Round info button positioning - match stop button location */
+.jspsych-html-button-response-btngroup {
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 1000 !important;
+    margin: 0 !important;
+}
+
+.round-info .timeline-html-btn {
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 1000 !important;
+    margin: 0 !important;
+}
+
+.round-info h2 {
+    font-size: clamp(24px, 5vw, 32px);
+    margin: 10px 0 15px 0;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.round-info p {
+    margin: 8px 0;
+    line-height: 1.4;
+}
+
+/* Card grid */
 .card-grid {
     display: grid;
     gap: clamp(10px, 2.5vw, 20px);
@@ -342,9 +145,10 @@ body {
     padding: 15px;
     box-sizing: border-box;
     grid-template-columns: repeat(4, 1fr);
+    margin-bottom: 140px;
 }
 
-/* Card responsive sizing */
+/* Card styles */
 .card {
     width: 100%;
     aspect-ratio: 3/4;
@@ -384,7 +188,7 @@ body {
     color: white;
 }
 
-/* Game info responsive */
+/* Game info */
 .game-info {
     text-align: center;
     margin: 15px 0;
@@ -403,66 +207,20 @@ body {
     color: #2c3e50;
 }
 
-/* Round info responsive */
-.round-info {
-    background: white;
-    padding: clamp(20px, 4vw, 30px);
-    border-radius: 12px;
-    margin: 20px auto;
-    width: 85vw;
-    max-width: 500px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    font-size: clamp(16px, 3.5vw, 20px);
-    border: 2px solid #e2e8f0;
-}
-
-.round-info h2 {
-    font-size: clamp(24px, 5vw, 32px);
-    margin: 10px 0 15px 0;
-    color: #2c3e50;
-    font-weight: bold;
-}
-
-.round-info p {
-    margin: 8px 0;
-    line-height: 1.4;
-}
-
-/* Button container */
-.button-container {
-    text-align: center;
-    margin: clamp(15px, 2vh, 25px) 0;
-    width: 100%;
-}
-
-/* Stop button responsive */
+/* Stop button - special styling */
 .stop-button {
-    background-color: #EF4444;
-    color: white;
-    border: none;
-    padding: clamp(20px, 6vw, 35px) clamp(40px, 8vw, 60px);
-    font-size: clamp(20px, 5vw, 30px);
-    border-radius: 50px;
-    cursor: pointer;
-    margin: 20px;
-    transition: all 0.2s ease;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    font-weight: bold;
-    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
-    min-height: 60px;
-    min-width: 200px;
+    background-color: #EF4444 !important;
+    border-color: #DC2626 !important;
+    padding: clamp(20px, 6vw, 35px) clamp(40px, 8vw, 60px) !important;
+    font-size: clamp(20px, 5vw, 30px) !important;
+    border-radius: 50px !important;
+    margin: 20px !important;
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4) !important;
+    min-width: 200px !important;
 }
 
 .stop-button:hover {
-    background-color: #DC2626;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
-}
-
-.stop-button:active {
-    transform: translateY(0px);
-    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+    background-color: #DC2626 !important;
 }
 
 /* Score display */
@@ -479,160 +237,104 @@ body {
     min-height: 30px;
 }
 
-/* Styles for tablets */
+/* Mobile responsive adjustments */
 @media (max-width: 768px) {
-    .jspsych-instructions-nav {
-        position: fixed;
-        bottom: 30vmin;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    /* Add padding to prevent content from going under fixed buttons */
-    .instructions-container {
+    .timeline-instructions {
         padding-bottom: 45vmin;
-        /* 30vmin for button position + 5vmin safety */
     }
 
-    /* Experiment-specific, adjusting sizes of images */
-    .target-stimulus {
-        width: 35vmin;
-        height: 35vmin;
-
-    }
-
-    .choice-option {
-        height: clamp(20vmin, calc(85vh / var(--num-choices, 4)), 30vh);
-        flex-basis: clamp(15vmin, calc(165vw / var(--num-choices, 4)), 43vw);
-        /* width: clamp(30vmin, calc(150vw / var(--num-choices, 4)), 43vmin); */
-        /* aspect-ratio: 1;*/
-    }
-
-    /* Card grid responsive adjustments */
     .card-grid {
         grid-template-columns: repeat(3, 1fr) !important;
-        gap: 10px;
-        width: 95vw;
+        gap: clamp(10px, 2.5vw, 20px) !important;
+        width: 95vw !important;
+        max-width: 800px !important;
+        margin: 20px auto !important;
+        padding: 15px !important;
+        margin-bottom: 140px !important;
     }
 
     .card {
-        font-size: clamp(16px, 4.5vw, 24px);
-        border-width: 2px;
+        font-size: clamp(24px, 6vw, 40px) !important;
+        border-width: 3px !important;
+        min-height: 100px !important;
+        max-height: none !important;
+        border-radius: 12px !important;
+        aspect-ratio: 3/4 !important;
+    }
+
+    .stop-button {
+        padding: clamp(20px, 6vw, 35px) clamp(40px, 8vw, 60px) !important;
+        font-size: clamp(20px, 5vw, 30px) !important;
+        border-radius: 50px !important;
+        min-width: 200px !important;
+        box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4) !important;
     }
 }
 
-/* Styles for phones to override tablet */
 @media (max-width: 480px) {
-
-    /* Smaller padding for phone to allow more text */
-    .instructions-container {
+    .timeline-instructions {
         padding-bottom: 40vmin;
-    }
-
-    .target-container {
-        margin-bottom: 4vmin;
-        /* Adjusted for better spacing on small screens */
-    }
-
-    /* Experiment-specific, adjusting sizes of images */
-    .target-stimulus {
-        width: 45vmin;
-        height: 45vmin;
     }
 
     .card-grid {
         grid-template-columns: repeat(2, 1fr) !important;
-        width: 95vw;
-        gap: 12px;
+        width: 95vw !important;
+        gap: 12px !important;
+        margin: 20px auto !important;
+        padding: 15px !important;
+        margin-bottom: 140px !important;
     }
 
     .card {
-        font-size: clamp(18px, 5vw, 28px);
-        border-width: 2px;
+        font-size: clamp(18px, 5vw, 28px) !important;
+        border-width: 2px !important;
+        min-height: 100px !important;
+        max-height: none !important;
+        border-radius: 12px !important;
+        aspect-ratio: 3/4 !important;
+    }
+
+    .stop-button {
+        padding: clamp(20px, 6vw, 35px) clamp(40px, 8vw, 60px) !important;
+        font-size: clamp(20px, 5vw, 30px) !important;
+        border-radius: 50px !important;
+        min-width: 200px !important;
+        box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4) !important;
     }
 }
 
 /* Landscape mode adjustments */
 @media (orientation: landscape) {
-    .jspsych-instructions-nav {
-        bottom: 3vh;
-        gap: 30vw;
-    }
-
-    .target-container {
-        margin-bottom: 1vmin;
-    }
-
-    .target-stimulus {
-        width: 30vmin;
-        height: 30vmin;
-        border: 4px solid #000000bd;
-    }
-
-    .choice-option {
-        margin: 0;
-        flex-basis: clamp(15vmin, calc(85vw / var(--num-choices, 4)), 25vw) !important;
-        height: clamp(15vmin, calc(135vh / var(--num-choices, 4)), 35vmin) !important;
-        margin: -10px 2px;
-    }
-
     .card {
         height: clamp(100px, 12vw, 130px);
     }
 }
 
-/* Responsive grid columns */
-@media (max-width: 600px) {
-    .card-grid {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 8px;
-    }
-
-    .card {
-        height: clamp(70px, 20vw, 100px);
-        font-size: clamp(14px, 4vw, 20px);
-    }
+/* Navigation buttons positioning */
+.jspsych-instructions-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    gap: 25vw;
+    justify-content: center;
+    padding: clamp(20px, 5vmin, 40px);
 }
 
-@media (max-width: 400px) {
-    .card-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        width: 95vw;
-    }
-
-    .card {
-        height: clamp(90px, 35vw, 120px);
-    }
-}
-
-@media (min-width: 768px) {
-    .card {
-        height: clamp(100px, 12vw, 130px);
-    }
-}
-
-/* Viewport meta tag enforcement */
-@viewport {
-    width: device-width;
-    initial-scale: 1;
-    maximum-scale: 1;
-    user-scalable: no;
-}
-
-/* Ensure clickable areas are large enough for mobile */
-@media (hover: none) and (pointer: coarse) {
-
-    .card,
-    .stop-button,
-    .jspsych-btn {
-        min-height: 44px;
-        min-width: 44px;
-    }
-}
-
-/* Prevent zoom on mobile */
-@media (max-width: 768px) {
-    html {
-        touch-action: manipulation;
-    }
+.jspsych-instructions-nav .jspsych-btn {
+    background-color: #fff;
+    color: #000;
+    width: 20vmin;
+    height: 20vmin;
+    border: 3px solid #ccc;
+    border-radius: 50%;
+    font-size: clamp(15px, 7vmin, 35px);
+    cursor: pointer;
+    min-height: 100px;
+    min-width: 100px;
+    font-weight: 600;
+    touch-action: manipulation;
+    user-select: none;
 }
