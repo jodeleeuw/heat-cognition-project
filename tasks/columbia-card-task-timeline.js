@@ -189,20 +189,17 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
                     (_, i) => `<div class="card card-back" id="card-${i}">${textObj.gameDisplay.cardSymbol}</div>`
                 ).join('');
 
-                return `<div class="timeline-trial">
-                    <style>.card-grid { grid-template-columns: repeat(${cols}, 1fr) !important; }</style>
-                    <div class="game-info">
+                return `<div class="game-info">
                         <h3>${textObj.gameDisplay.roundLabel(round_num)}</h3>
                         <p id="round-score">${textObj.gameDisplay.scoreLabel(0, state.total_score)}</p>
                     </div>
-                    <div class="card-grid">
+                    <div class="card-grid timeline-trial" style="grid-template-columns: repeat(${cols}, 1fr);">
                         ${cards}
                     </div>
                     <div class="timeline-btn-container">
                         <button class="stop-button timeline-html-btn" id="stop-btn">${textObj.buttons.stop}</button>
                     </div>
-                    <div id="message"></div>
-                </div>`;
+                    <div id="message"></div>`;
             },
             choices: 'NO_KEYS',
             on_load: function () {
