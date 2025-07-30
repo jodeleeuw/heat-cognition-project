@@ -3863,7 +3863,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
                     return page(choice_of_colors);
                 }
                 // Otherwise, wrap string pages in instructions container
-                return `<div class="timeline-instructions"><p>${page}</p></div>`;
+                return `<div class="timeline-instructions">${page}</div>`;
             }),
             show_clickable_nav: true,
             allow_keys: true,
