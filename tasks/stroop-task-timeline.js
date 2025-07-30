@@ -3776,25 +3776,47 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
                 }
             },
             choices: ["Continue"],
-            button_html: (choice) => `<div class="practice-debrief-btn">${choice}</button>`,
+            button_html: (choice) => `<div class="practice-debrief-btn timeline-html-btn">${choice}</button>`,
             trial_duration: 2e3
         };
         return feedback;
     }
+    // function createPracticeDebrief() {
+    //     const debrief = {
+    //         type: HtmlButtonResponsePlugin,
+    //         stimulus: `
+    //             <div class="jspsych-content-wrapper">
+    //                 <h2 style="font-size: 65px; margin-bottom: 30px; line-height: 1.8;">Practice Complete!</h2>
+    //                 <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;">Now you'll begin the main experiment.</p>
+    //                 <p style="font-size: 50px; margin-bottom: 20px; line-height: 1.8;"><strong>Remember:</strong></p>
+    //                 <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;"> Respond to the ink color, not the word</p>
+    //                 <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;"> Be as fast and accurate as possible</p>
+    //             </div>
+    //         `,
+    //         choices: ["Start"],
+    //         button_html: (choice) => `<div class="practice-debrief-btn timeline-html-btn">${choice}</button>`,
+    //         post_trial_gap: 500,
+    //         on_finish: () => {
+    //             state.practiceCompleted = true;
+    //         }
+    //     };
+    //     return debrief;
+    // }
     function createPracticeDebrief() {
         const debrief = {
             type: HtmlButtonResponsePlugin,
             stimulus: `
-                <div class="jspsych-content-wrapper">
-                    <h2 style="font-size: 65px; margin-bottom: 30px; line-height: 1.8;">Practice Complete!</h2>
-                    <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;">Now you'll begin the main experiment.</p>
-                    <p style="font-size: 50px; margin-bottom: 20px; line-height: 1.8;"><strong>Remember:</strong></p>
-                    <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;"> Respond to the ink color, not the word</p>
-                    <p style="font-size: 45px; margin-bottom: 20px; line-height: 1.8;"> Be as fast and accurate as possible</p>
-                </div>
+            <div class="timeline-debrief">
+                ${practiceDebrief.debrief.map(text => {
+                // If it's already an h2, return as is
+                if (text.includes('<h2>')) return text;
+                // Otherwise wrap in p tags
+                return `<p>${text}</p>`;
+            }).join('')}
+            </div>
             `,
-            choices: ["Start Experiment"],
-            button_html: (choice) => `<div class="practice-debrief-btn">${choice}</button>`,
+            choices: ["Start"],
+            button_html: (choice) => `<div class="practice-debrief-btn timeline-html-btn">${choice}</button>`,
             post_trial_gap: 500,
             on_finish: () => {
                 state.practiceCompleted = true;
@@ -3863,7 +3885,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
                     return page(choice_of_colors);
                 }
                 // Otherwise, wrap string pages in instructions container
-                return `<div class="timeline-instructions">${page}</div>`;
+                return `<div class="timeline-instructions"><p>${page}</p></div>`;
             }),
             show_clickable_nav: true,
             allow_keys: true,

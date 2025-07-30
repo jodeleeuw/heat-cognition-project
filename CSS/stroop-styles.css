@@ -28,6 +28,14 @@ body {
     max-width: none !important;
 }
 
+.timeline-debrief {
+    font-size: 40px !important;
+    margin-bottom: 20px !important;
+    line-height: 1.8 !important;
+    width: 100%;
+    white-space: nowrap;
+}
+
 .jspsych-content-wrapper {
     display: flex !important;
     flex-direction: column !important;
@@ -36,7 +44,7 @@ body {
     text-align: center !important;
     min-height: 100vh !important;
     padding: 50px !important;
-    max-width: 95vm !important;
+    max-width: 95vw !important;
     line-height: 1.8 !important;
 }
 
