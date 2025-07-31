@@ -1,0 +1,425 @@
+/* UNIFIED EXPERIMENTAL STYLES */
+/* Based on spatial-nback as primary inspiration with common timeline-* patterns */
+
+/* ========================================
+   GENERAL STYLES
+======================================== */
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    overflow-x: hidden;
+}
+
+h1, h2, h3 {
+    line-height: 1.6;
+    margin: 3vmin;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+p {
+    margin: 5vmin 1vmin;
+    font-size: clamp(15px, 7vmin, 40px);
+    line-height: 1.6;    
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* ========================================
+   JSPSYCH BASE LAYOUT
+======================================== */
+
+#jspsych-target {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.jspsych-content {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    flex-direction: column !important;
+    max-width: none !important;
+}
+
+.jspsych-content-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    min-height: 100vh !important;
+    padding: 50px !important;
+    max-width: 95vw !important;
+    line-height: 1.8 !important;
+}
+
+/* ========================================
+   TIMELINE CONTAINERS
+======================================== */
+
+/* Main trial container - stimulus display area */
+.timeline-trial {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    font-size: 120px !important;
+    font-weight: bold !important;
+    margin-bottom: 50px !important;
+}
+
+/* Instructions container */
+.timeline-instructions {
+    max-width: 90vw;
+    margin: 0 auto;
+    padding: 2vmin;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.timeline-instructions h1 {
+    font-size: clamp(24px, 5vmin, 36px);
+    margin-bottom: 20px;
+}
+
+.timeline-instructions p {
+    font-size: 70px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.timeline-instructions li {
+    font-size: 70px;
+}
+
+/* Debrief container */
+.timeline-debrief {
+    font-size: 40px !important;
+    margin-bottom: 20px !important;
+    line-height: 1.8 !important;
+    width: 100%;
+    white-space: nowrap;
+}
+
+/* ========================================
+   BUTTON CONTAINERS & POSITIONING
+======================================== */
+
+/* Fixed button container at bottom of screen */
+.timeline-btn-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 1000 !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    padding: clamp(20px, 5vmin, 40px) !important;
+    margin: 0 !important;
+}
+
+/* Dynamic button count support (for N-back style tasks) */
+#timeline-btn-container {
+    --button-count: 3;
+}
+
+/* ========================================
+   BUTTON STYLES
+======================================== */
+
+/* Primary button styling */
+.timeline-html-btn {
+    font-size: clamp(16px, 4vmin, 24px);
+    font-weight: bold;
+    padding: clamp(15px, 5vmin, 25px) clamp(25px, 6vmin, 40px);
+    margin: 10px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: white;
+    min-height: 48px;
+    min-width: 100px;
+    transition: all 0.3s ease;
+    touch-action: manipulation;
+    user-select: none;
+}
+
+.timeline-html-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-html-btn:active {
+    background-color: #1f5f99;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-html-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Standard jsPsych button styling */
+.jspsych-btn {
+    font-size: 50px !important;
+    font-weight: bold !important;
+    padding: 50px 80px !important;
+    margin: 10px !important;
+    border: 2px solid #333 !important;
+    border-radius: 8px !important;
+    min-width: 100px !important;
+    min-height: 60px !important;
+    cursor: pointer !important;
+    text-align: center !important;
+    display: block !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    line-height: 1.4 !important;
+    touch-action: manipulation !important;
+    user-select: none !important;
+}
+
+/* Continue button variant */
+.continue-button {
+    padding: clamp(15px, 6vmin, 35px) clamp(15px, 8vmin, 40px);
+    font-size: clamp(15px, 6vmin, 35px);
+    border-radius: 1vmin;
+    cursor: pointer;
+    margin: 2vmin;
+    margin-top: 10vh;
+    transition: background-color 0.3s;
+    min-height: 48px;
+    touch-action: manipulation !important;
+    user-select: none !important;
+}
+
+.jspsych-btn.continue-btn {
+    background-color: #4f46e5 !important;
+    color: white !important;
+    border-color: #3730a3 !important;
+    padding: 15px 30px !important;
+}
+
+/* ========================================
+   INSTRUCTION NAVIGATION
+======================================== */
+
+.jspsych-instructions-nav {
+    position: fixed !important;
+    bottom: 5vh !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 1000 !important;
+    display: flex !important;
+    gap: 25vw !important;
+    justify-content: center !important;
+    padding: clamp(20px, 5vmin, 40px) !important;
+}
+
+.jspsych-instructions-nav .jspsych-btn {
+    background-color: #fff;
+    color: #000;
+    width: 20vmin;
+    height: 20vmin;
+    border: 3px solid #ccc;
+    border-radius: 50%;
+    font-size: clamp(15px, 7vmin, 35px);
+    cursor: pointer;
+    min-height: 100px;
+    min-width: 100px;
+    font-weight: 600;
+    touch-action: manipulation;
+    user-select: none;
+}
+
+.jspsych-instructions-nav .jspsych-btn:active {
+    background-color: #f0f0f0;
+    border-color: #999;
+}
+
+.jspsych-instructions-nav .jspsych-btn:disabled {
+    visibility: hidden;
+}
+
+/* Content padding to prevent overlap with fixed buttons */
+.jspsych-content {
+    padding-bottom: 80px !important;
+}
+
+.timeline-instructions {
+    padding-bottom: 45vmin;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+======================================== */
+
+/* Tablet styles */
+@media (min-width: 481px) and (max-width: 1024px) {
+    .timeline-instructions p {
+        font-size: clamp(15px, 2.8vmin, 50px);
+    }
+    
+    .jspsych-instructions-nav {
+        position: fixed;
+        bottom: 5vmin;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .timeline-instructions {
+        padding-bottom: 45vmin;
+    }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .jspsych-btn {
+        min-height: 70px !important;
+        font-size: 50px !important;
+        padding: 50px 80px !important;
+        max-width: 95% !important;
+        margin: 15px auto !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        line-height: 1.2 !important;
+    }
+
+    .timeline-btn-container {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+        gap: 30px !important;
+    }
+
+    .jspsych-instructions-nav {
+        position: fixed !important;
+        bottom: 30vmin !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+
+    .timeline-instructions {
+        padding-bottom: 45vmin;
+    }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {
+    .timeline-instructions {
+        padding-bottom: 40vmin;
+    }
+
+    .jspsych-btn {
+        padding: 15px 20px !important;
+        font-size: 16px !important;
+        min-height: 50px !important;
+        width: auto !important;
+        max-width: 95% !important;
+        margin: 15px auto !important;
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) {
+    .jspsych-instructions-nav {
+        bottom: 3vh;
+        gap: 30vw;
+    }
+
+    .timeline-trial {
+        font-size: clamp(60px, 15vmin, 100px) !important;
+        padding: 0px !important;
+    }
+
+    .timeline-btn-container {
+        bottom: 10px !important;
+        gap: 15px !important;
+    }
+
+    .timeline-html-btn {
+        font-size: clamp(15px, 3vmin, 40px);
+        padding: clamp(10px, 3vh, 30px) clamp(15px, 5vw, 40px);
+        margin: 5px !important;
+        min-height: 40px;
+    }
+}
+
+/* Desktop styles */
+@media (min-width: 1025px) {
+    .timeline-html-btn {
+        margin: 0 calc(5vw / var(--button-count, 2)) !important;
+    }
+}
+
+/* ========================================
+   UTILITY CLASSES
+======================================== */
+
+/* Single button group centering */
+.jspsych-btn-group.single-button {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+/* Stimulus content styling */
+.stimulus {
+    font-size: 60px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+/* Practice debrief button */
+.practice-debrief-btn {
+    position: absolute !important;
+    bottom: 5vh !important;
+    font-size: 35px !important;
+    margin: 10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border: 2px solid #333 !important;
+    border-radius: 8px !important;
+    padding: 50px 80px !important;
+    min-width: 50px !important;
+    min-height: 30px !important;
+    cursor: pointer !important;
+}
+
+/* Fixed buttons container content adjustment */
+.fixed-buttons-container .jspsych-content {
+    padding-bottom: 100px !important;
+}
