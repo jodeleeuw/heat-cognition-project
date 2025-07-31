@@ -40,7 +40,7 @@ p {
 
 /* INSTRUCTIONS TRIAL STYLES */
 
-.instructions-container {
+.timeline-instructions {
     max-width: 90vw; /* Limit width for better readability */
     margin: 0 auto; /* Center the container */
     padding: 2vmin; /* Add some padding */
