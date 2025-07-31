@@ -89,14 +89,16 @@ body {
 
 /* Style the grid layout - 2x2 grid */
 .timeline-btn-container {
+    position: absolute !important;
+    bottom: 15vh !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
     grid-template-rows: repeat(2, 1fr) !important;
     gap: 50px !important;
-    /* Space between buttons */
     margin: 20px auto !important;
     max-width: 800px !important;
-    /* Control overall grid width */
 }
 
 /* Style the buttons inside the grid */
