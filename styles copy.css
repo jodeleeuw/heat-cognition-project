@@ -5,6 +5,15 @@
    GENERAL STYLES
 ======================================== */
 
+body { /* From: columbia-card-styles.css */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    overflow-x: hidden;
+}
+
 h1, h2, h3 { /* From: spatial-nback-styles.css */
     line-height: 1.6;
     margin: 3vmin;
@@ -27,6 +36,45 @@ p { /* From: spatial-nback-styles.css */
 }
 
 /* ========================================
+   JSPSYCH BASE LAYOUT
+======================================== */
+
+#jspsych-target { /* From: stroop-styles.css */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.jspsych-content { /* From: stroop-styles.css */
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    flex-direction: column !important;
+    max-width: none !important;
+}
+
+.jspsych-content-wrapper { /* From: stroop-styles.css */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    min-height: 100vh !important;
+    padding: 50px !important;
+    max-width: 95vw !important;
+    line-height: 1.8 !important;
+}
+
+/* ========================================
    TIMELINE CONTAINERS
 ======================================== */
 
@@ -45,15 +93,36 @@ p { /* From: spatial-nback-styles.css */
 }
 
 /* Instructions container */
-.timeline-instructions { /* From: spatial-nback-styles.css exactly */
-    max-width: 90vw; /* Limit width for better readability */
-    margin: 0 auto; /* Center the container */
-    padding: 2vmin; /* Add some padding */
-    box-sizing: border-box; /* Include padding in width calculations */
-    overflow-x: hidden; /* Prevent horizontal overflow */
+.timeline-instructions { /* From: spatial-nback-styles.css + stroop-styles.css + columbia-card-styles.css */
+    max-width: 90vw;
+    margin: 0 auto;
+    padding: 2vmin;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.5;
 }
 
-/* Debrief container */     
+.timeline-instructions h1 { /* From: columbia-card-styles.css */
+    font-size: clamp(24px, 5vmin, 36px);
+    margin-bottom: 20px;
+}
+
+.timeline-instructions p { /* From: stroop-styles.css */
+    font-size: 70px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.timeline-instructions li { /* From: stroop-styles.css */
+    font-size: 70px;
+}
+
+/* Debrief container */
 .timeline-debrief { /* From: stroop-styles.css */
     font-size: 40px !important;
     margin-bottom: 20px !important;
