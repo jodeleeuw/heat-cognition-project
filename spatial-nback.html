@@ -10,7 +10,7 @@
   <script src="tasks/spatial-nback-timeline.js"></script>
   <script src="text/spatial-nback-text.js"></script>
   <link rel="stylesheet" href="jspsych/dist/jspsych.css">
-  <link rel="stylesheet" href="css/spatial-nback-styles.css">
+  <!-- <link rel="stylesheet" href="css/spatial-nback-styles.css"> -->
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -27,8 +27,7 @@
 
   const mainTimeline = [];
 
-  const instructions1 = jsPsychTimelineSpatialNback.createInstructions(instruction_pages);
-  mainTimeline.push(instructions1);
+  const instructions1 = jsPsychTimelineSpatialNback.createInstructions(instruction_pages, trial_text);
 
   const practice1 = jsPsychTimelineSpatialNback.createPracticeTimeline({
     n_back: 1,
@@ -44,6 +43,7 @@
     type: jsPsychHtmlButtonResponse,
     stimulus: '<p>Press CONTINUE to start the main task. It will be a little faster.</p>',
     choices: ['CONTINUE'],
+    button_html: (choice, choice_index) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`,
   };
 
   const spatial1Back = jsPsychTimelineSpatialNback.createTimeline({
@@ -52,14 +52,14 @@
     n_back: 1,
     total_trials: 25,
     target_percentage: 50,
-    stimulus_duration: 500,
+    stimulus_duration: 5000,
     isi_duration: 500,
     feedback_duration: 0,
-    buttons: ["O", "X"],                                                                         //overrides text.ts
     stimulus_color: "#2196F3",
+    texts: trial_text,
   });
   mainTimeline.push(instructions1);
-  mainTimeline.push(practice1);
+  // mainTimeline.push(practice1);
   mainTimeline.push(confirm1);
   mainTimeline.push(spatial1Back);
 
@@ -83,6 +83,7 @@
     type: jsPsychHtmlButtonResponse,
     stimulus: '<p>Press CONTINUE to start main 2-back task block.</p>',
     choices: ['CONTINUE'],
+    button_html: (choice, choice_index) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`,
   };
 
   const spatial2Back = jsPsychTimelineSpatialNback.createTimeline({
@@ -128,6 +129,7 @@
     type: jsPsychHtmlButtonResponse,
     stimulus: '<p>Press CONTINUE to start a 3-back task block.</p>',
     choices: ['CONTINUE'],
+    button_html: (choice, choice_index) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`,
   };
 
   const spatial3Back = jsPsychTimelineSpatialNback.createTimeline({
@@ -142,15 +144,31 @@
     buttons: ["O", "X"],
     stimulus_color: "#2196F3",
   });
+
+  const if3back = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: '<p>If you found the 3-back task too difficult, you can switch to 2-back for the rest of the experiment.</p>',
+    choices: ['2-back', '3-back'],
+    button_html: (choice, choice_index) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`,
+    on_finish: (data) => {
+      switch (data.response) {
+        case 0:
+          mainTimeline.push(confirm2, spatial2Back, confirm2, spatial2Back);
+          break;
+        default:
+          mainTimeline.push(confirm3, spatial3Back, confirm3, spatial3Back);
+          break;
+      }
+    }
+  };
+
+  // Add all components to the main timeline
   mainTimeline.push(instructions3);
   mainTimeline.push(practice3);
   mainTimeline.push(confirm3);
   mainTimeline.push(spatial3Back);
-  mainTimeline.push(confirm3);
-  mainTimeline.push(spatial3Back);
-  mainTimeline.push(confirm3);
-  mainTimeline.push(spatial3Back);
-
+  mainTimeline.push(if3back);
+  
   jatos.onLoad(() => {
     jsPsych.run(mainTimeline);
   });
