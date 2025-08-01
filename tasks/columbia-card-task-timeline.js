@@ -57,7 +57,7 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
                         <p>${textObj.roundInfo.totalScore} <span class="score-display">${state.total_score}</span></p>
                     </div>
                     <div class="timeline-btn-container">
-                        <button class="timeline-html-btn" id="start-btn">${textObj.buttons.start}</button>
+                        <button class="jspsych-btn timeline-html-btn" id="start-btn">${textObj.buttons.start}</button>
                     </div>
                 </div>`;
             },
@@ -197,7 +197,7 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
                         ${cards}
                     </div>
                     <div class="timeline-btn-container">
-                        <button class="stop-button timeline-html-btn" id="stop-btn">${textObj.buttons.stop}</button>
+                        <button class="jspsych-btn stop-button timeline-html-btn" id="stop-btn">${textObj.buttons.stop}</button>
                     </div>
                     <div id="message"></div>`;
             },
@@ -230,7 +230,7 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
                 </div>`;
             },
             choices: [textObj.buttons.continue],
-            button_html: (choice) => `<button class="timeline-html-btn">${choice}</button>`
+            button_html: (choice) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`
         };
     }
 

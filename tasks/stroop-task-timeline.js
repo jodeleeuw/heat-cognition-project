@@ -3679,7 +3679,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
             button_layout: "grid",
             grid_rows: numberOfRows,
             grid_columns: numberOfColumns,
-            button_html: (choice) => `<div class="timeline-html-btn">${choice}</div>`,
+            button_html: (choice) => `<div class="jspsych-btn timeline-html-btn">${choice}</div>`,
             margin_horizontal: "20px",
             margin_vertical: "20px",
             trial_duration: trialTimeout || DEFAULT_TRIAL_TIMEOUT,
@@ -3718,7 +3718,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
                 }
             },
             choices: ["Continue"],
-            button_html: (choice) => `<div class="practice-debrief-btn timeline-html-btn">${choice}</button>`,
+            button_html: (choice) => `<div class="jspsych-btn practice-debrief-btn timeline-html-btn">${choice}</button>`,
             trial_duration: 2e3
         };
         return feedback;
@@ -3736,7 +3736,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
     //             </div>
     //         `,
     //         choices: ["Start"],
-    //         button_html: (choice) => `<div class="practice-debrief-btn timeline-html-btn">${choice}</button>`,
+    //         button_html: (choice) => `<div class="jspsych-btn practice-debrief-btn timeline-html-btn">${choice}</button>`,
     //         post_trial_gap: 500,
     //         on_finish: () => {
     //             state.practiceCompleted = true;
@@ -3758,7 +3758,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
             </div>
             `,
             choices: ["Start"],
-            button_html: (choice) => `<div class="practice-debrief-btn timeline-html-btn">${choice}</button>`,
+            button_html: (choice) => `<div class="jspsych-btn practice-debrief-btn timeline-html-btn">${choice}</button>`,
             post_trial_gap: 500,
             on_finish: () => {
                 state.practiceCompleted = true;
