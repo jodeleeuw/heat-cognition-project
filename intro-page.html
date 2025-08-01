@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Are you colorblind?</title>
+    <script src="jatos.js"></script>
+    <script src="https://unpkg.com/jspsych@8.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.0.0"></script>
+    <link rel="stylesheet" href="https://unpkg.com/jspsych/css/jspsych.css">
+    <link rel="stylesheet" href="src/styles.css">
+
+</head>
+
+<body></body>
+<script>
+
+    const jsPsych = initJsPsych({
+        // on_finish: () => jsPsych.data.displayData('json'),
+        on_finish: () => {}
+    });
+
+    const ask = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: '<p><h1>Before we start the task</h1>Are you colorblind?</p>',
+        choices: ['Yes', 'No'],
+        on_finish: function(data) {
+            data.colorblind = data.response === 0 ? 'yes' : 'no';
+            
+            if (data.colorblind === 'yes') {
+                jatos.startComponentByTitle('go-nogo');
+            } else {
+                jatos.startComponentByTitle('stroop');
+            }
+        }
+    };
+
+    
+    jatos.onLoad(() => {
+        jsPsych.run([ask]);
+    });
+</script>
+
+</html>
