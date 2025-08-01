@@ -9,7 +9,6 @@
     <script src="https://unpkg.com/jspsych@8.0.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.0.0"></script>
     <link rel="stylesheet" href="https://unpkg.com/jspsych/css/jspsych.css">
-    <link rel="stylesheet" href="src/styles.css">
 
 </head>
 
@@ -30,7 +29,7 @@
             
             // Define task pools based on colorblind status
             const colorblindTasks = ['columbia-card', 'go-nogo', 'spatial-nback'];
-            const nonColorblindTasks = ['columbia-card', 'go-nogo', 'spatial-nback', 'stroop-task'];
+            const nonColorblindTasks = ['columbia-card', 'go-nogo', 'spatial-nback', 'stroop'];
             
             // Select appropriate task pool
             const taskPool = data.colorblind === 'yes' ? colorblindTasks : nonColorblindTasks;
@@ -46,7 +45,10 @@
                 currentTaskIndex: 0
             };
             
+            console.log('Saving experiment data:', batchData);
+            
             jatos.batchSession.set('experimentData', batchData, function() {
+                console.log('Experiment data saved, starting first task:', selectedTasks[0]);
                 // Start first selected task
                 jatos.startComponentByTitle(selectedTasks[0]);
             });
