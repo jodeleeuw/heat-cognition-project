@@ -3742,7 +3742,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
                 }
             },
             choices: [practiceFeedback.continueButton],
-            button_html: (choice) => `<div class="practice-debrief-btn jspsych-btn timeline-html-btn">${choice}</button>`,
+            button_html: (choice) => `<div class="practice-debrief-btn jspsych-btn">${choice}</button>`,
             trial_duration: 2e3
         };
         return feedback;
@@ -3782,7 +3782,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
             </div>
             `,
             choices: [practiceDebrief.continueButton],
-            button_html: (choice) => `<div class="practice-debrief-btn jspsych-btn timeline-html-btn">${choice}</button>`,
+            button_html: (choice) => `<div class="practice-debrief-btn jspsych-btn">${choice}</button>`,
             post_trial_gap: 500,
             on_finish: () => {
                 state.practiceCompleted = true;
@@ -3845,10 +3845,17 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         return {
             type: HtmlButtonResponsePlugin,
             stimulus: `
-                <p>${blockCompletion.debrief}</p>
-        `,
+                <div class="timeline-debrief">
+                    ${blockCompletion.debrief.map(text => {
+                        // If it's already an h2, return as is
+                        if (text.includes('<h2>')) return text;
+                        // Otherwise wrap in p tags
+                        return `<p>${text}</p>`;
+                    }).join('')}
+                </div>
+            `,
             choices: [blockCompletion.continueButton],
-            button_html: (choice) => `<div class="practice-debrief-btn jspsych-btn timeline-html-btn">${choice}</button>`,
+            button_html: (choice) => `<div class="practice-debrief-btn jspsych-btn ">${choice}</div>`,
             data: { trial_type: "block-break", block: blockNum },
             on_load: () => {
                 setTimeout(() => {
@@ -3895,6 +3902,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         createStroopTrial,
         createPracticeFeedback,
         createPracticeDebrief,
+        createBlockBreak,
         createInstructions
         //createResults
     };
@@ -3906,6 +3914,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
 
     exports.createTimeline = createTimeline;
     exports.createInstructions = createInstructions;
+    exports.createBlockBreak = createBlockBreak;
     exports.timelineComponents = timelineComponents;
     exports.utils = utils;
 

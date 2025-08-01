@@ -36,7 +36,7 @@
         practice_trials_per_condition: 3,               // Number of practice trials per condition
         congruent_main_trials: 20,                       // Number of congruent main trials per condition
         incongruent_main_trials: 20,                     // Number of incongruent main trials per condition
-        trial_timeout: 2000,                            // Time limit for each trial (milliseconds)
+        trial_timeout: 10000,                            // Time limit for each trial (milliseconds)
         fixation_duration: {                            // Fixation cross duration range
             min: 500,                                     // Minimum duration (milliseconds), if you do not want to randomise fixation cross duration, set randomise_fixation_duration parameter to false and set min to the duration of the fixation cross you desire
             max: 1500                                     // Maximum duration (milliseconds), if you do not want to randomise fixation cross duration, set randomise_fixation_duration parameter to false and set min to the duration of the fixation cross you desire
@@ -59,6 +59,10 @@
     });
     mainTimeline.push(instructions1);
     mainTimeline.push(block1);
+    
+    // Add block break between block1 and block2
+    const blockBreak = jsPsychTimelineStroopTimeline.createBlockBreak(1, 2);
+    mainTimeline.push(blockBreak);
     
     const block2 = jsPsychTimelineStroopTimeline.createTimeline(jsPsych, {
         practice_trials_per_condition: 0,               // Number of practice trials per condition
