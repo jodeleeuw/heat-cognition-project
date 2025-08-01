@@ -16,5 +16,25 @@ const practiceDebrief = {
         `<strong>Remember:</strong>`,
         `Respond to the ink color, not the word`,
         `Be as fast and accurate as possible`
-    ]    
+    ],
+    continueButton: 'Continue',    
 };
+
+const practiceFeedback = {
+    debriefCorrect: [
+        `CORRECT!`
+    ],
+    continueButton: 'Continue',
+}
+
+const blockCompletion = {
+    debrief: [
+        `<h2>Block Complete!</h2>`,
+        `You have completed a block of trials.`,
+        `You can take a break before continuing to the next block.`,
+        `<strong>Remember:</strong>`,
+        `Respond to the ink color, not the word`,
+        `Be as fast and accurate as possible`
+    ],
+    continueButton: 'Continue',
+}
