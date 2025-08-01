@@ -1,34 +1,81 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Columbia Card Task</title>
-    <script src="jatos.js"></script>
     <script src="https://unpkg.com/jspsych@8.0.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.0.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-instructions@2.0.0"></script>
-    <link href="https://unpkg.com/jspsych@8.0.0/css/jspsych.css" rel="stylesheet" type="text/css" />
-    <link href="CSS/columbia-card-styles.css" rel="stylesheet" type="text/css" />
+    <script src="tasks/columbia-card-task-timeline.js"></script>
+    <script src="text/columbia-card-task-text.js"></script>
+    <script src="jatos.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/jspsych@8.0.0/css/jspsych.css">
+    <link rel="stylesheet" href="CSS/columbia-card-task-styles.css">
 </head>
-
 <body></body>
-<script src="tasks/columbia-card.js"></script>
 <script>
-    jatos.onLoad(function () {
-        // Initialize jsPsych with JATOS integration
-        const jsPsych = initJsPsych({
-            on_finish: function () {
-                // Send data to JATOS
-                const data = jsPsych.data.get().json();
-                jatos.submitResultData(data, jatos.startNextComponent);
-            }
-        });
+    // Initialize jsPsych
+    const jsPsych = initJsPsych({
+        on_finish: function() {
+            // Send data to JATOS
+            const data = jsPsych.data.get().json();
+            jatos.submitResultData(data, function() {
+                // Get experiment data from batch session
+                jatos.batchSession.get('experimentData', function(experimentData) {
+                    if (experimentData) {
+                        experimentData.currentTaskIndex++;
+                        
+                        if (experimentData.currentTaskIndex < experimentData.taskSequence.length) {
+                            // Go to next task
+                            const nextTask = experimentData.taskSequence[experimentData.currentTaskIndex];
+                            jatos.batchSession.set('experimentData', experimentData, function() {
+                                jatos.startComponentByTitle(nextTask);
+                            });
+                        } else {
+                            // All tasks completed, end experiment
+                            jatos.endStudy(data);
+                        }
+                    } else {
+                        // Fallback to next component if no experiment data
+                        jatos.startNextComponent();
+                    }
+                });
+            });
+        }
+    });
 
-        // Create and run the timeline
-        const timeline = jsPsychTimelineColumbiaCardTask.createTimeline(jsPsych);
-        jsPsych.run(timeline);
+    const mainTimeline = [];
+
+    // Create instructions
+    const instructions = jsPsychTimelineColumbiaCardTask.createInstructions(ColumbiaCardTaskText);
+    mainTimeline.push(instructions);
+
+    // Create main timeline with custom parameters
+    const cardTaskTimeline = jsPsychTimelineColumbiaCardTask.createTimeline(jsPsych, {
+        n_cards: 16,
+        cols: 4,
+        rounds: [
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            { loss_cards: 1, gain_amount: 10, loss_amount: 250 }
+        ],
+        show_instructions: false,  // Already added separately
+        show_results: true,
+        enable_tts: false,
+        text: ColumbiaCardTaskText  // Pass the text object
+    });
+    
+    // Add the timeline trials (spread operator to add individual trials)
+    mainTimeline.push(...cardTaskTimeline);
+
+    // Run the experiment
+    jatos.onLoad(() => {
+        jsPsych.run(mainTimeline);
     });
 </script>
-
 </html>

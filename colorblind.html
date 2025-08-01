@@ -28,11 +28,28 @@
         on_finish: function(data) {
             data.colorblind = data.response === 0 ? 'yes' : 'no';
             
-            if (data.colorblind === 'yes') {
-                jatos.startComponentByTitle('go-nogo');
-            } else {
-                jatos.startComponentByTitle('stroop');
-            }
+            // Define task pools based on colorblind status
+            const colorblindTasks = ['columbia-card', 'go-nogo', 'spatial-nback'];
+            const nonColorblindTasks = ['columbia-card', 'go-nogo', 'spatial-nback', 'stroop-task'];
+            
+            // Select appropriate task pool
+            const taskPool = data.colorblind === 'yes' ? colorblindTasks : nonColorblindTasks;
+            
+            // Randomly shuffle and select 2 tasks
+            const shuffledTasks = taskPool.sort(() => Math.random() - 0.5);
+            const selectedTasks = shuffledTasks.slice(0, 2);
+            
+            // Store task sequence in JATOS batch session data
+            const batchData = {
+                colorblind: data.colorblind,
+                taskSequence: selectedTasks,
+                currentTaskIndex: 0
+            };
+            
+            jatos.batchSession.set('experimentData', batchData, function() {
+                // Start first selected task
+                jatos.startComponentByTitle(selectedTasks[0]);
+            });
         }
     };
 

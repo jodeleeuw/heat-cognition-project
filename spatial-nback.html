@@ -18,8 +18,26 @@
     const jsPsych = initJsPsych({
         // on_trial_start: jatos.addAbortButton,
         on_finish: function () {
-            jatos.startNextComponent(jsPsych.data.get().json())
-            // jsPsych.data.displayData();
+            // Get experiment data from batch session
+            jatos.batchSession.get('experimentData', function(experimentData) {
+                if (experimentData) {
+                    experimentData.currentTaskIndex++;
+                    
+                    if (experimentData.currentTaskIndex < experimentData.taskSequence.length) {
+                        // Go to next task
+                        const nextTask = experimentData.taskSequence[experimentData.currentTaskIndex];
+                        jatos.batchSession.set('experimentData', experimentData, function() {
+                            jatos.startComponentByTitle(nextTask);
+                        });
+                    } else {
+                        // All tasks completed, end experiment
+                        jatos.endStudy(jsPsych.data.get().json());
+                    }
+                } else {
+                    // Fallback to next component if no experiment data
+                    jatos.startNextComponent(jsPsych.data.get().json());
+                }
+            });
         }
     });
 
