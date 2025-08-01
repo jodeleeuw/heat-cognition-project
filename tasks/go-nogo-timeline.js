@@ -3572,6 +3572,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       choices: [],
       trial_duration: null,
       response_ends_trial: false,
+      button_html: (choice, choice_index) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`,
       on_start: () => {
         setTimeout(() => {
           const buttons = document.querySelectorAll(".jspsych-btn");
@@ -3646,18 +3647,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
     `,
       choices: [englishText.beginTaskButton],
       data: { trial_type: englishText.trialTypes.instructions },
-      on_load: () => {
-        setTimeout(() => {
-          var _a, _b;
-          const button = document.querySelector(".jspsych-btn");
-          if (button && !((_a = button.parentElement) == null ? void 0 : _a.classList.contains("timeline-html-btn"))) {
-            const wrapper = document.createElement("div");
-            wrapper.className = "timeline-html-btn";
-            (_b = button.parentNode) == null ? void 0 : _b.insertBefore(wrapper, button);
-            wrapper.appendChild(button);
-          }
-        }, 50);
-      }
+      button_html: (choice, choice_index) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`
     };
   };
   var createGoNoGoTrial = (jsPsych, buttonText, responseTimeout) => {
@@ -3672,18 +3662,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
         stimulus_type: jsPsych.timelineVariable("trial_type"),
         correct_response: jsPsych.timelineVariable("correct_response")
       },
-      on_load: () => {
-        setTimeout(() => {
-          var _a, _b;
-          const button = document.querySelector(".jspsych-btn");
-          if (button && !((_a = button.parentElement) == null ? void 0 : _a.classList.contains("timeline-html-btn"))) {
-            const wrapper = document.createElement("div");
-            wrapper.className = "timeline-html-btn";
-            (_b = button.parentNode) == null ? void 0 : _b.insertBefore(wrapper, button);
-            wrapper.appendChild(button);
-          }
-        }, 50);
-      },
+      button_html: (choice, choice_index) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`,
       on_finish: (data) => {
         const isGoTrial = data.stimulus_type === englishText.stimulusTypes.go;
         const responded = data.response !== null && data.response !== void 0;
