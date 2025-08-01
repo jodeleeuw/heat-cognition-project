@@ -36,8 +36,6 @@ p { /* From: spatial-nback-styles.css */
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
     box-sizing: border-box;
     font-size: 120px !important;
     font-weight: bold !important;
@@ -53,13 +51,19 @@ p { /* From: spatial-nback-styles.css */
     overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
-/* Debrief container */     
-.timeline-debrief { /* From: stroop-styles.css */
-    font-size: 40px !important;
-    margin-bottom: 20px !important;
-    line-height: 1.8 !important;
-    width: 100%;
-    white-space: nowrap;
+/* Task instructions in trial container, text on top. Usually there is none. */
+#nback-instructions { /* From: spatial-nback-styles.css exactly */
+    p {
+        font-size: clamp(15px, 4.5vmin, 30px);
+        margin: 0vmin; /* smaller than default p */
+    }
+}
+
+/* Debrief container - now matching nback-instructions style */     
+.timeline-debrief { /* From: spatial-nback-styles.css nback-instructions */
+    font-size: clamp(15px, 4.5vmin, 30px); /* Same as nback-instructions */
+    margin: 0vmin; /* Same as nback-instructions */
+    line-height: 1.6; /* Same as default p */
 }
 
 /* ========================================
@@ -68,16 +72,16 @@ p { /* From: spatial-nback-styles.css */
 
 /* Fixed button container at bottom of screen */
 .timeline-btn-container { /* From: stroop-styles.css + columbia-card-styles.css */
-    position: fixed !important;
-    bottom: 20px !important;
+    position: absolute;
+    bottom: 10vh;
     left: 50% !important;
-    transform: translateX(-50%) !important;
-    z-index: 1000 !important;
-    display: flex !important;
-    justify-content: center !important;
-    gap: 20px !important;
-    padding: clamp(20px, 5vmin, 40px) !important;
-    margin: 0 !important;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    gap: 5vw;
+    margin: 0;
 }
 
 /* Dynamic button count support (for N-back style tasks) */
@@ -90,32 +94,30 @@ p { /* From: spatial-nback-styles.css */
 ======================================== */
 
 /* Primary button styling */
-.timeline-html-btn { /* From: stroop-styles.css + columbia-card-styles.css */
-    font-size: clamp(16px, 4vmin, 24px);
-    font-weight: bold;
-    padding: clamp(15px, 5vmin, 25px) clamp(25px, 6vmin, 40px);
-    margin: 10px;
-    border: 2px solid #333;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: #3498db;
-    color: white;
-    min-height: 48px;
-    min-width: 100px;
-    transition: all 0.3s ease;
+.timeline-html-btn, .nback-response-btn { /* From: stroop-styles.css + columbia-card-styles.css */
+    padding: clamp(10px, 3vh, 50px) clamp(20px, 7vw, 60px);
+    font-size: clamp(20px, 7vmin, 60px);
+    min-height: clamp(60px, 15vmin, 100px);
+    min-width: clamp(120px, 25vmin, 200px);
+    flex: 1 1 auto;
+    color: hsl(0, 0%, 100%);
+    background-color: rgb(77, 77, 77) !important;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    /* Disable double-click zoom */
     touch-action: manipulation;
     user-select: none;
 }
 
 .timeline-html-btn:hover { /* From: columbia-card-styles.css */
-    background-color: #2980b9;
+    background-color: rgb(97, 97, 97);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .timeline-html-btn:active { /* From: columbia-card-styles.css */
-    background-color: #1f5f99;
-    transform: translateY(0);
+    background-color: rgb(57, 57, 57);
+    transform: translateY(1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -150,21 +152,22 @@ p { /* From: spatial-nback-styles.css */
    INSTRUCTION NAVIGATION
 ======================================== */
 
-.jspsych-instructions-nav { /* From: spatial-nback-styles.css + stroop-styles.css + columbia-card-styles.css */
-    position: fixed !important;
-    bottom: 5vh !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    z-index: 1000 !important;
-    display: flex !important;
-    gap: 25vw !important;
-    justify-content: center !important;
+/* Mobile-friendly instruction navigation buttons */
+.jspsych-instructions-nav { /* From: spatial-nback-styles.css exactly */
+    display: flex;
+    gap: 25vw;
+    justify-content: center;
+    position: absolute;
+    bottom: 9vh;
+    left: 50%;
+    transform: translateX(-50%);
     padding: clamp(20px, 5vmin, 40px) !important;
+    min-height: clamp(20px, 50vmin, 250px);
+    align-items: flex-end;
 }
 
-.jspsych-instructions-nav .jspsych-btn { /* From: spatial-nback-styles.css + go-nogo-styles.css + columbia-card-styles.css */
-    background-color: #fff;
-    color: #000;
+/* Instruction navigation button styles */
+.jspsych-instructions-nav .jspsych-btn { /* From: spatial-nback-styles.css exactly */
     width: 20vmin;
     height: 20vmin;
     border: 3px solid #ccc;
@@ -174,78 +177,73 @@ p { /* From: spatial-nback-styles.css */
     min-height: 100px;
     min-width: 100px;
     font-weight: 600;
-    touch-action: manipulation;
-    user-select: none;
+
+    /* Disable double-click zoom */
+    touch-action: manipulation !important;
+    user-select: none !important;
 }
 
-.jspsych-instructions-nav .jspsych-btn:active { /* From: spatial-nback-styles.css */
+.jspsych-instructions-nav .jspsych-btn:active { /* From: spatial-nback-styles.css exactly */
     background-color: #f0f0f0;
     border-color: #999;
 }
 
-.jspsych-instructions-nav .jspsych-btn:disabled { /* From: spatial-nback-styles.css */
-    visibility: hidden;
-}
-
-/* Content padding to prevent overlap with fixed buttons */
-.jspsych-content { /* From: stroop-styles.css */
-    padding-bottom: 80px !important;
+.jspsych-instructions-nav .jspsych-btn:disabled { /* From: spatial-nback-styles.css exactly */
+    visibility: hidden;  /* Keeps the space but hides the button */
 }
 
 .timeline-instructions { /* From: spatial-nback-styles.css */
-    padding-bottom: 45vmin;
+    /* padding-bottom: 45vmin; */
 }
 
 /* ========================================
    RESPONSIVE DESIGN
 ======================================== */
 
-/* Tablet styles */
-@media (min-width: 481px) and (max-width: 1024px) {
-    .timeline-instructions p {
+/* Specific styles for tablets/iPads */
+@media (min-width: 481px) and (max-width: 1024px) { /* From: spatial-nback-styles.css exactly */
+    /* Smaller font size for instructions */
+    #nback-instructions p {
         font-size: clamp(15px, 2.8vmin, 50px);
     }
     
-    .jspsych-instructions-nav {
-        position: fixed;
+    /* Fixing instruction navigation button position */
+    /* .jspsych-instructions-nav {
+        position: absolute;
         bottom: 5vmin;
         left: 50%;
         transform: translateX(-50%);
-    }
+    } */
     
+    /* Add padding to prevent content from going under fixed buttons */
     .timeline-instructions {
-        padding-bottom: 45vmin;
+        /* padding-bottom: 45vmin; 30vmin for button position + 5vmin safety */
+    }
+
+    /* Adjusting grid cell size for tablets (bigger)*/
+    #nback-grid > div > div {
+        width: 15vh !important;
+        height: 15vh !important;
     }
 }
 
 /* Mobile styles */
 @media (max-width: 768px) {
-    .jspsych-btn {
-        min-height: 70px !important;
-        font-size: 50px !important;
-        padding: 50px 80px !important;
-        max-width: 95% !important;
-        margin: 15px auto !important;
-        white-space: normal !important;
-        word-wrap: break-word !important;
-        line-height: 1.2 !important;
-    }
-
     .timeline-btn-container {
-        display: grid !important;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
-        gap: 30px !important;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        /* gap: 30px !important; */
     }
 
     .jspsych-instructions-nav {
-        position: fixed !important;
-        bottom: 30vmin !important;
+        position: absolute !important;
+        bottom: 5vmin !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
     }
 
     .timeline-instructions {
-        padding-bottom: 45vmin;
+        /* padding-bottom: 45vmin; */
     }
 }
 
@@ -254,39 +252,34 @@ p { /* From: spatial-nback-styles.css */
     .timeline-instructions {
         padding-bottom: 40vmin;
     }
-
-    .jspsych-btn {
-        padding: 15px 20px !important;
-        font-size: 16px !important;
-        min-height: 50px !important;
-        width: auto !important;
-        max-width: 95% !important;
-        margin: 15px auto !important;
-    }
 }
 
-/* Landscape orientation adjustments */
-@media (orientation: landscape) {
+/* Landscape mode adjustments */
+@media (orientation: landscape) { /* From: spatial-nback-styles.css exactly */
     .jspsych-instructions-nav {
         bottom: 3vh;
         gap: 30vw;
     }
 
-    .timeline-trial {
-        font-size: clamp(60px, 15vmin, 100px) !important;
+    #nback-instructions p {
+        font-size: clamp(10px, 2.5vh, 25px);
+    }
+    
+    #nback-container {
         padding: 0px !important;
+        gap: 1.5vh !important;
     }
 
-    .timeline-btn-container {
-        bottom: 10px !important;
-        gap: 15px !important;
+    #nback-feedback-section {
+        margin: 0px;
+        gap: 0px;
     }
 
-    .timeline-html-btn {
+    .nback-response-btn {
         font-size: clamp(15px, 3vmin, 40px);
-        padding: clamp(10px, 3vh, 30px) clamp(15px, 5vw, 40px);
-        margin: 5px !important;
-        min-height: 40px;
+        padding: clamp(3px, 3vh, 30px) clamp(10px, 7vw, 60px);
+        margin: 0px calc(6vw / var(--button-count, 2)) !important;
+        min-height: 5vh;
     }
 }
 
@@ -301,21 +294,15 @@ p { /* From: spatial-nback-styles.css */
    UTILITY CLASSES
 ======================================== */
 
-/* Single button group centering */
-.jspsych-btn-group.single-button {
-    display: flex !important;
-    justify-content: center !important;
-}
-
 /* Stimulus content styling */
-.stimulus {
+/* .stimulus {
     font-size: 60px;
     font-weight: bold;
     margin: 20px 0;
-}
+} */
 
 /* Practice debrief button */
-.practice-debrief-btn {
+/* .practice-debrief-btn {
     position: absolute !important;
     bottom: 5vh !important;
     font-size: 35px !important;
@@ -328,9 +315,17 @@ p { /* From: spatial-nback-styles.css */
     min-width: 50px !important;
     min-height: 30px !important;
     cursor: pointer !important;
-}
+} */
 
 /* Fixed buttons container content adjustment */
-.fixed-buttons-container .jspsych-content {
+/* .fixed-buttons-container .jspsych-content {
     padding-bottom: 100px !important;
+} */
+
+/* ========================================
+   SPATIAL N-BACK STYLES
+======================================== */
+
+#nback-feedback-section {
+    margin-bottom: 2vh;
 }

@@ -3605,65 +3605,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
 
 
     // src/index.ts
-    var ESSENTIAL_STYLES = `
-  body {
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-  }
-  
-  #jspsych-target {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-      padding: 20px;
-      box-sizing: border-box;
-  }
-  
-  .jspsych-content {
-      max-width: 800px;
-      width: 100%;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      flex-direction: column !important;
-      max-width: none !important;
-  }
-  
-  .jspsych-content-wrapper {
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: center !important;
-      text-align: center !important;
-      min-height: 100vh !important;
-      padding: 20px !important;
-  }
-  
-  .jspsych-btn {
-      font-size: 18px !important;
-      font-weight: bold !important;
-      padding: 15px 25px !important;
-      margin: 10px !important;
-      border: 2px solid #333 !important;
-      border-radius: 8px !important;
-      min-width: 100px !important;
-      min-height: 60px !important;
-      cursor: pointer !important;
-  }
-  
-  .stimulus {
-      font-size: 60px;
-      font-weight: bold;
-      margin: 20px 0;
-  }
-  `;
+    var ESSENTIAL_STYLES = ``;
     function injectEssentialStyles() {
         if (typeof document !== "undefined") {
             const styleElement = document.createElement("style");

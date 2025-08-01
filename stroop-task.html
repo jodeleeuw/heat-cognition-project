@@ -3,6 +3,7 @@
 
 <head>
     <title>jsPsychTimelineStroopTimeline Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <script src="jspsych/dist/jspsych.js"></script>
     <script src="./tasks/stroop-task-timeline.js"></script>
     <script src="./text/stroop-text.js"></script>
@@ -55,8 +56,6 @@
             'YELLOW'
         ]
     });
-    mainTimeline.push(instructions1);
-    mainTimeline.push(block1);
     
     const block2 = jsPsychTimelineStroopTimeline.createTimeline(jsPsych, {
         practice_trials_per_condition: 0,               // Number of practice trials per condition
@@ -83,8 +82,10 @@
             'yellow'
         ]
     });
-    mainTimeline.push(block2);
 
+    mainTimeline.push(instructions1);
+    mainTimeline.push(block1);
+    mainTimeline.push(block2);
    
     jatos.onLoad(() => {
             jsPsych.run(mainTimeline);
