@@ -4,7 +4,7 @@
 <head>
     <title>Columbia Card Task</title>
     <script src="jspsych/dist/jspsych.js"></script>
-    <!-- Include jsPsych plugins because they are missing in the JS file -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="jspsych/dist/plugin-html-keyboard-response.js"></script>
     <script src="jspsych/dist/plugin-html-button-response.js"></script>
     <script src="jspsych/dist/plugin-instructions.js"></script>
@@ -12,23 +12,16 @@
     <script src="text/columbia-card-task-text.js"></script>
     <script src="jatos.js"></script>
     <link rel="stylesheet" href="jspsych/dist/jspsych.css">
-    <!-- <link rel="stylesheet" href="CSS/columbia-card-styles.css"> -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="CSS/columbia-card-styles.css">
+    <!-- <link rel="stylesheet" href="styles.css"> -->
 </head>
 
 <body></body>
 <script>
     // Initialize jsPsych
     const jsPsych = initJsPsych({
-        on_finish: function () {
-            // If using JATOS:
-            // jatos.startNextComponent(jsPsych.data.get().json())
-
-            // For local testing:
-            jsPsych.data.displayData();
-        }
+        on_finish: () => jatos.startComponentByTitle(jatos.studySessionData.trial_list.shift()), // Start next task
     });
-
     const mainTimeline = [];
 
     // Create instructions
@@ -58,14 +51,11 @@
     // Add the timeline trials (spread operator to add individual trials)
     mainTimeline.push(...cardTaskTimeline);
 
-    // Run the experiment
-    // If using JATOS:
-    // jatos.onLoad(() => {
-    //     jsPsych.run(mainTimeline);
-    // });
+    jatos.onLoad(() => {
+        jsPsych.run(mainTimeline);
+    });
 
-    // For local testing:
-    jsPsych.run(mainTimeline);
+
 </script>
 
 </html>

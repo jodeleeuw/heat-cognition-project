@@ -94,7 +94,7 @@ p { /* From: spatial-nback-styles.css */
 ======================================== */
 
 /* Primary button styling */
-.timeline-html-btn, .nback-response-btn { /* From: stroop-styles.css + columbia-card-styles.css */
+.jspsych-btn{
     padding: clamp(10px, 3vh, 50px) clamp(20px, 7vw, 60px);
     font-size: clamp(20px, 7vmin, 60px);
     min-height: clamp(60px, 15vmin, 100px);
@@ -107,6 +107,13 @@ p { /* From: spatial-nback-styles.css */
     /* Disable double-click zoom */
     touch-action: manipulation;
     user-select: none;
+}
+
+.timeline-html-btn, .nback-response-btn { /* From: stroop-styles.css + columbia-card-styles.css */
+}
+
+.timeline-btn .stroop {
+    font-size: clamp(15px, 5vmin, 50px);
 }
 
 .timeline-html-btn:hover { /* From: columbia-card-styles.css */

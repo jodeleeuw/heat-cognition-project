@@ -17,8 +17,7 @@
 <script>
 
     const jsPsych = initJsPsych({
-        // on_finish: () => jsPsych.data.displayData('json'),
-        on_finish: () => {}
+        on_finish: () => jatos.startComponentByTitle(jatos.studySessionData.trial_list.shift()), // Start next task
     });
 
     const ask = {
@@ -26,17 +25,23 @@
         stimulus: '<p><h1>Before we start the task</h1>Are you colorblind?</p>',
         choices: ['Yes', 'No'],
         on_finish: function(data) {
-            data.colorblind = data.response === 0 ? 'yes' : 'no';
-            
-            if (data.colorblind === 'yes') {
-                jatos.startComponentByTitle('go-nogo');
+            // Make list of tasks based on colorblindness
+            let trial_list = [];
+            // If colorblind, no stroop task
+            if (data.response === 0) {
+                trial_list = ['Go/No-Go', 'Spatial N-back', 'CART'];
+                jatos.studySessionData.colorblind = 'yes'; // Store colorblindness info
+
             } else {
-                jatos.startComponentByTitle('stroop');
+                trial_list = ['Go/No-Go', 'Spatial N-back',  'CART', 'Stroop'];
             }
+z
+            jsPsych.randomization.repeat(trial_list, 1); // Shuffle order of tasks
+            trial_list.push('Survey'); // Always end with survey
+            jatos.studySessionData.trial_list = trial_list;
         }
     };
 
-    
     jatos.onLoad(() => {
         jsPsych.run([ask]);
     });

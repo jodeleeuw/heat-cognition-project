@@ -17,11 +17,9 @@
 <script>
 
     const jsPsych = initJsPsych({
-        on_finish: function () {
-            jatos.startNextComponent(jsPsych.data.get().json())
-        }
+        on_finish: () => jatos.startComponentByTitle(jatos.studySessionData.trial_list.shift()), // Start next task
     });
-
+    
     const mainTimeline = [];
 
     const instructions1 = jsPsychTimelineStroopTimeline.createInstructions(InstructionsText, [
@@ -35,7 +33,7 @@
         practice_trials_per_condition: 3,               // Number of practice trials per condition
         congruent_main_trials: 20,                       // Number of congruent main trials per condition
         incongruent_main_trials: 20,                     // Number of incongruent main trials per condition
-        trial_timeout: 2000,                            // Time limit for each trial (milliseconds)
+        trial_timeout: 20000000,                            // Time limit for each trial (milliseconds)
         fixation_duration: {                            // Fixation cross duration range
             min: 500,                                     // Minimum duration (milliseconds), if you do not want to randomise fixation cross duration, set randomise_fixation_duration parameter to false and set min to the duration of the fixation cross you desire
             max: 1500                                     // Maximum duration (milliseconds), if you do not want to randomise fixation cross duration, set randomise_fixation_duration parameter to false and set min to the duration of the fixation cross you desire
@@ -88,8 +86,9 @@
     mainTimeline.push(block2);
    
     jatos.onLoad(() => {
-            jsPsych.run(mainTimeline);
-        });
+        jsPsych.run(mainTimeline);
+    });
+
 </script>
 
 </html>

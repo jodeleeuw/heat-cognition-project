@@ -10,7 +10,6 @@
     <script src="./tasks/go-nogo-timeline.js"></script>
     <script src="text/go-nogo-text.js"></script>
     <link rel="stylesheet" href="jspsych/dist/jspsych.css">
-    <!-- <link rel="stylesheet" href="../src/styles.css"> -->
     <link rel="stylesheet" href="styles.css">
 
 </head>
@@ -19,8 +18,7 @@
 <script>
 
     const jsPsych = initJsPsych({
-        // on_finish: () => jsPsych.data.displayData('json'),
-        on_finish: () => jatos.startNextComponent(jsPsych.data.get().json())
+        on_finish: () => jatos.startComponentByTitle(jatos.studySessionData.trial_list.shift()), // Start next task
     });
 
     // Configuration options - uncomment and modify as needed
@@ -42,6 +40,7 @@
 
         jsPsych.run([instructions, ...practice, task]);
     });
+
 </script>
 
 </html>
