@@ -16,7 +16,7 @@ h1, h2, h3 { /* From: spatial-nback-styles.css */
 }
 
 p { /* From: spatial-nback-styles.css */
-    margin: 5vmin 1vmin;
+    margin: 5vmin 3vmin;
     font-size: clamp(15px, 7vmin, 40px);
     line-height: 1.6;    
     word-wrap: break-word;

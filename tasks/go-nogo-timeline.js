@@ -10,8 +10,9 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
   var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
     get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
   }) : x)(function(x) {
-    if (typeof require !== "undefined") return require.apply(this, arguments);
-    throw Error('Dynamic require of "' + x + '" is not supported');
+    if (typeof require !== "undefined")
+      return require.apply(this, arguments);
+    throw new Error('Dynamic require of "' + x + '" is not supported');
   });
   var __commonJS = (cb, mod) => function __require2() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
@@ -29,7 +30,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
     // file that has been converted to a CommonJS file using a Babel-
     // compatible transform (i.e. "__esModule" has not been set), then set
     // "default" to the CommonJS "module.exports" for node compatibility.
-    __defProp(target, "default", { value: mod, enumerable: true }) ,
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
     mod
   ));
 
@@ -117,7 +118,8 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
           };
           prng.quick = prng;
           if (state) {
-            if (typeof state == "object") copy(state, xg);
+            if (typeof state == "object")
+              copy(state, xg);
             prng.state = function() {
               return copy(xg, {});
             };
@@ -208,7 +210,8 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
           prng.int32 = xg.next;
           prng.quick = prng;
           if (state) {
-            if (typeof state == "object") copy(state, xg);
+            if (typeof state == "object")
+              copy(state, xg);
             prng.state = function() {
               return copy(xg, {});
             };
@@ -288,7 +291,8 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
           prng.int32 = xg.next;
           prng.quick = prng;
           if (state) {
-            if (typeof state == "object") copy(state, xg);
+            if (typeof state == "object")
+              copy(state, xg);
             prng.state = function() {
               return copy(xg, {});
             };
@@ -348,10 +352,14 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
                 X[j & 7] = X[j & 7] << 15 ^ seed2.charCodeAt(j) + X[j + 1 & 7] << 13;
               }
             }
-            while (X.length < 8) X.push(0);
-            for (j = 0; j < 8 && X[j] === 0; ++j) ;
-            if (j == 8) X[7] = -1;
-            else X[j];
+            while (X.length < 8)
+              X.push(0);
+            for (j = 0; j < 8 && X[j] === 0; ++j)
+              ;
+            if (j == 8)
+              X[7] = -1;
+            else
+              X[j];
             me2.x = X;
             me2.i = 0;
             for (j = 256; j > 0; --j) {
@@ -366,7 +374,8 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
           return t;
         }
         function impl(seed, opts) {
-          if (seed == null) seed = +/* @__PURE__ */ new Date();
+          if (seed == null)
+            seed = +/* @__PURE__ */ new Date();
           var xg = new XorGen(seed), state = opts && opts.state, prng = function() {
             return (xg.next() >>> 0) / 4294967296;
           };
@@ -379,7 +388,8 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
           prng.int32 = xg.next;
           prng.quick = prng;
           if (state) {
-            if (state.x) copy(state, xg);
+            if (state.x)
+              copy(state, xg);
             prng.state = function() {
               return copy(xg, {});
             };
@@ -435,8 +445,10 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
               limit = Math.max(limit, seed2.length);
             }
             for (i = 0, j = -32; j < limit; ++j) {
-              if (seed2) v ^= seed2.charCodeAt((j + 32) % seed2.length);
-              if (j === 0) w = v;
+              if (seed2)
+                v ^= seed2.charCodeAt((j + 32) % seed2.length);
+              if (j === 0)
+                w = v;
               v ^= v << 10;
               v ^= v >>> 15;
               v ^= v << 4;
@@ -473,7 +485,8 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
           return t;
         }
         function impl(seed, opts) {
-          if (seed == null) seed = +/* @__PURE__ */ new Date();
+          if (seed == null)
+            seed = +/* @__PURE__ */ new Date();
           var xg = new XorGen(seed), state = opts && opts.state, prng = function() {
             return (xg.next() >>> 0) / 4294967296;
           };
@@ -486,7 +499,8 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
           prng.int32 = xg.next;
           prng.quick = prng;
           if (state) {
-            if (state.X) copy(state, xg);
+            if (state.X)
+              copy(state, xg);
             prng.state = function() {
               return copy(xg, {});
             };
@@ -565,7 +579,8 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
           prng.int32 = xg.next;
           prng.quick = prng;
           if (state) {
-            if (typeof state == "object") copy(state, xg);
+            if (typeof state == "object")
+              copy(state, xg);
             prng.state = function() {
               return copy(xg, {});
             };
@@ -638,7 +653,8 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
             if (is_math_call) {
               math[rngname] = prng2;
               return seed2;
-            } else return prng2;
+            } else
+              return prng2;
           })(
             prng,
             shortseed,
@@ -2791,9 +2807,9 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
   });
 
   // ../../node_modules/jspsych/dist/index.js
-  __toESM(require_auto_bind());
-  __toESM(require_random_words());
-  __toESM(require_alea());
+  __toESM(require_auto_bind(), 1);
+  __toESM(require_random_words(), 1);
+  __toESM(require_alea(), 1);
   var ParameterType = /* @__PURE__ */ ((ParameterType2) => {
     ParameterType2[ParameterType2["BOOL"] = 0] = "BOOL";
     ParameterType2[ParameterType2["STRING"] = 1] = "STRING";
@@ -2945,7 +2961,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       "bibtex": '@article{Leeuw2023jsPsych, 	author = {de Leeuw, Joshua R. and Gilbert, Rebecca A. and Luchterhandt, Bj{\\" o}rn}, 	journal = {Journal of Open Source Software}, 	doi = {10.21105/joss.05351}, 	issn = {2475-9066}, 	number = {85}, 	year = {2023}, 	month = {may 11}, 	pages = {5351}, 	publisher = {Open Journals}, 	title = {jsPsych: Enabling an {Open}-{Source} {Collaborative} {Ecosystem} of {Behavioral} {Experiments}}, 	url = {https://joss.theoj.org/papers/10.21105/joss.05351}, 	volume = {8}, }  '
     }
   };
-  var _HtmlButtonResponsePlugin = class _HtmlButtonResponsePlugin {
+  var _HtmlButtonResponsePlugin = class {
     constructor(jsPsych) {
       this.jsPsych = jsPsych;
     }
@@ -3067,8 +3083,10 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       }
     }
   };
-  _HtmlButtonResponsePlugin.info = info;
   var HtmlButtonResponsePlugin = _HtmlButtonResponsePlugin;
+  (() => {
+    _HtmlButtonResponsePlugin.info = info;
+  })();
 
   // ../../node_modules/@jspsych/plugin-instructions/dist/index.js
   var version2 = "2.1.0";
@@ -3168,7 +3186,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       "bibtex": '@article{Leeuw2023jsPsych, 	author = {de Leeuw, Joshua R. and Gilbert, Rebecca A. and Luchterhandt, Bj{\\" o}rn}, 	journal = {Journal of Open Source Software}, 	doi = {10.21105/joss.05351}, 	issn = {2475-9066}, 	number = {85}, 	year = {2023}, 	month = {may 11}, 	pages = {5351}, 	publisher = {Open Journals}, 	title = {jsPsych: Enabling an {Open}-{Source} {Collaborative} {Ecosystem} of {Behavioral} {Experiments}}, 	url = {https://joss.theoj.org/papers/10.21105/joss.05351}, 	volume = {8}, }  '
     }
   };
-  var _InstructionsPlugin = class _InstructionsPlugin {
+  var _InstructionsPlugin = class {
     constructor(jsPsych) {
       this.jsPsych = jsPsych;
     }
@@ -3402,11 +3420,13 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       }
     }
   };
-  _InstructionsPlugin.info = info2;
   var InstructionsPlugin = _InstructionsPlugin;
+  (() => {
+    _InstructionsPlugin.info = info2;
+  })();
 
   // src/text.ts
-  var instructions_pages = [
+  var instruction_pages = [
     "In this task, you will see different stimuli appear on the screen.",
     "When you see a 'go' stimulus, click the button as quickly as possible.\nWhen you see a 'no go' stimulus, do NOT click the button.",
     "Try to respond as quickly and accurately as possible.",
@@ -3491,7 +3511,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
     const color = colorText ? isGoTrial ? englishText.goColor : englishText.noGoColor : "black";
     const borderStyle = colorText ? `border: 3px solid ${color};` : "";
     return `
-      <div style= "color: ${color}; ${borderStyle}" class="go-nogo-stimulus-content timeline-trial">${stimulus}</div>`;
+      <div style= "color: ${color}; ${borderStyle}" class="go-nogo-stimulus-content timeline-trial"><p>${stimulus}</p></div>`;
   };
   var createGoInstructionTrial = (goStimulus, buttonText, formatStimulus, jsPsych) => {
     const goExample = formatStimulus(goStimulus, true);
@@ -3500,10 +3520,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       stimulus: `
      
             <p>${englishText.goPageContent}</p>
-          
-            <div class="go-nogo-stimulus-container timeline-trial">
-              ${goExample}
-            </div>
+            ${goExample}
               <button id="practice-button" class="jspsych-btn timeline-html-btn">
                 ${buttonText}
               </button>
@@ -3530,7 +3547,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
           const feedbackEl = document.getElementById("feedback-container");
           if (feedbackEl) {
             feedbackEl.innerHTML = message;
-            feedbackEl.style.color = "#28a745" ;
+            feedbackEl.style.color = isCorrect ? "#28a745" : "#dc3545";
             setTimeout(() => {
               if (practiceCompleted) {
                 jsPsych.finishTrial();
@@ -3545,7 +3562,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
               practiceCompleted = true;
               practiceButton.disabled = true;
               practiceButton.style.opacity = "0.5";
-              showFeedback(englishText.goodJobMessage);
+              showFeedback(englishText.goodJobMessage, true);
             }
           });
         }
@@ -3560,10 +3577,9 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       stimulus: `
             <p>${englishText.noGoPageContent}</p>
           
-            <div class="go-nogo-stimulus-container timeline-trial">
               ${noGoExample}
-            </div>
-              <button id="practice-button" class="jspsych-btn timeline-html-btn">
+
+              <button id="jspsych-btn" class="jspsych-btn timeline-html-btn">
                 ${buttonText}
               </button>
           
@@ -3790,21 +3806,26 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       }
     };
   };
-  function createInstructions(_jsPsych, _config = {}) {
-    const pages = instructions_pages;
+  function createInstructions(instructions = instruction_pages, texts = englishText) {
+    var _a, _b;
+    console.log("createInstructions called with:", {
+      instructions,
+      isArray: Array.isArray(instructions),
+      instructionPagesImport: instruction_pages,
+      isImportArray: Array.isArray(instruction_pages)
+    });
+    const instructionArray = Array.isArray(instructions) ? instructions : Array.isArray(instruction_pages) ? instruction_pages : ["Default instruction page"];
     return {
       type: InstructionsPlugin,
-      pages: pages.map((page) => `
-        <div class="instructions-container"><p>${page}</p></div>
-    `),
+      pages: instructionArray.map((page) => `<div class="timeline-instructions"><p>${page}</p></div>`),
       show_clickable_nav: true,
       allow_keys: true,
       key_forward: "ArrowRight",
       key_backward: "ArrowLeft",
-      button_label_previous: "",
-      button_label_next: "",
+      button_label_previous: (_a = texts == null ? void 0 : texts.back_button) != null ? _a : texts.back_button,
+      button_label_next: (_b = texts == null ? void 0 : texts.next_button) != null ? _b : texts.next_button,
       data: {
-        task: "go-nogo",
+        task: "go-no-go",
         phase: "instructions"
       }
     };
@@ -3922,5 +3943,5 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
   return exports;
 
 })({});
-//# sourceMappingURL=index.global.js.map
+//# sourceMappingURL=out.js.map
 //# sourceMappingURL=index.global.js.map

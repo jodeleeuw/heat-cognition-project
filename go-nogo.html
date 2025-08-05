@@ -34,7 +34,7 @@
     };
 
     jatos.onLoad(() => {
-        const instructions = jsPsychTimelineGoNogoTimeline.createInstructions(jsPsych,{});
+        const instructions = jsPsychTimelineGoNogoTimeline.createInstructions(instruction_pages);
         const practice = jsPsychTimelineGoNogoTimeline.timelineUnits.practiceTrial(jsPsych, config);
         const task = jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, config);
 

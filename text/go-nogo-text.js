@@ -1,12 +1,13 @@
-export const instructions_pages = [
+const instruction_pages = [
     "In this task, you will see different stimuli appear on the screen.",
-    "When you see a 'go' stimulus, click the button as quickly as possible.\nWhen you see a 'no go' stimulus, do NOT click the button.",
+    "When you see a 'go' stimulus, click the button as quickly as possible.",
+    "When you see a 'no go' stimulus, do NOT click the button.",
     "Try to respond as quickly and accurately as possible.",
-    "Click 'Start' when you're ready to begin.",
+    "Continue to practice trials when you are ready.",
 ]
 
 
-export const englishText = {
+const englishText = {
   // Default stimuli
   defaultGoStimulus: 'Y',
   defaultNoGoStimulus: 'X',
