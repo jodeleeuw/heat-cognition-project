@@ -35,8 +35,9 @@
             } else {
                 trial_list = ['Go/No-Go', 'Spatial N-back',  'CART', 'Stroop'];
             }
-z
-            jsPsych.randomization.repeat(trial_list, 1); // Shuffle order of tasks
+
+            jsPsych.randomization.shuffle(trial_list); // Shuffle order of tasks
+            trial_list = trial_list.slice(0, 2); // Keep only first two elements
             trial_list.push('Survey'); // Always end with survey
             jatos.studySessionData.trial_list = trial_list;
         }
