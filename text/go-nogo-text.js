@@ -1,35 +1,21 @@
 const instruction_pages = [
-    "In this task, you will see different stimuli appear on the screen.",
-    "When you see a 'go' stimulus, click the button as quickly as possible.",
-    "When you see a 'no go' stimulus, do NOT click the button.",
-    "Try to respond as quickly and accurately as possible.",
-    "Continue to practice trials when you are ready.",
+  "In this task, you will see symbols appear one at a time on the screen.",
+  "When you see a 'go' stimulus, click the button as quickly as possible. <h2 style='font-size: 15vh;'>Y</h2>",
+  "But if you see the No-Go symbol, do nothing — don’t press anything. <h2 style='font-size: 15vh;'>X</h2>",
+  "Try to be fast, but also careful. Only press when it’s a Go.",
+  "Continue when ready to start the practice.",
 ]
-
 
 const englishText = {
   // Default stimuli
   defaultGoStimulus: 'Y',
   defaultNoGoStimulus: 'X',
   defaultButtonText: 'Click',
-  
-  // Instructions
-  instructionText: 'In this task, you will see different stimuli appear on the screen.',
-  goTrialInstructions: 'When you see a \'go\' stimulus, click the button as quickly as possible.',
-  noGoTrialInstructions: 'When you see a \'no go\' stimulus, do NOT click the button.',
-  generalInstructions: 'Try to respond as quickly and accurately as possible.',
-  startPrompt: 'Click "Start" when you\'re ready to begin.',
-  startButton: 'Start',
-  
-  // Multi-page Instructions
-  // Page 1: Overview
-  overviewText: 'In this task, you will see different stimuli appear on the screen.',
-  overviewPrompt: 'Click to start below.',
-  nextButton: 'Next',
+
   
   // Page 2: GO Practice
   goPageContent: 
-  `<b>GO Trials</b><br>When you see this stimulus, click the button as quickly as possible!<br>Try clicking the button below to practice:`,
+  `<b>GO Trials</b><br>When you see this stimulus, click the button as quickly as possible!`,
   gotItButton: 'Got it!',
   goFeedbackMessage: 'Perfect! You clicked quickly for the GO stimulus.',
   goodJobMessage: 'Good job!',
@@ -37,10 +23,9 @@ const englishText = {
   // Page 3: NO-GO Practice  
 
   noGoPageContent:
-  `<b>NO-GO Trials</b><br>When you see this stimulus, do NOT click the button!<br>Try waiting without clicking the button below:`,
-  rememberNoGo: 'Remember, you should NOT click for the NO-GO stimulus!',
-  noGoFeedbackMessage: 'Excellent! You correctly did NOT click for the NO-GO stimulus.',
-  readyToStart: 'Now you understand the task.',
+  `<b>NO-GO Trials</b><br>When you see this stimulus, do NOT click the button!`,
+  rememberNoGo: 'NO-GO stimulus, do NOT click!',
+  noGoFeedbackMessage: 'Good job!',
   
   // Practice completion page
 
@@ -54,14 +39,6 @@ const englishText = {
 
   continueButton: 'Continue',
   
-  // Results/Debrief
-  
-  taskComplete: 'Task Complete!',
-  overallAccuracy: 'Overall Accuracy:',
-  averageResponseTime: 'Average Response Time (GO trials):',
-  thankYouMessage: 'Thank you for completing the Go/No-Go task!',
-  finishButton: 'Finish',
-  
   // Alt text for images
   goStimulusAlt: 'GO stimulus',
   noGoStimulusAlt: 'NO-GO stimulus',
@@ -71,33 +48,6 @@ const englishText = {
   noGoColor: 'red',
 
   //button labels
-  back_button: 'Back',
-  next_button: 'Next',
-  
-  // Trial types (used in data)
-  trialTypes: {
-    instructions: 'instructions',
-    goNoGo: 'go-no-go',
-    blockInstructions: 'block-instructions',
-    debrief: 'debrief'
-  },
-  
-  // Stimulus types (used in data)
-  stimulusTypes: {
-    go: 'go',
-    noGo: 'no-go'
-  },
-  
-  // Timeline unit names
-  timelineUnits: {
-    instructionTrial: 'instructions',
-    goNoGoTrial: 'go-no-go-trial',
-    debriefTrial: 'debrief'
-  },
-  
-  // Data property names
-  dataProperties: {
-    accuracy: 'accuracy',
-    rt: 'rt'
-  }
+  back_button: '',
+  next_button: '',
 }

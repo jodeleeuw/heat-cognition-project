@@ -10,7 +10,8 @@
     <script src="./tasks/go-nogo-timeline.js"></script>
     <script src="text/go-nogo-text.js"></script>
     <link rel="stylesheet" href="jspsych/dist/jspsych.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- <link rel="stylesheet" href="css/go-nogo-styles.css"> -->
 
 </head>
 
@@ -34,9 +35,9 @@
     };
 
     jatos.onLoad(() => {
-        const instructions = jsPsychTimelineGoNogoTimeline.createInstructions(instruction_pages);
-        const practice = jsPsychTimelineGoNogoTimeline.timelineUnits.practiceTrial(jsPsych, config);
-        const task = jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, config);
+        const instructions = jsPsychTimelineGoNogoTimeline.createInstructions(instruction_pages, englishText);
+        const practice = jsPsychTimelineGoNogoTimeline.timelineUnits.practiceTrial(jsPsych, config, englishText);
+        const task = jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, config, englishText);
 
         jsPsych.run([instructions, ...practice, task]);
     });
