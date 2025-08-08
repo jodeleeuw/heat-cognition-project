@@ -3674,12 +3674,12 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
     function createStroopTrial(stimulus, isPractice, trialTimeout, numberOfRows, numberOfColumns, choiceOfColors) {
         const trial = {
             type: HtmlButtonResponsePlugin,
-            stimulus: `<div class="timeline-trial" style="color: ${stimulus.color};">${stimulus.word}</div>`,
+            stimulus: `<div class="timeline-trial" style="color: ${stimulus.color};"><h2>${stimulus.word}</h2></div>`,
             choices: choiceOfColors,
             button_layout: "grid",
             grid_rows: numberOfRows,
             grid_columns: numberOfColumns,
-            button_html: (choice) => `<div class="jspsych-btn timeline-html-btn">${choice}</div>`,
+            button_html: (choice) => `<div class="stroop-trial jspsych-btn timeline-html-btn">${choice}</div>`,
             margin_horizontal: "20px",
             margin_vertical: "20px",
             trial_duration: trialTimeout || DEFAULT_TRIAL_TIMEOUT,
@@ -3699,26 +3699,50 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         };
         return trial;
     }
+    // function createPracticeFeedback(jsPsych, selectedColors) {
+    //     const feedback = {
+    //         type: HtmlButtonResponsePlugin,
+    //         stimulus: () => {
+    //             const lastTrial = jsPsych.data.get().last(1).values()[0];
+    //             if (!lastTrial) {
+    //                 console.error("No trial data found");
+    //                 return '<div style="font-size: 24px; color: orange; text-align: center;"><p>No data available</p></div>';
+    //             }
+    //             const colorsToUse = selectedColors || ["RED", "GREEN", "BLUE", "YELLOW"];
+    //             const correctColorName = colorsToUse[lastTrial.correct_response];
+    //             console.log("correct_response index:", lastTrial.correct_response, "selectedColors:", selectedColors, "correctColorName:", correctColorName);
+    //             if (lastTrial.correct) {
+    //                 return '<div style="font-size: 70px; color: green; text-align: center;"><p>\u2713 CORRECT!</p></div>';
+    //             } else {
+    //                 return `<div style="font-size: 60px; color: red; text-align: center;"><p style="margin: 0 0 8px 0;">\u2717 INCORRECT</p><p style="margin: 0;">The correct answer was ${lastTrial.color.toUpperCase()}.</p></div>`;
+    //             }
+    //         },
+    //         choices: [practiceFeedback.continueButton],
+    //         button_html: (choice) => `<div class="practice-debrief-btn timeline-html-btn">${choice}</button>`,
+    //         trial_duration: 2e3
+    //     };
+    //     return feedback;
+    // }
     function createPracticeFeedback(jsPsych, selectedColors) {
         const feedback = {
             type: HtmlButtonResponsePlugin,
             stimulus: () => {
                 const lastTrial = jsPsych.data.get().last(1).values()[0];
-                if (!lastTrial) {
-                    console.error("No trial data found");
-                    return '<div style="font-size: 24px; color: orange; text-align: center;"><p>No data available</p></div>';
-                }
+                               if (!lastTrial) {
+                                 console.error("No trial data found");
+                                   return '<div style="color: orange; text-align: center;"><p>No data available</p></div>';
+                               }
                 const colorsToUse = selectedColors || ["RED", "GREEN", "BLUE", "YELLOW"];
                 const correctColorName = colorsToUse[lastTrial.correct_response];
                 console.log("correct_response index:", lastTrial.correct_response, "selectedColors:", selectedColors, "correctColorName:", correctColorName);
                 if (lastTrial.correct) {
-                    return '<div style="font-size: 70px; color: green; text-align: center;"><p>\u2713 CORRECT!</p></div>';
+                    return `<p style="color: green;">\u2713 ${practiceFeedback.debriefCorrect[0]}</p>`;
                 } else {
-                    return `<div style="font-size: 60px; color: red; text-align: center;"><p style="margin: 0 0 8px 0;">\u2717 INCORRECT</p><p style="margin: 0;">The correct answer was ${lastTrial.color.toUpperCase()}.</p></div>`;
+                    return `<p style="color: red;">\u2717 INCORRECT<br>The correct answer was ${lastTrial.color.toUpperCase()}.</p>`;
                 }
             },
-            choices: ["Continue"],
-            button_html: (choice) => `<div class="jspsych-btn practice-debrief-btn timeline-html-btn">${choice}</button>`,
+            choices: [practiceFeedback.continueButton],
+            button_html: (choice) => `<div class="practice-debrief-btn jspsych-btn">${choice}</button>`,
             trial_duration: 2e3
         };
         return feedback;
@@ -3736,7 +3760,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
     //             </div>
     //         `,
     //         choices: ["Start"],
-    //         button_html: (choice) => `<div class="jspsych-btn practice-debrief-btn timeline-html-btn">${choice}</button>`,
+    //         button_html: (choice) => `<div class="practice-debrief-btn timeline-html-btn">${choice}</button>`,
     //         post_trial_gap: 500,
     //         on_finish: () => {
     //             state.practiceCompleted = true;
@@ -3757,8 +3781,8 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
             }).join('')}
             </div>
             `,
-            choices: ["Start"],
-            button_html: (choice) => `<div class="jspsych-btn practice-debrief-btn timeline-html-btn">${choice}</button>`,
+            choices: [practiceDebrief.continueButton],
+            button_html: (choice) => `<div class="practice-debrief-btn jspsych-btn">${choice}</button>`,
             post_trial_gap: 500,
             on_finish: () => {
                 state.practiceCompleted = true;
@@ -3816,6 +3840,38 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         }
         return timeline;
     }
+
+    const createBlockBreak = (blockNum, numBlocks) => {
+        return {
+            type: HtmlButtonResponsePlugin,
+            stimulus: `
+                <div class="timeline-debrief">
+                    ${blockCompletion.debrief.map(text => {
+                        // If it's already an h2, return as is
+                        if (text.includes('<h2>')) return text;
+                        // Otherwise wrap in p tags
+                        return `<p>${text}</p>`;
+                    }).join('')}
+                </div>
+            `,
+            choices: [blockCompletion.continueButton],
+            button_html: (choice) => `<div class="practice-debrief-btn jspsych-btn ">${choice}</div>`,
+            data: { trial_type: "block-break", block: blockNum },
+            on_load: () => {
+                setTimeout(() => {
+                    var _a, _b;
+                    const button = document.querySelector(".jspsych-btn");
+                    if (button && !((_a = button.parentElement) == null ? void 0 : _a.classList.contains("timeline-html-btn"))) {
+                        const wrapper = document.createElement("div");
+                        wrapper.className = "timeline-html-btn";
+                        (_b = button.parentNode) == null ? void 0 : _b.insertBefore(wrapper, button);
+                        wrapper.appendChild(button);
+                    }
+                }, 50);
+            }
+        };
+    };
+
     function createInstructions(instruction_pages_data, choice_of_colors = ['red', 'blue', 'green', 'yellow']) {
         // Handle both array and object with pages property
         const pages = Array.isArray(instruction_pages_data) ? instruction_pages_data : instruction_pages_data.pages;
@@ -3846,6 +3902,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
         createStroopTrial,
         createPracticeFeedback,
         createPracticeDebrief,
+        createBlockBreak,
         createInstructions
         //createResults
     };
@@ -3857,6 +3914,7 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
 
     exports.createTimeline = createTimeline;
     exports.createInstructions = createInstructions;
+    exports.createBlockBreak = createBlockBreak;
     exports.timelineComponents = timelineComponents;
     exports.utils = utils;
 

@@ -11,10 +11,27 @@ const InstructionsText = {
 
 const practiceDebrief = {
     debrief: [
-        `<h2>Practice Complete!</h2>`,
-        `Now you'll begin the main experiment.`,
+        `<strong>Practice Complete!</strong>`,
+        `Remember, respond to the ink color, not the word. Be as fast and accurate as possible.`,
+    ],
+    continueButton: 'Continue',
+};
+
+const practiceFeedback = {
+    debriefCorrect: [
+        `CORRECT!`
+    ],
+    continueButton: 'Continue',
+}
+
+const blockCompletion = {
+    debrief: [
+        `<strong>Block Complete!</strong>`,
+        `You have completed a block of trials.`,
+        `You can take a break before continuing to the next block.`,
         `<strong>Remember:</strong>`,
         `Respond to the ink color, not the word`,
         `Be as fast and accurate as possible`
-    ]    
-};
+    ],
+    continueButton: 'Continue',
+}
