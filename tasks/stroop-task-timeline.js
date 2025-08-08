@@ -3855,19 +3855,13 @@ var jsPsychTimelineStroopTimeline = (function (exports) {
                 </div>
             `,
             choices: [blockCompletion.continueButton],
-            button_html: (choice) => `<div class="practice-debrief-btn jspsych-btn ">${choice}</div>`,
+            button_html: (choice) => `<button class="practice-debrief-btn jspsych-btn ">${choice}</button>`,
             data: { trial_type: "block-break", block: blockNum },
             on_load: () => {
-                setTimeout(() => {
-                    var _a, _b;
-                    const button = document.querySelector(".jspsych-btn");
-                    if (button && !((_a = button.parentElement) == null ? void 0 : _a.classList.contains("timeline-html-btn"))) {
-                        const wrapper = document.createElement("div");
-                        wrapper.className = "timeline-html-btn";
-                        (_b = button.parentNode) == null ? void 0 : _b.insertBefore(wrapper, button);
-                        wrapper.appendChild(button);
+                    const wrapper = document.querySelector("#jspsych-html-button-response-btngroup button");
+                    if (wrapper) {
+                        wrapper.classList.add("timeline-html-btn");
                     }
-                }, 50);
             }
         };
     };
