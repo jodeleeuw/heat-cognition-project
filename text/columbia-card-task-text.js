@@ -6,7 +6,6 @@ const ColumbiaCardTaskText = {
     // Instructions pages
     instructionPages: [
         `<div class="timeline-instructions">
-            <h1>Welcome to the Columbia Card Task</h1>
             <p>You will be playing multiple rounds of a card selection game.</p>
         </div>`,
         `<div class="timeline-instructions">

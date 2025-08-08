@@ -40,20 +40,6 @@ p { /* From: spatial-nback-styles.css */
    TIMELINE CONTAINERS
 ======================================== */
 
-/* Main trial container - stimulus display area */
-.timeline-trial { /* From: stroop-styles.css + columbia-card-styles.css */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    font-weight: bold;
-    margin: clamp(5px, 3vh, 80px) 0;
-    p {
-        font-size: clamp(15px, 16vh, 300px);
-    }
-}
-
 /* Instructions container */
 .timeline-instructions { /* From: spatial-nback-styles.css exactly */
     max-width: 90vw; /* Limit width for better readability */
@@ -64,12 +50,64 @@ p { /* From: spatial-nback-styles.css */
 }
 
 /* Task instructions in trial container, text on top. Usually there is none. */
-#nback-instructions { /* From: spatial-nback-styles.css exactly */
-    p {
-        font-size: clamp(15px, 4.5vmin, 30px);
-        margin: 0vmin; /* smaller than default p */
-    }
+ p#nback-instructions, p.task-prompt { /* From: spatial-nback-styles.css exactly */
+    font-size: clamp(15px, 4.5vmin, 30px);
+    margin: 0vmin; /* smaller than default p */
 }
+
+/* Main trial container - stimulus display area - works across tasks */
+.timeline-trial { /* From: stroop-styles.css + columbia-card-styles.css */
+    display: flex;
+    flex-direction: row; /* reconsider columning dis later */
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    font-weight: bold;
+    margin: clamp(5px, 3vh, 80px) 0;
+    /* p {
+        font-size: clamp(15px, 16vh, 300px);
+    } */
+}
+
+/* CART TASK STYLES */
+/* override timeline-trial's display: flex; */
+.card-grid {
+    display: grid;
+}
+
+.card {
+    /* width: 100%; */
+    /* min-height: 100px; */
+    width: min(19vw, 120px); /* Never larger than 120px */
+    aspect-ratio: 3 / 4;
+    margin: 0.75vmin;
+    border: 3px solid #2c3e50;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(24px, 6vw, 40px);
+    background: linear-gradient(45deg, #4169E1, #6495ED);
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    /* box-sizing: border-box; */
+    
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* .stop-button {
+    background-color: #EF4444 !important;
+    border-color: #DC2626 !important;
+    padding: clamp(20px, 6vw, 35px) clamp(40px, 8vw, 60px) !important;
+    font-size: clamp(20px, 5vw, 30px) !important;
+    border-radius: 50px !important;
+    margin: 20px !important;
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4) !important;
+    min-width: 200px !important;
+} */
 
 /* Debrief container - now matching nback-instructions style */     
 /* .timeline-debrief {
@@ -83,7 +121,7 @@ p { /* From: spatial-nback-styles.css */
 
 /* Fixed button container at bottom of screen */
 .jspsych-btn-group-grid, .timeline-btn-container { /* From: stroop-styles.css + columbia-card-styles.css */
-    position: absolute;
+    position: fixed;
     bottom: 2.5vh;
     left: 50% !important;
     transform: translateX(-50%);
@@ -113,7 +151,7 @@ p { /* From: spatial-nback-styles.css */
     font-size: clamp(20px, 4vmin, 60px);
     flex: 1 30vw;
     padding: clamp(15px, 6vmin, 35px) clamp(15px, 4vmin, 40px);
-    max-height: 10vh;
+    max-height: 15vh; /* was 10vh if padding is too much */
     color: hsl(0, 0%, 100%);
     background-color: rgb(77, 77, 77) !important;
     font-weight: 600;
