@@ -26,7 +26,6 @@
 
     // Create instructions
     const instructions = jsPsychTimelineColumbiaCardTask.createInstructions(ColumbiaCardTaskText);
-    mainTimeline.push(instructions);
 
     // Create main timeline with custom parameters
     const cardTaskTimeline = jsPsychTimelineColumbiaCardTask.createTimeline(jsPsych, {
@@ -35,12 +34,12 @@
         rounds: [
             { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
             { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
-            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
-            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
-            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
-            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
-            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
-            { loss_cards: 1, gain_amount: 10, loss_amount: 250 }
+            // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+            // { loss_cards: 1, gain_amount: 10, loss_amount: 250 }
         ],
         show_instructions: false,  // Already added separately
         show_results: true,
@@ -48,8 +47,8 @@
         text: ColumbiaCardTaskText  // Pass the text object
     });
 
-    // Add the timeline trials (spread operator to add individual trials)
-    mainTimeline.push(...cardTaskTimeline);
+    mainTimeline.push(instructions);
+    mainTimeline.push(cardTaskTimeline);
 
     jatos.onLoad(() => {
         jsPsych.run(mainTimeline);
