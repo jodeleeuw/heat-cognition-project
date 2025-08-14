@@ -262,7 +262,21 @@ p { /* From: spatial-nback-styles.css */
 /* ========================================
    RESPONSIVE DESIGN
 ======================================== */
+@media (max-height: 600px) { /* From: spatial-nback-styles.css exactly */
+    .jspsych-btn {
+    font-size: clamp(10px, 4vmin, 50px);
+        padding: clamp(5px, 4vmin, 35px) clamp(15px, 4vmin, 40px);
+    }
 
+    .jspsych-instructions-nav {
+        bottom: 5vh;
+        gap: 20vw;
+    }
+
+    #nback-instructions p {
+        font-size: clamp(10px, 2.5vh, 25px);
+    }
+}
 /* Specific styles for tablets/iPads */
 @media (min-width: 481px) and (max-width: 1024px) { /* From: spatial-nback-styles.css exactly */
     /* Smaller font size for instructions */
