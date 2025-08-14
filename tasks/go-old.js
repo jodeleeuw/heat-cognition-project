@@ -3529,7 +3529,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
               </button>
             </div>
 
-          <div id="feedback-container" class="go-nogo-feedback" style="visibility: hidden;"><span>hi</span></div>
+          <div id="feedback-container" class="go-nogo-feedback" style="visibility: hidden;"><span>Good job!</span></div>
 
     `,
       choices: [],
@@ -3548,6 +3548,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
           if (feedbackEl) {
             feedbackEl.innerHTML = message;
             feedbackEl.style.color = isCorrect ? "#28a745" : "#dc3545";
+            feedbackEl.style.visibility = "visible";
             setTimeout(() => {
               if (practiceCompleted) {
                 jsPsych.finishTrial();
@@ -3583,7 +3584,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
               </button>
             </div>
 
-          <div id="feedback-container" class="go-nogo-feedback" style="visibility: hidden;"><span>hi</span></div>
+          <div id="feedback-container" class="go-nogo-feedback" style="visibility: hidden;"><span>Good job!</span></div>
     `,
       choices: [],
       trial_duration: null,

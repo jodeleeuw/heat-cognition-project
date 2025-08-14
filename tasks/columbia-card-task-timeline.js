@@ -48,9 +48,9 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
         return {
             type: jsPsychHtmlKeyboardResponse,  // Use keyboard response like the card game
             stimulus: () => {
-                return `<div class="timeline-trial">
+                return `
                     <div class="round-info">
-                        <h2>${textObj.roundInfo.roundHeader(round_num, totalRounds)}</h2>
+                        <p><strong>${textObj.roundInfo.roundHeader(round_num, totalRounds)}</strong></p>
                         <p>${textObj.roundInfo.lossCards} <b style="color:#EF4444">${round_config.loss_cards}</b></p>
                         <p>${textObj.roundInfo.lossPenalty} <b style="color:#EF4444">-${round_config.loss_amount}</b></p>
                         <p>${textObj.roundInfo.gainPerCard} <b style="color:#22C55E">+${round_config.gain_amount}</b></p>
@@ -58,8 +58,7 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
                     </div>
                     <div class="timeline-btn-container">
                         <button class="jspsych-btn timeline-html-btn" id="start-btn">${textObj.buttons.start}</button>
-                    </div>
-                </div>`;
+                    </div>`;
             },
             choices: 'NO_KEYS',
             on_load: function () {
@@ -220,13 +219,12 @@ var jsPsychTimelineColumbiaCardTask = (function (exports) {
                     final_score = scores[scores.length - 1];
                 }
 
-                return `<div class="timeline-trial">
+                return `
                     <div class="round-info">
-                        <h2>${textObj.results.header}</h2>
+                        <strong>${textObj.results.header}</strong>
                         <p>${textObj.results.finalScore} <span class="score-display">${final_score}</span></p>
                         <p>${textObj.results.avgCardsSelected} ${avg_cards.toFixed(1)}</p>
-                    </div>
-                </div>`;
+                    </div>`;
             },
             choices: [textObj.buttons.continue],
             button_html: (choice) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`

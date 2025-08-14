@@ -57,6 +57,7 @@ p { /* From: spatial-nback-styles.css */
 
 /* Main trial container - stimulus display area - works across tasks */
 .timeline-trial { /* From: stroop-styles.css + columbia-card-styles.css */
+    width: 100vw;
     display: flex;
     flex-direction: row; /* reconsider columning dis later */
     flex-wrap: wrap;
@@ -229,7 +230,6 @@ p { /* From: spatial-nback-styles.css */
 
 /* Instruction navigation button styles */
 .jspsych-instructions-nav .jspsych-btn { /* From: spatial-nback-styles.css exactly */
-    width: 25vmin;
     height: 25vmin;
     border: 3px solid #ccc;
     border-radius: 50%;
@@ -237,8 +237,9 @@ p { /* From: spatial-nback-styles.css */
     cursor: pointer;
     min-height: 100px;
     min-width: 100px;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1;
     font-weight: 600;
+    max-height: 16vmin;
 
     /* Disable double-click zoom */
     touch-action: manipulation !important;

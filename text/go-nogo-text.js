@@ -7,9 +7,9 @@ const instruction_pages = [
 ]
 
 const englishText = {
-  // Default stimuli
-  defaultGoStimulus: 'Y',
-  defaultNoGoStimulus: 'X',
+  // Default stimuli, probably overridden by config
+  defaultGoStimulus: '<h1>Y</h1>',
+  defaultNoGoStimulus: '<h1>X</h1>',
   defaultButtonText: 'Click',
 
   
