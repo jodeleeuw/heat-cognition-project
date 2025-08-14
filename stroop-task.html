@@ -87,8 +87,8 @@
     mainTimeline.push(blockBreak);
     mainTimeline.push(block2);
 
-    testTimeline = [instructions1, createTimeline({congruent_main_trials: 2, incongruent_main_trials: 2}),
-    blockBreak, createTimeline({congruent_main_trials: 1, incongruent_main_trials: 1})];
+    testTimeline = [instructions1, jsPsychTimelineStroopTimeline.createTimeline({congruent_main_trials: 2, incongruent_main_trials: 2}),
+    blockBreak, jsPsychTimelineStroopTimeline.createTimeline({congruent_main_trials: 1, incongruent_main_trials: 1})];
    
     jatos.onLoad(() => {
             jsPsych.run(testTimeline);

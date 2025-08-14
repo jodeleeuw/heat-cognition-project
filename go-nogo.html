@@ -43,14 +43,15 @@
       // instructions_array: instructions = instruction_pages,
       text_object: englishText,
     };
-
-
+    const instructions = jsPsychTimelineGoNogoTimeline.createInstructions(instruction_pages, englishText);
+    const practice = jsPsychTimelineGoNogoTimeline.timelineUnits.createPractice(config);
+    const task = jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, config);
+    const mainTimeline = [instructions, practice, task];
+    const testTimeline = [instructions, jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, {num_blocks: 2, num_trials: 3, go_stimulus: "<h1>Y</h1>", nogo_stimulus: "<h1>X</h1>",})];
+    
     jatos.onLoad(() => {
-        const instructions = jsPsychTimelineGoNogoTimeline.createInstructions(instruction_pages, englishText);
-        const practice = jsPsychTimelineGoNogoTimeline.timelineUnits.createPractice(config);
-        const task = jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, config);
 
-        jsPsych.run([instructions, ...practice, task]);
+        jsPsych.run(testTimeline);
     });
 
 </script>

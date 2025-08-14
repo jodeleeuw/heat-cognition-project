@@ -37,8 +37,8 @@
             }
 
             trial_list = jsPsych.randomization.shuffle(trial_list); // Shuffle order of tasks
-            trial_list = trial_list.slice(0, 2); // Keep only first two elements
-            trial_list.push('Survey'); // Always end with survey
+            // trial_list = trial_list.slice(0, 2); // Keep only first two elements
+            // trial_list.push('Survey'); // Always end with survey
             jatos.studySessionData.trial_list = trial_list;
         }
     };

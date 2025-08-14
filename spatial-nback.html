@@ -22,9 +22,9 @@
     });
   const mainTimeline = [];
 
-  const instructions1 = createInstructions(instruction_pages, trial_text);
+  const instructions1 = jsPsychTimelineSpatialNback.createInstructions(instruction_pages, trial_text);
 
-  const practice1 = createPracticeTimeline({
+  const practice1 = jsPsychTimelineSpatialNback.createPracticeTimeline({
     n_back: 1,
     total_trials: 8,
     target_percentage: 50, // Percentage of trials that are targets
@@ -41,7 +41,7 @@
     button_html: (choice, choice_index) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`,
   };
 
-  const spatial1Back = createTimeline({
+  const spatial1Back = jsPsychTimelineSpatialNback.createTimeline({
     rows: 3,
     cols: 3,
     n_back: 1,
@@ -58,13 +58,13 @@
   mainTimeline.push(confirm1);
   mainTimeline.push(spatial1Back);
 
-  const instructions2 = createInstructions([
+  const instructions2 = jsPsychTimelineSpatialNback.createInstructions([
     "Now we will play the 2-back game.",
     "Remember positions from TWO trials ago.",
     "Let's start with a short practice round for the 2-back task.",
   ]);
 
-  const practice2 = createPracticeTimeline({
+  const practice2 = jsPsychTimelineSpatialNback.createPracticeTimeline({
     n_back: 2,
     total_trials: 8,
     target_percentage: 50, // Percentage of trials that are targets
@@ -81,7 +81,7 @@
     button_html: (choice, choice_index) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`,
   };
 
-  const spatial2Back = createTimeline({
+  const spatial2Back = jsPsychTimelineSpatialNback.createTimeline({
     rows: 3,
     cols: 3,
     n_back: 2,
@@ -100,7 +100,7 @@
   mainTimeline.push(confirm2);
   mainTimeline.push(spatial2Back);
 
-  const instructions3 = createInstructions([
+  const instructions3 = jsPsychTimelineSpatialNback.createInstructions([
     "Now we will play the 3-back game.",
     "Remember positions from THREE trials ago.",
     "This is the most challenging part of the task.",
@@ -110,7 +110,7 @@
     "Let's start with a short practice round for the 3-back task.",
   ]);
 
-  const practice3 = createPracticeTimeline({
+  const practice3 = jsPsychTimelineSpatialNback.createPracticeTimeline({
     n_back: 3,
     total_trials: 8,
     target_percentage: 50, // Percentage of trials that are targets
@@ -127,7 +127,7 @@
     button_html: (choice, choice_index) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`,
   };
 
-  const spatial3Back = createTimeline({
+  const spatial3Back = jsPsychTimelineSpatialNback.createTimeline({
     rows: 3,
     cols: 3,
     n_back: 3,
@@ -164,8 +164,11 @@
   mainTimeline.push(spatial3Back);
   mainTimeline.push(if3back);
 
-  testTimeline = [instructions1, createPracticeTimeline(), confirm1, createTimeline({total_trials: 5}),
-    instructions2, createPracticeTimeline({n_back: 2}), confirm2, createTimeline({total_trials: 8, n_back: 2}),
+  testTimeline = [
+    instructions1, jsPsychTimelineSpatialNback.createPracticeTimeline(), confirm1,
+    jsPsychTimelineSpatialNback.createTimeline({total_trials: 5}),
+    instructions2, jsPsychTimelineSpatialNback.createPracticeTimeline({n_back: 2}),
+    confirm2, jsPsychTimelineSpatialNback.createTimeline({total_trials: 8, n_back: 2}),
   ];
 
   jatos.onLoad(() => {
