@@ -1,4 +1,4 @@
-var jsPsychTimelineGoNogoTimeline = (function (exports) {
+var jsPsychTimelineColumbiaCard = (function (exports) {
   'use strict';
 
   var __create = Object.create;
@@ -2870,11 +2870,397 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
     window.AudioContext = webkitAudioContext;
   }
 
-  // ../../node_modules/@jspsych/plugin-html-button-response/dist/index.js
-  var version = "2.1.0";
+  // ../../node_modules/@jspsych-contrib/plugin-columbia-card-task/dist/index.js
+  var version = "1.0.0";
   var info = {
-    name: "html-button-response",
+    name: "plugin-columbia-card-task",
     version,
+    parameters: {
+      /** Number of cards to display in the grid */
+      num_cards: {
+        type: ParameterType.INT,
+        default: 32
+      },
+      /** Number of loss cards in the deck */
+      num_loss_cards: {
+        type: ParameterType.INT,
+        default: 3
+      },
+      /** Number of columns in the card grid */
+      grid_columns: {
+        type: ParameterType.INT,
+        default: 8
+      },
+      /** Card width in pixels */
+      card_width: {
+        type: ParameterType.INT,
+        default: 60
+      },
+      /** Card height in pixels */
+      card_height: {
+        type: ParameterType.INT,
+        default: 80
+      },
+      /** Duration of card flip animation in milliseconds */
+      flip_duration: {
+        type: ParameterType.INT,
+        default: 300
+      },
+      /** Points lost when selecting a loss card */
+      loss_value: {
+        type: ParameterType.INT,
+        default: -250
+      },
+      /** Points gained when selecting a gain card */
+      gain_value: {
+        type: ParameterType.INT,
+        default: 10
+      },
+      /** Text for the main instructions */
+      instructions: {
+        type: ParameterType.STRING,
+        default: "Tap the cards to flip them over. Gain cards give you points, loss cards lose points!"
+      },
+      /** Text label for gain cards */
+      gain_cards_label: {
+        type: ParameterType.STRING,
+        default: "Gain Cards"
+      },
+      /** Text label for loss cards */
+      loss_cards_label: {
+        type: ParameterType.STRING,
+        default: "Loss Cards"
+      },
+      /** Text label for the score display */
+      score_label: {
+        type: ParameterType.STRING,
+        default: "Points:"
+      },
+      /** Text for the continue button */
+      continue_button_text: {
+        type: ParameterType.STRING,
+        default: "Stop"
+      },
+      /** Symbol displayed on card fronts */
+      card_front_symbol: {
+        type: ParameterType.STRING,
+        default: "?"
+      },
+      /** Starting score for the trial */
+      starting_score: {
+        type: ParameterType.INT,
+        default: 0
+      }
+    },
+    data: {
+      /** Array of card indices that were clicked */
+      cards_clicked: {
+        type: ParameterType.OBJECT
+      },
+      /** Order in which cards were clicked */
+      click_order: {
+        type: ParameterType.OBJECT
+      },
+      /** Total number of cards clicked */
+      total_clicks: {
+        type: ParameterType.INT
+      },
+      /** Response time for each card click */
+      response_times: {
+        type: ParameterType.OBJECT
+      },
+      /** Array of values for each card (gain/loss values) */
+      card_values: {
+        type: ParameterType.OBJECT
+      },
+      /** Total points earned/lost during the trial */
+      total_points: {
+        type: ParameterType.INT
+      },
+      /** Array of points gained/lost for each clicked card */
+      points_per_click: {
+        type: ParameterType.OBJECT
+      }
+    },
+    // When you run build on your plugin, citations will be generated here based on the information in the CITATION.cff file.
+    citations: "__CITATIONS__"
+  };
+  var _ColumbiaCardTaskPlugin = class {
+    constructor(jsPsych) {
+      this.jsPsych = jsPsych;
+    }
+    trial(display_element, trial) {
+      const start_time = performance.now();
+      const cards_clicked = [];
+      const click_order = [];
+      const response_times = [];
+      const points_per_click = [];
+      let click_count = 0;
+      let total_points = trial.starting_score;
+      let card_values = new Array(trial.num_cards);
+      for (let i = 0; i < trial.num_cards; i++) {
+        if (i < trial.num_loss_cards) {
+          card_values[i] = trial.loss_value;
+        } else {
+          card_values[i] = trial.gain_value;
+        }
+      }
+      card_values = this.jsPsych.randomization.shuffle(card_values);
+      const css = `
+      <style>
+        .cct-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 20px;
+          user-select: none;
+        }
+        .cct-top-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          max-width: 800px;
+          margin-bottom: 20px;
+          gap: 20px;
+        }
+        .cct-info-panel {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 30px;
+          padding: 15px;
+          background-color: #f8f9fa;
+          border-radius: 10px;
+          border: 2px solid #dee2e6;
+          flex-wrap: wrap;
+        }
+        .cct-info-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 14px;
+          font-weight: bold;
+        }
+        .cct-mini-card {
+          width: 30px;
+          height: 40px;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 10px;
+          font-weight: bold;
+          color: white;
+          border: 1px solid #333;
+        }
+        .cct-mini-card.gain {
+          background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+        }
+        .cct-mini-card.loss {
+          background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+        }
+        .cct-score {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+          font-weight: bold;
+          padding: 15px;
+          border-radius: 10px;
+          background-color: #f0f0f0;
+          border: 2px solid #dee2e6;
+          height: 76px;
+          box-sizing: border-box;
+        }
+        .cct-score span {
+          margin-left: 10px;
+        }
+        .cct-instructions {
+          text-align: center;
+          margin-bottom: 20px;
+          font-size: 16px;
+        }
+        .cct-grid {
+          display: grid;
+          grid-template-columns: repeat(${trial.grid_columns}, 1fr);
+          gap: 8px;
+          width: 100%;
+          max-width: 800px;
+          margin-bottom: 20px;
+        }
+        .cct-card {
+          width: ${trial.card_width}px;
+          height: ${trial.card_height}px;
+          perspective: 1000px;
+          cursor: pointer;
+          touch-action: manipulation;
+          transform-origin: center center;
+        }
+        .cct-card-inner {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          transition: transform ${trial.flip_duration}ms;
+          transform-style: preserve-3d;
+          transform-origin: center center;
+        }
+        .cct-card.flipped .cct-card-inner {
+          transform: rotateY(180deg);
+        }
+        .cct-card-face {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          backface-visibility: hidden;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          border: 2px solid #333;
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+          font-size: 14px;
+        }
+        .cct-card-front {
+          background: linear-gradient(135deg, #686868ff 0%, #1e1e1eff 100%);
+          color: white;
+        }
+        .cct-card-back {
+          color: white;
+          transform: rotateY(180deg);
+        }
+        .cct-card-back.gain {
+          background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+        }
+        .cct-card-back.loss {
+          background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+        }
+        
+        @media (max-width: 768px) {
+          .cct-top-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 15px;
+          }
+          .cct-info-panel {
+            gap: 15px;
+            padding: 10px;
+          }
+          .cct-info-item {
+            font-size: 12px;
+          }
+          .cct-mini-card {
+            width: 25px;
+            height: 32px;
+            font-size: 8px;
+          }
+          .cct-score {
+            text-align: center;
+            padding: 10px;
+            font-size: 16px;
+          }
+          .cct-card {
+            width: ${trial.card_width}px;
+            height: ${trial.card_height}px;
+          }
+          .cct-grid {
+            gap: 4px;
+            padding: 0 10px;
+          }
+          .cct-card-face {
+            font-size: 12px;
+          }
+        }
+      </style>
+    `;
+      let html = css;
+      html += '<div class="cct-container">';
+      html += '<div class="cct-top-row">';
+      html += `
+      <div class="cct-info-panel">
+        <div class="cct-info-item">
+          <div class="cct-mini-card gain">+${trial.gain_value}</div>
+          <span>${trial.num_cards - trial.num_loss_cards} ${trial.gain_cards_label}</span>
+        </div>
+        <div class="cct-info-item">
+          <div class="cct-mini-card loss">${trial.loss_value}</div>
+          <span>${trial.num_loss_cards} ${trial.loss_cards_label}</span>
+        </div>
+      </div>
+    `;
+      html += `<div class="cct-score">${trial.score_label + " "} <span id="score-display">${trial.starting_score}</span></div>`;
+      html += "</div>";
+      html += `<div class="cct-instructions">${trial.instructions}</div>`;
+      html += '<div class="cct-grid">';
+      for (let i = 0; i < trial.num_cards; i++) {
+        const is_loss_card = card_values[i] === trial.loss_value;
+        const card_class = is_loss_card ? "loss" : "gain";
+        const display_value = is_loss_card ? trial.loss_value : `+${trial.gain_value}`;
+        html += `
+        <div class="cct-card" data-card-index="${i}">
+          <div class="cct-card-inner">
+            <div class="cct-card-face cct-card-front">${trial.card_front_symbol}</div>
+            <div class="cct-card-face cct-card-back ${card_class}">${display_value}</div>
+          </div>
+        </div>
+      `;
+      }
+      html += "</div>";
+      html += `<button class="jspsych-btn">${trial.continue_button_text}</button>`;
+      html += "</div>";
+      display_element.innerHTML = html;
+      const score_display = display_element.querySelector("#score-display");
+      const card_elements = display_element.querySelectorAll(".cct-card");
+      card_elements.forEach((card_element) => {
+        const handleCardClick = (e) => {
+          e.preventDefault();
+          const card_index = parseInt(card_element.dataset.cardIndex);
+          if (cards_clicked.includes(card_index)) {
+            return;
+          }
+          const click_time = performance.now();
+          const card_value = card_values[card_index];
+          cards_clicked.push(card_index);
+          click_order.push(click_count);
+          response_times.push(click_time - start_time);
+          points_per_click.push(card_value);
+          total_points += card_value;
+          click_count++;
+          score_display.textContent = total_points.toString();
+          card_element.classList.add("flipped");
+          card_element.style.pointerEvents = "none";
+        };
+        card_element.addEventListener("click", handleCardClick);
+        card_element.addEventListener("touchend", handleCardClick);
+      });
+      const continue_button = display_element.querySelector(".jspsych-btn");
+      continue_button.addEventListener("click", () => {
+        const trial_data = {
+          cards_clicked,
+          click_order,
+          total_clicks: cards_clicked.length,
+          response_times,
+          card_values,
+          total_points,
+          points_per_click
+        };
+        this.jsPsych.finishTrial(trial_data);
+      });
+    }
+  };
+  var ColumbiaCardTaskPlugin = _ColumbiaCardTaskPlugin;
+  (() => {
+    _ColumbiaCardTaskPlugin.info = info;
+  })();
+
+  // ../../node_modules/@jspsych/plugin-html-button-response/dist/index.js
+  var version2 = "2.1.0";
+  var info2 = {
+    name: "html-button-response",
+    version: version2,
     parameters: {
       /** The HTML content to be displayed. */
       stimulus: {
@@ -3085,14 +3471,14 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
   };
   var HtmlButtonResponsePlugin = _HtmlButtonResponsePlugin;
   (() => {
-    _HtmlButtonResponsePlugin.info = info;
+    _HtmlButtonResponsePlugin.info = info2;
   })();
 
   // ../../node_modules/@jspsych/plugin-instructions/dist/index.js
-  var version2 = "2.1.0";
-  var info2 = {
+  var version3 = "2.1.0";
+  var info3 = {
     name: "instructions",
-    version: version2,
+    version: version3,
     parameters: {
       /** Each element of the array is the content for a single page. Each page should be an HTML-formatted string.  */
       pages: {
@@ -3422,90 +3808,84 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
   };
   var InstructionsPlugin = _InstructionsPlugin;
   (() => {
-    _InstructionsPlugin.info = info2;
+    _InstructionsPlugin.info = info3;
   })();
 
   // src/text.ts
   var instruction_pages = [
-    "In this task, you will see symbols appear one at a time on the screen.",
-    "When you see a 'go' stimulus, click the button as quickly as possible. <h2>Y</h2>",
-    "But if you see the No-Go symbol, do nothing \u2014 don\u2019t press anything. <h2>X</h2>",
-    "Try to be fast, but also careful. Only press when it\u2019s a Go.",
-    "Continue when ready to start the practice."
+    "In this task, you will play a card game to earn points.",
+    "You will see a grid of face-down cards. Each card is either a gain card (gives you points) or a loss card (takes away points).",
+    "Click on cards to flip them over and reveal their value. You can click as many or as few cards as you want.",
+    "Gain cards will give you points, while loss cards will subtract points from your total.",
+    "Your goal is to earn as many points as possible, but be careful - you can also lose points!",
+    "You can stop at any time by clicking the 'Stop' button.",
+    "Let's start with some practice rounds to get familiar with the task."
   ];
   var trial_text = {
-    // Default stimuli
-    defaultGoStimulus: "Y",
-    defaultNoGoStimulus: "X",
-    defaultButtonText: "Click",
-    // Instructions
-    instructionText: "In this task, you will see different stimuli appear on the screen.",
-    goTrialInstructions: "When you see a 'go' stimulus, click the button as quickly as possible.",
-    noGoTrialInstructions: "When you see a 'no go' stimulus, do NOT click the button.",
-    generalInstructions: "Try to respond as quickly and accurately as possible.",
+    // Default card task configuration text
+    defaultInstructions: "Tap the cards to flip them over. Gain cards give you points, loss cards lose points!",
+    defaultGainCardsLabel: "Gain Cards",
+    defaultLossCardsLabel: "Loss Cards",
+    defaultScoreLabel: "Points:",
+    defaultContinueButtonText: "Stop",
+    defaultCardFrontSymbol: "?",
+    // Instructions text
+    instructionText: "In this card task, you will try to earn as many points as possible.",
+    cardGameInstructions: "Click on cards to flip them over and see their value.",
+    gainCardExplanation: "Green cards give you points when flipped.",
+    lossCardExplanation: "Red cards subtract points when flipped.",
+    generalInstructions: "Try to earn as many points as possible, but be strategic about which cards you flip.",
+    riskWarning: "Remember: you can stop at any time to keep your current points.",
     startPrompt: `Click "Start" when you're ready to begin.`,
     startButton: "Start",
     // Multi-page Instructions
-    // Page 1: Overview
-    overviewText: "In this task, you will see different stimuli appear on the screen.",
-    overviewPrompt: "Click to start below.",
+    overviewText: "Welcome to the Columbia Card Task.",
+    overviewPrompt: "Click to learn how to play.",
     nextButton: "Next",
-    // Page 2: GO Practice
-    goPageContent: `<b>GO Trials</b><br>When you see this stimulus, click the button as quickly as possible!<br>Try clicking the button below to practice:`,
-    gotItButton: "Got it!",
-    goFeedbackMessage: "Perfect! You clicked quickly for the GO stimulus.",
-    goodJobMessage: "Good job!",
-    goFailureMessage: "You failed to click in time. Please try again!",
-    // Page 3: NO-GO Practice  
-    noGoPageContent: `<b>NO-GO Trials</b><br>When you see this stimulus, do NOT click the button!<br>Try waiting without clicking the button below:`,
-    rememberNoGo: "Remember, you should NOT click for the NO-GO stimulus!",
-    noGoFeedbackMessage: "Excellent! You correctly did NOT click for the NO-GO stimulus.",
-    readyToStart: "Now you understand the task.",
-    // Practice completion page
-    practiceCompleteContent: "<b>Practice Complete!</b><br>Great job! You have completed the practice session and are ready to begin the actual task.",
+    cardTypesPageContent: `<b>Card Types</b><br>
+    There are two types of cards in this game:<br>
+    <span style="color: #28a745; font-weight: bold;">Gain Cards</span> - Give you points<br>
+    <span style="color: #dc3545; font-weight: bold;">Loss Cards</span> - Take away points`,
+    gameRulesPageContent: `<b>How to Play</b><br>
+    \u2022 Click on any face-down card to flip it over<br>
+    \u2022 You will immediately gain or lose points based on the card<br>
+    \u2022 You can flip as many cards as you want<br>
+    \u2022 Click "Stop" when you want to end the round`,
+    strategyPageContent: `<b>Strategy</b><br>
+    The more cards you flip, the more points you could gain...<br>
+    But you also risk hitting loss cards that subtract points.<br>
+    Think carefully about when to stop!`,
+    // Practice instructions
+    practiceIntroContent: "<b>Practice Round</b><br>Let's try a practice round to get familiar with the game.",
+    practiceCompleteContent: "<b>Practice Complete!</b><br>Great job! You are now ready to begin the actual task.",
     beginTaskButton: "Begin Task",
     // Block instructions
-    blockBreakContent: (blockNum, totalBlocks) => "<b>Block " + blockNum + " Complete!</b><br>You have completed block " + blockNum + " of " + totalBlocks + ".<br>Take a short break if needed, then click below to continue.",
-    blockContinuePrompt: (blockNum) => `Click below to continue to block ${blockNum + 1}.`,
+    blockStartContent: (blockNum, totalBlocks) => `<b>Round ${blockNum} of ${totalBlocks}</b><br>Get ready for the next round. Remember your strategy!`,
+    blockBreakContent: (blockNum, totalBlocks) => `<b>Round ${blockNum} Complete!</b><br>You have completed round ${blockNum} of ${totalBlocks}.<br>Take a short break if needed.`,
+    blockContinuePrompt: (blockNum) => `Click below to continue to round ${blockNum + 1}.`,
+    blockPointsLabel: "Points This Round:",
+    totalPointsLabel: "Total Points So Far:",
     continueButton: "Continue",
     // Results/Debrief
     taskComplete: "Task Complete!",
-    overallAccuracy: "Overall Accuracy:",
-    averageResponseTime: "Average Response Time (GO trials):",
-    thankYouMessage: "Thank you for completing the Go/No-Go task!",
+    finalScoreLabel: "Final Score:",
+    totalCardsFlippedLabel: "Total Cards Flipped:",
+    averagePointsPerCardLabel: "Average Points Per Card:",
+    riskTakingScoreLabel: "Risk-Taking Score:",
+    thanksMessage: "Thank you for completing the Columbia Card Task!",
     finishButton: "Finish",
-    // Alt text for images
-    goStimulusAlt: "GO stimulus",
-    noGoStimulusAlt: "NO-GO stimulus",
-    // CSS colors
-    goColor: "green",
-    noGoColor: "red",
-    //button labels
-    back_button: "Back",
-    next_button: "Next",
-    // Trial types (used in data)
-    trialTypes: {
-      instructions: "instructions",
-      goNoGo: "go-nogo",
-      blockInstructions: "block-instructions",
-      debrief: "debrief"
-    },
-    // Stimulus types (used in data)
-    stimulusTypes: {
-      go: "go",
-      noGo: "no-go"
-    },
-    // Timeline unit names
-    timelineUnits: {
-      instructionTrial: "instructions",
-      goNoGoTrial: "go-nogo-trial",
-      debriefTrial: "debrief"
-    },
-    // Data property names
-    dataProperties: {
-      accuracy: "accuracy",
-      rt: "rt"
-    }
+    // Trial feedback (for practice)
+    goodChoiceMessage: "Good choice!",
+    gainCardMessage: (points) => `You gained ${points} points!`,
+    lossCardMessage: (points) => `You lost ${Math.abs(points)} points.`,
+    noCardsFlippedMessage: "You didn't flip any cards this round.",
+    // Button labels (empty strings give us just arrows per jsPsychInstructions)
+    back_button: "",
+    next_button: "",
+    // Risk assessment messages  
+    riskAssessmentConservative: "You played conservatively, flipping fewer cards to minimize risk.",
+    riskAssessmentModerate: "You showed moderate risk-taking behavior.",
+    riskAssessmentAggressive: "You took high risks by flipping many cards for potential rewards."
   };
 
   // src/index.ts
@@ -3523,251 +3903,100 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       key_backward: "ArrowLeft",
       button_label_previous: (_a = texts == null ? void 0 : texts.back_button) != null ? _a : texts.back_button,
       button_label_next: (_b = texts == null ? void 0 : texts.next_button) != null ? _b : texts.next_button,
-      data: { task: "go-nogo", phase: "instructions" }
+      data: { task: "columbia-card", phase: "instructions" }
     };
   }
-  var createStimulusHTML = (html, isGoTrial) => {
-    const id = isGoTrial ? "go-stimulus" : "nogo-stimulus";
-    return `<div id="${id}-container" class="go-nogo-container timeline-trial" style="font-size: 3em;">${html}</div>`;
-  };
-  var createGoPractice = (go_stimulus, texts = trial_text, timeout = 1e4) => {
-    const go_html = createStimulusHTML(go_stimulus, true);
-    const practiceGoTimeline = [];
-    const practiceTask = {
-      type: HtmlButtonResponsePlugin,
-      stimulus: `
-      <p>${texts.goPageContent}</p>
-      ${go_html}
-      <div class="go-nogo-feedback" style="visibility: hidden;">${texts.goodJobMessage}</div>
-    `,
-      choices: [texts.defaultButtonText],
-      trial_duration: timeout,
-      // default 10 seconds
-      data: { task: "go-nogo", phase: "go-practice" },
-      button_html: (choice, choice_index) => `<button id="go-nogo-btn" class="jspsych-btn timeline-html-btn">${choice}</button>`,
-      on_finish: (data) => {
-        if (data.response !== null) {
-          data.correct = true;
-          practiceGoTimeline.push(successFeedback);
-        } else {
-          data.correct = false;
-          practiceGoTimeline.push(failureFeedback);
-          practiceGoTimeline.push(practiceTask);
-        }
-      }
-    };
-    const successFeedback = {
-      type: HtmlButtonResponsePlugin,
-      stimulus: `
-      <p>${texts.goPageContent}</p>
-      ${go_html}
-      <div class="go-nogo-feedback" style="color: #28a745;">${texts.goodJobMessage}</div>
-    `,
-      choices: [texts.defaultButtonText],
-      trial_duration: 2e3,
-      response_ends_trial: false,
-      data: { task: "go-nogo", phase: "practice", page: "success" },
-      //disabled button to signify click
-      button_html: (choice) => `<button id="go-nogo-btn" class="jspsych-btn timeline-html-btn" style="opacity: 0.5;" disabled>${choice}</button>`
-    };
-    const failureFeedback = {
-      type: HtmlButtonResponsePlugin,
-      stimulus: `
-      <p>${texts.goPageContent}</p>
-      ${go_html}
-      <div class="go-nogo-feedback" style="color: #dc3545;">${texts.goFailureMessage}</div>
-    `,
-      choices: [texts.defaultButtonText],
-      trial_duration: 2e3,
-      response_ends_trial: false,
-      data: { task: "go-nogo", phase: "practice", page: "failure" },
-      //disabled button to signify click
-      button_html: (choice) => `<button id="go-nogo-btn" class="jspsych-btn timeline-html-btn" style="opacity: 0.5;" disabled>${choice}</button>`
-    };
-    practiceGoTimeline.push(practiceTask);
-    return { timeline: practiceGoTimeline };
-  };
-  var createNoGoPractice = (nogo_stimulus, texts = trial_text, timeout = 3e3) => {
-    const nogo_html = createStimulusHTML(nogo_stimulus, false);
-    const practiceNoGoTimeline = [];
-    const practiceTask = {
-      type: HtmlButtonResponsePlugin,
-      stimulus: `
-      <p>${texts.noGoPageContent}</p>
-      ${nogo_html}
-      <div class="go-nogo-feedback" style="visibility: hidden;">${texts.noGoFeedbackMessage}</div>
-    `,
-      choices: [texts.defaultButtonText],
-      trial_duration: timeout,
-      data: { task: "go-nogo", phase: "nogo-practice" },
-      button_html: (choice, choice_index) => `<button id="go-nogo-btn" class="continue-btn jspsych-btn timeline-html-btn">${choice}</button>`,
-      on_finish: (data) => {
-        if (data.response === null) {
-          data.correct = true;
-          practiceNoGoTimeline.push(correctFeedback);
-        } else {
-          data.correct = false;
-          practiceNoGoTimeline.push(incorrectFeedback);
-          practiceNoGoTimeline.push(practiceTask);
-        }
-      }
-    };
-    const correctFeedback = {
-      type: HtmlButtonResponsePlugin,
-      stimulus: `
-      <p>${texts.noGoPageContent}</p>
-      ${nogo_html}
-      <div class="go-nogo-feedback" style="color: #28a745;">${texts.noGoFeedbackMessage}</div>
-    `,
-      choices: [texts.defaultButtonText],
-      trial_duration: 2e3,
-      response_ends_trial: false,
-      data: { task: "go-nogo", phase: "practice", page: "success" },
-      //disabled button to signify click
-      button_html: (choice) => `<button id="go-nogo-btn" class="continue-btn jspsych-btn timeline-html-btn" style="opacity: 0.5;" disabled>${choice}</button>`
-    };
-    const incorrectFeedback = {
-      type: HtmlButtonResponsePlugin,
-      stimulus: `
-      <p>${texts.noGoPageContent}</p>
-      ${nogo_html}
-      <div class="go-nogo-feedback" style="color: #dc3545;">${texts.rememberNoGo}</div>
-    `,
-      choices: [texts.defaultButtonText],
-      trial_duration: 2e3,
-      response_ends_trial: false,
-      data: { task: "go-nogo", phase: "practice", page: "failure" },
-      //disabled button to signify click
-      button_html: (choice) => `<button id="go-nogo-btn" class="continue-btn jspsych-btn timeline-html-btn" style="opacity: 0.5;" disabled>${choice}</button>`
-    };
-    practiceNoGoTimeline.push(practiceTask);
-    return { timeline: practiceNoGoTimeline };
-  };
   var createPracticeCompletion = (texts = trial_text) => {
     return {
       type: HtmlButtonResponsePlugin,
       stimulus: `
-        <div class="go-nogo-practice">
+        <div class="columbia-card-practice">
           <p>${texts.practiceCompleteContent}</p>
         </div>
     `,
       choices: [texts.beginTaskButton],
-      data: { task: "go-nogo", phase: "practice", page: "completion" },
-      button_html: (choice, choice_index) => `<button id="go-nogo-btn" class="continue-btn jspsych-btn timeline-html-btn">${choice}</button>`
+      data: { task: "columbia-card", phase: "practice", page: "completion" },
+      button_html: (choice) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`
     };
   };
-  var createGoNoGo = (jsPsych, button_text, trial_timeout) => {
+  var createColumbiaCardTrial = (config, texts = trial_text, blockNumber, trialNumber, jsPsych) => {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
     return {
-      type: HtmlButtonResponsePlugin,
-      stimulus: jsPsych.timelineVariable("stimulus"),
-      choices: [button_text],
-      trial_duration: trial_timeout,
-      response_ends_trial: true,
+      type: ColumbiaCardTaskPlugin,
+      num_cards: (_a = config.num_cards) != null ? _a : 32,
+      num_loss_cards: (_b = config.num_loss_cards) != null ? _b : 3,
+      grid_columns: (_c = config.grid_columns) != null ? _c : 8,
+      card_width: (_d = config.card_width) != null ? _d : 60,
+      card_height: (_e = config.card_height) != null ? _e : 80,
+      flip_duration: (_f = config.flip_duration) != null ? _f : 300,
+      loss_value: (_g = config.loss_value) != null ? _g : -250,
+      gain_value: (_h = config.gain_value) != null ? _h : 10,
+      starting_score: (_i = config.starting_score) != null ? _i : 0,
+      card_front_symbol: (_j = config.card_front_symbol) != null ? _j : texts.defaultCardFrontSymbol,
+      instructions: (_k = config.task_instructions) != null ? _k : texts.defaultInstructions,
+      gain_cards_label: (_l = config.gain_cards_label) != null ? _l : texts.defaultGainCardsLabel,
+      loss_cards_label: (_m = config.loss_cards_label) != null ? _m : texts.defaultLossCardsLabel,
+      score_label: (_n = config.score_label) != null ? _n : texts.defaultScoreLabel,
+      continue_button_text: (_o = config.continue_button_text) != null ? _o : texts.defaultContinueButtonText,
       data: {
-        task: "go-nogo",
+        task: "columbia-card",
         phase: "main-trial",
-        is_go_trial: jsPsych.timelineVariable("is_go_trial"),
-        block_number: jsPsych.timelineVariable("block_number"),
-        page: jsPsych.timelineVariable("page")
+        block_number: blockNumber,
+        trial_number: trialNumber
       },
-      button_html: (choice, choice_index) => `<button id="go-nogo-btn" class="continue-btn timeline-html-btn jspsych-btn">${choice}</button>`,
       on_finish: (data) => {
-        data.correct = data.is_go_trial && data.response === 0 || !data.is_go_trial && data.response === null;
+        if (jsPsych) {
+          const allTrials = jsPsych.data.get().filter({ task: "columbia-card", phase: "main-trial" }).values();
+          data.cumulative_points = allTrials.reduce((sum, trial) => sum + (trial.total_points || 0), 0);
+          if (blockNumber) {
+            const blockTrials = allTrials.filter((trial) => trial.block_number === blockNumber);
+            data.block_cumulative_points = blockTrials.reduce((sum, trial) => sum + (trial.total_points || 0), 0);
+          }
+        }
       }
     };
   };
-  var createISIFixation = (isi_timeout, button_text) => {
-    return {
-      // Use button plugin so we can provide button_html
-      type: HtmlButtonResponsePlugin,
-      stimulus: '<div class="fixation" style="font-size: 3em;">+</div>',
-      choices: [button_text],
-      trial_duration: isi_timeout,
-      response_ends_trial: false,
-      data: {
-        task: "go-nogo",
-        phase: "main",
-        page: "isi"
-      },
-      // Hidden and disabled button to keep layout consistent with createGoNoGo but non-interactive
-      button_html: (choice) => `<button id="isi-btn" class="continue-btn timeline-html-btn jspsych-btn is-disabled"
-               style="visibility: hidden;" disabled>${choice}</button>`
-    };
-  };
-  var createTimelineVariables = (jsPsych, blockNumber, num_trials, probability, actualGoStimuli, actualNoGoStimuli) => {
-    const trials = [];
-    const numGoTrials = Math.round(num_trials * probability);
-    const numNoGoTrials = num_trials - numGoTrials;
-    if (numGoTrials < 0 || numNoGoTrials < 0) {
-      throw new Error(`Invalid trial configuration: probability (${probability}) results in ${numGoTrials} go trials and ${numNoGoTrials} no-go trials for ${num_trials} total trials. Both must be non-negative.`);
-    }
-    const trialTypes = Array(numGoTrials).fill(true).concat(Array(numNoGoTrials).fill(false));
-    jsPsych.randomization.shuffle(trialTypes);
-    let goTrialCount = 0;
-    let noGoTrialCount = 0;
-    for (let i = 0; i < trialTypes.length; i++) {
-      const isGoTrial = trialTypes[i];
-      let stimulus;
-      if (isGoTrial) {
-        const stimulusIndex = goTrialCount % actualGoStimuli.length;
-        stimulus = actualGoStimuli[stimulusIndex];
-        goTrialCount++;
-      } else {
-        const stimulusIndex = noGoTrialCount % actualNoGoStimuli.length;
-        stimulus = actualNoGoStimuli[stimulusIndex];
-        noGoTrialCount++;
-      }
-      trials.push({
-        stimulus: createStimulusHTML(stimulus, isGoTrial),
-        is_go_trial: isGoTrial,
-        task: "go-nogo",
-        phase: "main-trial",
-        page: isGoTrial ? "go" : "nogo",
-        block_number: blockNumber
-      });
-    }
-    return trials;
-  };
-  var createBlockBreak = (blockNum, num_blocks) => {
-    return {
-      type: HtmlButtonResponsePlugin,
-      stimulus: `
-            <p>${trial_text.blockBreakContent(blockNum, num_blocks)}</p>
-    `,
-      choices: [trial_text.continueButton],
-      data: { task: "go-nogo", phase: "block-break" + blockNum, block_number: blockNum },
-      button_html: (choice) => `<button id="block-break-btn" class="continue-btn jspsych-btn timeline-html-btn">${choice}</button>`
-    };
-  };
-  var createDebrief = (jsPsych) => {
-    const calculateStats = () => {
-      const allTrials = jsPsych.data.get().filter({ task: "go-nogo", phase: "main-trial" }).values();
-      if (allTrials.length === 0)
-        return { accuracy: 0, meanRT: 0 };
-      const correctTrials = allTrials.filter((trial) => trial.correct === true);
-      const accuracy = Math.round(correctTrials.length / allTrials.length * 100);
-      const goTrialsWithResponse = allTrials.filter(
-        (trial) => trial.is_go_trial === true && trial.response !== null && trial.rt > 0
-      );
-      const meanRT = goTrialsWithResponse.length > 0 ? Math.round(goTrialsWithResponse.reduce((sum, trial) => sum + trial.rt, 0) / goTrialsWithResponse.length) : 0;
-      return { accuracy, meanRT };
+  var createBlockBreak = (jsPsych, blockNum, num_blocks, texts = trial_text, showBlockSummary = true) => {
+    const calculateBlockStats = () => {
+      if (!showBlockSummary)
+        return { blockPoints: 0, totalPoints: 0 };
+      const allTrials = jsPsych.data.get().filter({ task: "columbia-card", phase: "main-trial" }).values();
+      const blockTrials = allTrials.filter((trial) => trial.block_number === blockNum);
+      const blockPoints = blockTrials.reduce((sum, trial) => sum + (trial.total_points || 0), 0);
+      const totalPoints = allTrials.reduce((sum, trial) => sum + (trial.total_points || 0), 0);
+      return { blockPoints, totalPoints };
     };
     return {
       type: HtmlButtonResponsePlugin,
       stimulus: () => {
-        const { accuracy, meanRT } = calculateStats();
-        return `
-        <div class="go-nogo-debrief">
-          <h2>${trial_text.taskComplete}</h2>
-          <p><strong>${trial_text.overallAccuracy}</strong> ${accuracy}%</p>
-          <p><strong>${trial_text.averageResponseTime}</strong> ${meanRT}ms</p>
-          <p>${trial_text.thankYouMessage}</p>
-        </div>
-      `;
+        const { blockPoints, totalPoints } = calculateBlockStats();
+        let content = `<p>${texts.blockBreakContent(blockNum, num_blocks)}</p>`;
+        if (showBlockSummary) {
+          content += `
+          <div style="margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 5px;">
+            <p><strong>${texts.blockPointsLabel}</strong> ${blockPoints}</p>
+            <p><strong>${texts.totalPointsLabel}</strong> ${totalPoints}</p>
+          </div>
+        `;
+        }
+        return content;
       },
-      choices: [trial_text.finishButton],
-      data: { task: "go-nogo", phase: "debrief" },
-      button_html: (choice, choice_index) => `<button id="debrief-btn" class="continue-btn jspsych-btn timeline-html-btn">${choice}</button>`
+      choices: [texts.continueButton],
+      data: {
+        task: "columbia-card",
+        phase: "block-break-" + blockNum,
+        block_number: blockNum,
+        block_points: () => {
+          const allTrials = jsPsych.data.get().filter({ task: "columbia-card", phase: "main-trial" }).values();
+          const blockTrials = allTrials.filter((trial) => trial.block_number === blockNum);
+          return blockTrials.reduce((sum, trial) => sum + (trial.total_points || 0), 0);
+        },
+        cumulative_points: () => {
+          const allTrials = jsPsych.data.get().filter({ task: "columbia-card", phase: "main-trial" }).values();
+          return allTrials.reduce((sum, trial) => sum + (trial.total_points || 0), 0);
+        }
+      },
+      button_html: (choice) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`
     };
   };
   function createTimeline(jsPsych, {
@@ -3775,19 +4004,30 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
     show_instructions = false,
     show_practice = false,
     num_blocks = 3,
-    num_trials = 50,
-    trial_timeout = 500,
-    isi_timeout = 500,
-    probability = 0.75,
+    num_trials = 5,
     show_debrief = false,
-    // stimuli
-    go_stimulus = trial_text.defaultGoStimulus,
-    nogo_stimulus = trial_text.defaultNoGoStimulus,
-    go_stimuli,
-    nogo_stimuli,
-    button_text = trial_text.defaultButtonText,
-    go_practice_timeout = 1e4,
-    nogo_practice_timeout = 3e3,
+    show_block_summary = true,
+    // columbia card task specific
+    num_cards = 32,
+    num_loss_cards = 3,
+    grid_columns = 8,
+    card_width = 60,
+    card_height = 80,
+    flip_duration = 300,
+    loss_value = -250,
+    gain_value = 10,
+    starting_score = 0,
+    card_front_symbol = trial_text.defaultCardFrontSymbol,
+    task_instructions = trial_text.defaultInstructions,
+    gain_cards_label = trial_text.defaultGainCardsLabel,
+    loss_cards_label = trial_text.defaultLossCardsLabel,
+    score_label = trial_text.defaultScoreLabel,
+    continue_button_text = trial_text.defaultContinueButtonText,
+    // practice configuration
+    practice_num_cards = 16,
+    practice_num_loss_cards = 2,
+    practice_gain_value = 5,
+    practice_loss_value = -50,
     // texts
     instructions_array: instructions = instruction_pages,
     text_object: texts = trial_text
@@ -3798,59 +4038,160 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
     }
     if (show_practice) {
       const practiceTrials = createPractice({
-        go_stimulus,
-        nogo_stimulus,
-        go_stimuli,
-        nogo_stimuli,
-        text_object: texts,
-        go_practice_timeout,
-        nogo_practice_timeout
+        num_cards: practice_num_cards,
+        num_loss_cards: practice_num_loss_cards,
+        grid_columns,
+        card_width,
+        card_height,
+        flip_duration,
+        loss_value: practice_loss_value,
+        gain_value: practice_gain_value,
+        starting_score,
+        card_front_symbol,
+        task_instructions,
+        gain_cards_label,
+        loss_cards_label,
+        score_label,
+        continue_button_text,
+        text_object: texts
       });
-      timeline.push(practiceTrials);
+      timeline.push(...practiceTrials);
     }
-    const actualGoStimuli = (go_stimuli == null ? void 0 : go_stimuli.length) ? go_stimuli : [go_stimulus];
-    const actualNoGoStimuli = (nogo_stimuli == null ? void 0 : nogo_stimuli.length) ? nogo_stimuli : [nogo_stimulus];
-    const goNoGoTrial = createGoNoGo(jsPsych, button_text, trial_timeout);
-    const isi_timeoutTrial = createISIFixation(isi_timeout, button_text);
-    const blocks = [];
     for (let blockNum = 1; blockNum <= num_blocks; blockNum++) {
-      const blockTrials = createTimelineVariables(jsPsych, blockNum, num_trials, probability, actualGoStimuli, actualNoGoStimuli);
-      const blockProcedure = {
-        timeline: [goNoGoTrial, isi_timeoutTrial],
-        timeline_variables: blockTrials,
-        randomize_order: true
-      };
-      blocks.push(blockProcedure);
+      for (let trialNum = 1; trialNum <= num_trials; trialNum++) {
+        const cardTrial = createColumbiaCardTrial({
+          num_cards,
+          num_loss_cards,
+          grid_columns,
+          card_width,
+          card_height,
+          flip_duration,
+          loss_value,
+          gain_value,
+          starting_score,
+          card_front_symbol,
+          task_instructions,
+          gain_cards_label,
+          loss_cards_label,
+          score_label,
+          continue_button_text
+        }, texts, blockNum, trialNum, jsPsych);
+        timeline.push(cardTrial);
+      }
       if (blockNum < num_blocks) {
-        const blockBreakTrial = createBlockBreak(blockNum, num_blocks);
-        blocks.push(blockBreakTrial);
+        const blockBreakTrial = createBlockBreak(jsPsych, blockNum, num_blocks, texts, show_block_summary);
+        timeline.push(blockBreakTrial);
       }
     }
-    timeline.push([...blocks]);
     if (show_debrief) {
-      const debriefTrial = createDebrief(jsPsych);
+      const debriefTrial = createDebrief(jsPsych, texts);
       timeline.push(debriefTrial);
     }
     return {
       timeline
     };
   }
-  function createPractice({
-    go_stimulus = trial_text.defaultGoStimulus,
-    nogo_stimulus = trial_text.defaultNoGoStimulus,
-    go_stimuli,
-    nogo_stimuli,
-    text_object: texts = trial_text,
-    go_practice_timeout = 1e4,
-    nogo_practice_timeout = 3e3
-  } = {}) {
-    const actual_go_stimuli = (go_stimuli == null ? void 0 : go_stimuli.length) ? go_stimuli : [go_stimulus];
-    const actual_nogo_stimuli = (nogo_stimuli == null ? void 0 : nogo_stimuli.length) ? nogo_stimuli : [nogo_stimulus];
+  function createPractice(config = {}) {
+    var _a;
+    const texts = (_a = config.text_object) != null ? _a : trial_text;
+    const practiceIntro = {
+      type: HtmlButtonResponsePlugin,
+      stimulus: `<div class="timeline-instructions"><p>${texts.practiceIntroContent}</p></div>`,
+      choices: [texts.continueButton],
+      data: { task: "columbia-card", phase: "practice", page: "intro" },
+      button_html: (choice) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`
+    };
+    const practiceTrial = createColumbiaCardTrial(config, texts, 0, 0);
+    practiceTrial.data.phase = "practice-trial";
     return [
-      createGoPractice(actual_go_stimuli[0], texts, go_practice_timeout),
-      createNoGoPractice(actual_nogo_stimuli[0], texts, nogo_practice_timeout),
+      practiceIntro,
+      practiceTrial,
       createPracticeCompletion(texts)
     ];
+  }
+  function createDebrief(jsPsych, texts = trial_text) {
+    const calculateStats = () => {
+      var _a, _b;
+      const allTrials = jsPsych.data.get().filter({ task: "columbia-card", phase: "main-trial" }).values();
+      if (allTrials.length === 0)
+        return { totalScore: 0, totalCards: 0, avgPointsPerCard: 0, riskScore: "N/A", blockBreakdown: [] };
+      const totalScore = allTrials.reduce((sum, trial) => sum + (trial.total_points || 0), 0);
+      const totalCards = allTrials.reduce((sum, trial) => sum + (trial.total_clicks || 0), 0);
+      const avgPointsPerCard = totalCards > 0 ? Math.round(totalScore / totalCards * 10) / 10 : 0;
+      const blockBreakdown = [];
+      const uniqueBlocks = [...new Set(allTrials.map((trial) => trial.block_number))].sort();
+      for (const blockNum of uniqueBlocks) {
+        const blockTrials = allTrials.filter((trial) => trial.block_number === blockNum);
+        const blockPoints = blockTrials.reduce((sum, trial) => sum + (trial.total_points || 0), 0);
+        const blockCards = blockTrials.reduce((sum, trial) => sum + (trial.total_clicks || 0), 0);
+        blockBreakdown.push({
+          block: blockNum,
+          points: blockPoints,
+          cards: blockCards,
+          avgPerCard: blockCards > 0 ? Math.round(blockPoints / blockCards * 10) / 10 : 0
+        });
+      }
+      const totalPossibleCards = allTrials.length * (((_b = (_a = allTrials[0]) == null ? void 0 : _a.card_values) == null ? void 0 : _b.length) || 32);
+      const riskPercentage = totalPossibleCards > 0 ? totalCards / totalPossibleCards * 100 : 0;
+      let riskScore = "";
+      if (riskPercentage < 30) {
+        riskScore = texts.riskAssessmentConservative;
+      } else if (riskPercentage < 60) {
+        riskScore = texts.riskAssessmentModerate;
+      } else {
+        riskScore = texts.riskAssessmentAggressive;
+      }
+      return { totalScore, totalCards, avgPointsPerCard, riskScore, blockBreakdown };
+    };
+    return {
+      type: HtmlButtonResponsePlugin,
+      stimulus: () => {
+        const { totalScore, totalCards, avgPointsPerCard, riskScore, blockBreakdown } = calculateStats();
+        let blockTable = "";
+        if (blockBreakdown.length > 1) {
+          blockTable = `
+          <div style="margin: 20px 0;">
+            <h3>Round-by-Round Breakdown:</h3>
+            <table style="border-collapse: collapse; margin: 0 auto; text-align: center;">
+              <thead>
+                <tr style="background-color: #f8f9fa;">
+                  <th style="border: 1px solid #dee2e6; padding: 8px;">Round</th>
+                  <th style="border: 1px solid #dee2e6; padding: 8px;">Points</th>
+                  <th style="border: 1px solid #dee2e6; padding: 8px;">Cards</th>
+                  <th style="border: 1px solid #dee2e6; padding: 8px;">Avg/Card</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${blockBreakdown.map((block) => `
+                  <tr>
+                    <td style="border: 1px solid #dee2e6; padding: 8px;">${block.block}</td>
+                    <td style="border: 1px solid #dee2e6; padding: 8px;">${block.points}</td>
+                    <td style="border: 1px solid #dee2e6; padding: 8px;">${block.cards}</td>
+                    <td style="border: 1px solid #dee2e6; padding: 8px;">${block.avgPerCard}</td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          </div>
+        `;
+        }
+        return `
+        <div class="columbia-card-debrief">
+          <h2>${texts.taskComplete}</h2>
+          <p><strong>${texts.finalScoreLabel}</strong> ${totalScore}</p>
+          <p><strong>${texts.totalCardsFlippedLabel}</strong> ${totalCards}</p>
+          <p><strong>${texts.averagePointsPerCardLabel}</strong> ${avgPointsPerCard}</p>
+          ${blockTable}
+          <p><strong>${texts.riskTakingScoreLabel}</strong></p>
+          <p style="font-style: italic;">${riskScore}</p>
+          <p>${texts.thanksMessage}</p>
+        </div>
+      `;
+      },
+      choices: [texts.finishButton],
+      data: { task: "columbia-card", phase: "debrief" },
+      button_html: (choice) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`
+    };
   }
   var timelineUnits = {
     createInstructions,
@@ -3858,7 +4199,9 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
     createDebrief
   };
   var utils = {
-    createStimulusHTML
+    createColumbiaCardTrial,
+    createBlockBreak,
+    createPracticeCompletion
   };
 
   exports.createInstructions = createInstructions;

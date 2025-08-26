@@ -8,7 +8,7 @@
     <script src="jspsych/dist/plugin-html-keyboard-response.js"></script>
     <script src="jspsych/dist/plugin-html-button-response.js"></script>
     <script src="jspsych/dist/plugin-instructions.js"></script>
-    <script src="tasks/columbia-card-task-timeline.js"></script>
+    <script src="tasks/columbia-card-timeline.js"></script>
     <script src="text/columbia-card-task-text.js"></script>
     <script src="jatos.js"></script>
     <link rel="stylesheet" href="jspsych/dist/jspsych.css">
@@ -25,29 +25,65 @@
     const mainTimeline = [];
 
     // Create instructions
-    const instructions = jsPsychTimelineColumbiaCardTask.createInstructions(ColumbiaCardTaskText);
+    // const instructions = jsPsychTimelineColumbiaCard.createInstructions(ColumbiaCardTaskText);
 
     // Create main timeline with custom parameters
-    const cardTaskTimeline = jsPsychTimelineColumbiaCardTask.createTimeline(jsPsych, {
-        n_cards: 16,
-        cols: 4,
-        rounds: [
-            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
-            { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
-            // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
-            // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
-            // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
-            // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
-            // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
-            // { loss_cards: 1, gain_amount: 10, loss_amount: 250 }
-        ],
-        show_instructions: false,  // Already added separately
-        show_results: true,
-        enable_tts: false,
-        text: ColumbiaCardTaskText  // Pass the text object
-    });
+    // const cardTaskTimeline = jsPsychTimelineColumbiaCard.createTimeline(jsPsych, {
+    //     n_cards: 16,
+    //     cols: 4,
+    //     rounds: [
+    //         { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+    //         { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+    //         // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+    //         // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+    //         // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+    //         // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+    //         // { loss_cards: 1, gain_amount: 10, loss_amount: 250 },
+    //         // { loss_cards: 1, gain_amount: 10, loss_amount: 250 }
+    //     ],
+    //     show_instructions: false,  // Already added separately
+    //     show_results: true,
+    //     enable_tts: false,
+    //     text: ColumbiaCardTaskText  // Pass the text object
+    // });
 
-    mainTimeline.push(instructions);
+  const cardTaskTimeline = jsPsychTimelineColumbiaCard.createTimeline(jsPsych, {
+    // General configuration
+    show_instructions: true,
+    show_practice: true,
+    num_blocks: 3,
+    num_trials: 5,
+    show_debrief: true,
+    show_block_summary: true,
+    
+    // Columbia Card Task specific configuration
+    num_cards: 32,
+    num_loss_cards: 3,
+    // grid_columns: 8,
+    // card_width: 60,
+    // card_height: 80,
+    // flip_duration: 300,
+    loss_value: -250,
+    gain_value: 10,
+    // starting_score: 0,
+    // card_front_symbol: "?",
+    // task_instructions: "Tap the cards to flip them over. Gain cards give you points, loss cards lose points!",
+    // gain_cards_label: "Gain Cards",
+    // loss_cards_label: "Loss Cards",
+    // score_label: "Points:",
+    // continue_button_text: "Stop",
+    
+    // Practice configuration
+    // practice_num_cards: 16,
+    // practice_num_loss_cards: 2,
+    // practice_gain_value: 5,
+    // practice_loss_value: -50,
+    
+    // Text configuration (uncomment to customize)
+    instructions_array: instruction_pages,
+    text_object: trial_text
+  });
+
     mainTimeline.push(cardTaskTimeline);
 
     jatos.onLoad(() => {

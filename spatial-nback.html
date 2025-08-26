@@ -164,15 +164,16 @@
   mainTimeline.push(spatial3Back);
   mainTimeline.push(if3back);
 
+  // timeline for debugging
   testTimeline = [
-    instructions1, jsPsychTimelineSpatialNback.createPracticeTimeline(), confirm1,
+    instructions1, jsPsychTimelineSpatialNback.createPracticeTimeline({stimulus_duration:999999}), confirm1,
     jsPsychTimelineSpatialNback.createTimeline({total_trials: 5}),
     instructions2, jsPsychTimelineSpatialNback.createPracticeTimeline({n_back: 2}),
     confirm2, jsPsychTimelineSpatialNback.createTimeline({total_trials: 8, n_back: 2}),
   ];
 
   jatos.onLoad(() => {
-    jsPsych.run(testTimeline);
+    jsPsych.run(mainTimeline);
   });
   
   </script>

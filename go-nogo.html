@@ -36,6 +36,8 @@
       // stimuli
       go_stimulus: "<h1>Y</h1>",
       nogo_stimulus: "<h1>X</h1>",
+      go_practice_timeout: 10000,
+      nogo_practice_timeout: 3000,
       // go_stimuli,
       // nogo_stimuli,
       button_text: "Continue",
@@ -47,11 +49,12 @@
     const practice = jsPsychTimelineGoNogoTimeline.timelineUnits.createPractice(config);
     const task = jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, config);
     const mainTimeline = [instructions, practice, task];
-    const testTimeline = [instructions, jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, {num_blocks: 2, num_trials: 3, go_stimulus: "<h1>Y</h1>", nogo_stimulus: "<h1>X</h1>",})];
+      // timeline for debugging
+    const testTimeline = [instructions, practice, jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, {num_blocks: 2, num_trials: 3, go_stimulus: "<h1>Y</h1>", nogo_stimulus: "<h1>X</h1>",})];
     
     jatos.onLoad(() => {
 
-        jsPsych.run(testTimeline);
+        jsPsych.run(mainTimeline);
     });
 
 </script>

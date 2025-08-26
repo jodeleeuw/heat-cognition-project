@@ -23,7 +23,7 @@ h1 {
 /* h2 is used in stroop, big word*/
 h2 {
     font-size: clamp(40px, 16vmin, 160px);
-    }
+}
 
 p { /* From: spatial-nback-styles.css */
     margin: 5vmin 0;
@@ -219,9 +219,9 @@ p { /* From: spatial-nback-styles.css */
     touch-action: manipulation !important;
     user-select: none !important;
 }
-
-.jspsych-instructions-nav .jspsych-btn:disabled { /* For the left button on first page */
-    visibility: hidden;  /* Keeps the space but hides the button */
+/* For the left button on first page, keep space but hide button */
+.jspsych-instructions-nav .jspsych-btn:disabled {
+    visibility: hidden;
 }
 
 /* ========================================
@@ -250,8 +250,19 @@ p { /* From: spatial-nback-styles.css */
     } */
 }
 
-/* Landscape mode adjustment for spatial-n-back, targeting landscape phone issues */
+/* Landscape mode adjustment, targeting landscape phone issues */
 @media (orientation: landscape) {
+    /* make text smaller */
+    p {
+        font-size: clamp(15px, 4vmin, 60px);
+    }
+
+    /* go-nogo, make text smaller sideways */
+    @media (max-width: 940px) { h1 {
+        font-size: revert;
+    } }
+
+    /* spatial nback */
     /* pushes whole experiment up to not go under buttons */
     #nback-feedback-section {
     margin-bottom: 10vh;
@@ -263,4 +274,3 @@ p { /* From: spatial-nback-styles.css */
         padding: clamp(5px, 3.5vmin, 35px) clamp(15px, 4vmin, 40px);
     }
 }
-
