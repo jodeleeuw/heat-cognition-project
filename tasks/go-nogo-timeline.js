@@ -1,4 +1,4 @@
-var jsPsychTimelineGoNogoTimeline = (function (exports) {
+var jsPsychTimelineGoNoGo = (function (exports) {
   'use strict';
 
   var __create = Object.create;
@@ -3426,86 +3426,53 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
   })();
 
   // src/text.ts
+  var square = `
+  <div role="img" aria-label="Go square"
+    style="width:120px;height:120px;background:#000;margin:24px auto;"></div>`;
+  var circle = `
+  <div role="img" aria-label="No-Go circle"
+    style="width:120px;height:120px;background:#000;border-radius:50%;margin:24px auto;"></div>`;
   var instruction_pages = [
     "In this task, you will see symbols appear one at a time on the screen.",
-    "When you see a 'go' stimulus, click the button as quickly as possible. <h2>Y</h2>",
-    "But if you see the No-Go symbol, do nothing \u2014 don\u2019t press anything. <h2>X</h2>",
-    "Try to be fast, but also careful. Only press when it\u2019s a Go.",
+    "When you see a square, click the button as quickly as possible." + square,
+    "But if you see the circle, do nothing \u2014 don\u2019t press anything." + circle,
+    "Try to be fast, but also careful. Only press when it\u2019s a square.",
     "Continue when ready to start the practice."
   ];
   var trial_text = {
     // Default stimuli
-    defaultGoStimulus: "Y",
-    defaultNoGoStimulus: "X",
+    // defaultGoStimulus: 'Y',
+    // defaultNoGoStimulus: 'X',
+    defaultGoStimulus: square,
+    defaultNoGoStimulus: circle,
     defaultButtonText: "Click",
-    // Instructions
-    instructionText: "In this task, you will see different stimuli appear on the screen.",
-    goTrialInstructions: "When you see a 'go' stimulus, click the button as quickly as possible.",
-    noGoTrialInstructions: "When you see a 'no go' stimulus, do NOT click the button.",
-    generalInstructions: "Try to respond as quickly and accurately as possible.",
-    startPrompt: `Click "Start" when you're ready to begin.`,
-    startButton: "Start",
-    // Multi-page Instructions
-    // Page 1: Overview
-    overviewText: "In this task, you will see different stimuli appear on the screen.",
-    overviewPrompt: "Click to start below.",
-    nextButton: "Next",
-    // Page 2: GO Practice
-    goPageContent: `<b>GO Trials</b><br>When you see this stimulus, click the button as quickly as possible!<br>Try clicking the button below to practice:`,
-    gotItButton: "Got it!",
-    goFeedbackMessage: "Perfect! You clicked quickly for the GO stimulus.",
-    goodJobMessage: "Good job!",
-    goFailureMessage: "You failed to click in time. Please try again!",
-    // Page 3: NO-GO Practice  
-    noGoPageContent: `<b>NO-GO Trials</b><br>When you see this stimulus, do NOT click the button!<br>Try waiting without clicking the button below:`,
-    rememberNoGo: "Remember, you should NOT click for the NO-GO stimulus!",
-    noGoFeedbackMessage: "Excellent! You correctly did NOT click for the NO-GO stimulus.",
-    readyToStart: "Now you understand the task.",
+    //instructions button labels, empty strings give us just arrows per jsPsychInstructions
+    back_button: "",
+    next_button: "",
+    // Page 1: GO Practice
+    goPageContent: `<b>GO Trials</b><br>
+  When you see the square, click the button as quickly as possible!<br>
+  Try clicking the button below to practice:`,
+    goSuccess: "Perfect! You clicked quickly for the square stimulus.",
+    goFailure: "You failed to click in time for the square stimulus.",
+    // Page 2: NO-GO Practice  
+    noGoPageContent: `<b>NO-GO Trials</b><br>
+  When you see the circle, do NOT click the button!<br>
+  Try waiting without clicking the button below:`,
+    noGoSuccess: "Excellent! You correctly did NOT click for the circle.",
+    noGoFailure: "Remember, you should NOT click for the circle!",
     // Practice completion page
-    practiceCompleteContent: "<b>Practice Complete!</b><br>Great job! You have completed the practice session and are ready to begin the actual task.",
+    practiceCompleteContent: `<b>Practice Complete!</b><br>
+  Great job! You have completed the practice session and are ready to begin the actual task.`,
     beginTaskButton: "Begin Task",
     // Block instructions
     blockBreakContent: (blockNum, totalBlocks) => "<b>Block " + blockNum + " Complete!</b><br>You have completed block " + blockNum + " of " + totalBlocks + ".<br>Take a short break if needed, then click below to continue.",
-    blockContinuePrompt: (blockNum) => `Click below to continue to block ${blockNum + 1}.`,
     continueButton: "Continue",
     // Results/Debrief
-    taskComplete: "Task Complete!",
+    thankYouMessage: "Thank you for completing the Go/No-Go task!",
     overallAccuracy: "Overall Accuracy:",
     averageResponseTime: "Average Response Time (GO trials):",
-    thankYouMessage: "Thank you for completing the Go/No-Go task!",
-    finishButton: "Finish",
-    // Alt text for images
-    goStimulusAlt: "GO stimulus",
-    noGoStimulusAlt: "NO-GO stimulus",
-    // CSS colors
-    goColor: "green",
-    noGoColor: "red",
-    //button labels
-    back_button: "Back",
-    next_button: "Next",
-    // Trial types (used in data)
-    trialTypes: {
-      instructions: "instructions",
-      goNoGo: "go-nogo",
-      blockInstructions: "block-instructions",
-      debrief: "debrief"
-    },
-    // Stimulus types (used in data)
-    stimulusTypes: {
-      go: "go",
-      noGo: "no-go"
-    },
-    // Timeline unit names
-    timelineUnits: {
-      instructionTrial: "instructions",
-      goNoGoTrial: "go-nogo-trial",
-      debriefTrial: "debrief"
-    },
-    // Data property names
-    dataProperties: {
-      accuracy: "accuracy",
-      rt: "rt"
-    }
+    finishButton: "Finish"
   };
 
   // src/index.ts
@@ -3538,7 +3505,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       stimulus: `
       <p>${texts.goPageContent}</p>
       ${go_html}
-      <div class="go-nogo-feedback" style="visibility: hidden;">${texts.goodJobMessage}</div>
+      <p class="go-nogo-feedback" style="margin: 0 0 5vh 0;visibility: hidden;">${texts.goSuccess}</p>
     `,
       choices: [texts.defaultButtonText],
       trial_duration: timeout,
@@ -3561,7 +3528,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       stimulus: `
       <p>${texts.goPageContent}</p>
       ${go_html}
-      <div class="go-nogo-feedback" style="color: #28a745;">${texts.goodJobMessage}</div>
+      <p class="go-nogo-feedback" style="margin: 0 0 5vh 0;color: #28a745;">${texts.goSuccess}</p>
     `,
       choices: [texts.defaultButtonText],
       trial_duration: 2e3,
@@ -3575,7 +3542,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       stimulus: `
       <p>${texts.goPageContent}</p>
       ${go_html}
-      <div class="go-nogo-feedback" style="color: #dc3545;">${texts.goFailureMessage}</div>
+      <p class="go-nogo-feedback" style="margin: 0 0 5vh 0;color: #dc3545;">${texts.goFailure}</p>
     `,
       choices: [texts.defaultButtonText],
       trial_duration: 2e3,
@@ -3595,7 +3562,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       stimulus: `
       <p>${texts.noGoPageContent}</p>
       ${nogo_html}
-      <div class="go-nogo-feedback" style="visibility: hidden;">${texts.noGoFeedbackMessage}</div>
+      <p class="go-nogo-feedback" style="margin: 0 0 5vh 0;visibility: hidden;">${texts.noGoSuccess}</p>
     `,
       choices: [texts.defaultButtonText],
       trial_duration: timeout,
@@ -3617,7 +3584,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       stimulus: `
       <p>${texts.noGoPageContent}</p>
       ${nogo_html}
-      <div class="go-nogo-feedback" style="color: #28a745;">${texts.noGoFeedbackMessage}</div>
+      <p class="go-nogo-feedback" style="margin: 0 0 5vh 0;color: #28a745;">${texts.noGoSuccess}</p>
     `,
       choices: [texts.defaultButtonText],
       trial_duration: 2e3,
@@ -3631,7 +3598,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       stimulus: `
       <p>${texts.noGoPageContent}</p>
       ${nogo_html}
-      <div class="go-nogo-feedback" style="color: #dc3545;">${texts.rememberNoGo}</div>
+      <p class="go-nogo-feedback" style="margin: 0 0 5vh 0;color: #dc3545;">${texts.noGoFailure}</p>
     `,
       choices: [texts.defaultButtonText],
       trial_duration: 2e3,
@@ -3731,9 +3698,7 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
   var createBlockBreak = (blockNum, num_blocks) => {
     return {
       type: HtmlButtonResponsePlugin,
-      stimulus: `
-            <p>${trial_text.blockBreakContent(blockNum, num_blocks)}</p>
-    `,
+      stimulus: `<p>${trial_text.blockBreakContent(blockNum, num_blocks)}</p>`,
       choices: [trial_text.continueButton],
       data: { task: "go-nogo", phase: "block-break" + blockNum, block_number: blockNum },
       button_html: (choice) => `<button id="block-break-btn" class="continue-btn jspsych-btn timeline-html-btn">${choice}</button>`
@@ -3758,10 +3723,9 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
         const { accuracy, meanRT } = calculateStats();
         return `
         <div class="go-nogo-debrief">
-          <h2>${trial_text.taskComplete}</h2>
+          <p>${trial_text.thankYouMessage}</p>
           <p><strong>${trial_text.overallAccuracy}</strong> ${accuracy}%</p>
           <p><strong>${trial_text.averageResponseTime}</strong> ${meanRT}ms</p>
-          <p>${trial_text.thankYouMessage}</p>
         </div>
       `;
       },
@@ -3781,11 +3745,11 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
     probability = 0.75,
     show_debrief = false,
     // stimuli
-    go_stimulus = trial_text.defaultGoStimulus,
-    nogo_stimulus = trial_text.defaultNoGoStimulus,
+    go_stimulus = "<h2>Y</h2>",
+    nogo_stimulus = "<h2>X</h2>",
     go_stimuli,
     nogo_stimuli,
-    button_text = trial_text.defaultButtonText,
+    button_text = "Click",
     go_practice_timeout = 1e4,
     nogo_practice_timeout = 3e3,
     // texts
@@ -3808,8 +3772,8 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
       });
       timeline.push(practiceTrials);
     }
-    const actualGoStimuli = (go_stimuli == null ? void 0 : go_stimuli.length) ? go_stimuli : [go_stimulus];
-    const actualNoGoStimuli = (nogo_stimuli == null ? void 0 : nogo_stimuli.length) ? nogo_stimuli : [nogo_stimulus];
+    const actualGoStimuli = (go_stimuli == null ? void 0 : go_stimuli.length) ? go_stimuli : texts.defaultGoStimulus ? [texts.defaultGoStimulus] : [go_stimulus];
+    const actualNoGoStimuli = (nogo_stimuli == null ? void 0 : nogo_stimuli.length) ? nogo_stimuli : texts.defaultNoGoStimulus ? [texts.defaultNoGoStimulus] : [nogo_stimulus];
     const goNoGoTrial = createGoNoGo(jsPsych, button_text, trial_timeout);
     const isi_timeoutTrial = createISIFixation(isi_timeout, button_text);
     const blocks = [];
@@ -3844,11 +3808,11 @@ var jsPsychTimelineGoNogoTimeline = (function (exports) {
     go_practice_timeout = 1e4,
     nogo_practice_timeout = 3e3
   } = {}) {
-    const actual_go_stimuli = (go_stimuli == null ? void 0 : go_stimuli.length) ? go_stimuli : [go_stimulus];
-    const actual_nogo_stimuli = (nogo_stimuli == null ? void 0 : nogo_stimuli.length) ? nogo_stimuli : [nogo_stimulus];
+    const actualGoStimuli = (go_stimuli == null ? void 0 : go_stimuli.length) ? go_stimuli : texts.defaultGoStimulus ? [texts.defaultGoStimulus] : [go_stimulus];
+    const actualNoGoStimuli = (nogo_stimuli == null ? void 0 : nogo_stimuli.length) ? nogo_stimuli : texts.defaultNoGoStimulus ? [texts.defaultNoGoStimulus] : [nogo_stimulus];
     return [
-      createGoPractice(actual_go_stimuli[0], texts, go_practice_timeout),
-      createNoGoPractice(actual_nogo_stimuli[0], texts, nogo_practice_timeout),
+      createGoPractice(actualGoStimuli[0], texts, go_practice_timeout),
+      createNoGoPractice(actualNoGoStimuli[0], texts, nogo_practice_timeout),
       createPracticeCompletion(texts)
     ];
   }

@@ -5,8 +5,22 @@ var jsPsychTimelineColumbiaCard = (function (exports) {
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
   var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __propIsEnum = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues = (a, b) => {
+    for (var prop in b || (b = {}))
+      if (__hasOwnProp.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    if (__getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(b)) {
+        if (__propIsEnum.call(b, prop))
+          __defNormalProp(a, prop, b[prop]);
+      }
+    return a;
+  };
   var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
     get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
   }) : x)(function(x) {
@@ -3812,97 +3826,72 @@ var jsPsychTimelineColumbiaCard = (function (exports) {
   })();
 
   // src/text.ts
-  var instruction_pages = [
-    "In this task, you will play a card game to earn points.",
-    "You will see a grid of face-down cards. Each card is either a gain card (gives you points) or a loss card (takes away points).",
-    "Click on cards to flip them over and reveal their value. You can click as many or as few cards as you want.",
-    "Gain cards will give you points, while loss cards will subtract points from your total.",
-    "Your goal is to earn as many points as possible, but be careful - you can also lose points!",
-    "You can stop at any time by clicking the 'Stop' button.",
-    "Let's start with some practice rounds to get familiar with the task."
-  ];
   var trial_text = {
-    // Default card task configuration text
+    /* INSTRUCTIONS PAGES*/
+    instructions_pages: [
+      "In this task, you will play a card game to earn points.",
+      "You will see a grid of face-down cards. Each card is either a gain card (gives you points) or a loss card (takes away points).",
+      "Click on cards to flip them over and reveal their value. You can click as many or as few cards as you want.",
+      "Gain cards will give you points, while loss cards will subtract points from your total.",
+      "Your goal is to earn as many points as possible, but be careful - you can also lose points!",
+      "You can stop at any time by clicking the 'Stop' button.",
+      "Let's start with some practice rounds to get familiar with the task."
+    ],
+    // Button labels (empty strings give us just arrows per jsPsychInstructions)
+    backButton: "",
+    nextButton: "",
+    /* TRIAL PAGE */
     defaultInstructions: "Tap the cards to flip them over. Gain cards give you points, loss cards lose points!",
     defaultGainCardsLabel: "Gain Cards",
     defaultLossCardsLabel: "Loss Cards",
     defaultScoreLabel: "Points:",
     defaultContinueButtonText: "Stop",
     defaultCardFrontSymbol: "?",
-    // Instructions text
-    instructionText: "In this card task, you will try to earn as many points as possible.",
-    cardGameInstructions: "Click on cards to flip them over and see their value.",
-    gainCardExplanation: "Green cards give you points when flipped.",
-    lossCardExplanation: "Red cards subtract points when flipped.",
-    generalInstructions: "Try to earn as many points as possible, but be strategic about which cards you flip.",
-    riskWarning: "Remember: you can stop at any time to keep your current points.",
-    startPrompt: `Click "Start" when you're ready to begin.`,
-    startButton: "Start",
-    // Multi-page Instructions
-    overviewText: "Welcome to the Columbia Card Task.",
-    overviewPrompt: "Click to learn how to play.",
-    nextButton: "Next",
-    cardTypesPageContent: `<b>Card Types</b><br>
-    There are two types of cards in this game:<br>
-    <span style="color: #28a745; font-weight: bold;">Gain Cards</span> - Give you points<br>
-    <span style="color: #dc3545; font-weight: bold;">Loss Cards</span> - Take away points`,
-    gameRulesPageContent: `<b>How to Play</b><br>
-    \u2022 Click on any face-down card to flip it over<br>
-    \u2022 You will immediately gain or lose points based on the card<br>
-    \u2022 You can flip as many cards as you want<br>
-    \u2022 Click "Stop" when you want to end the round`,
-    strategyPageContent: `<b>Strategy</b><br>
-    The more cards you flip, the more points you could gain...<br>
-    But you also risk hitting loss cards that subtract points.<br>
-    Think carefully about when to stop!`,
-    // Practice instructions
-    practiceIntroContent: "<b>Practice Round</b><br>Let's try a practice round to get familiar with the game.",
+    /* PRACTICE PAGE*/
+    practiceIntroContent: "<b>Practice Round</b><br>This will not count towards your final score.",
     practiceCompleteContent: "<b>Practice Complete!</b><br>Great job! You are now ready to begin the actual task.",
     beginTaskButton: "Begin Task",
-    // Block instructions
-    blockStartContent: (blockNum, totalBlocks) => `<b>Round ${blockNum} of ${totalBlocks}</b><br>Get ready for the next round. Remember your strategy!`,
-    blockBreakContent: (blockNum, totalBlocks) => `<b>Round ${blockNum} Complete!</b><br>You have completed round ${blockNum} of ${totalBlocks}.<br>Take a short break if needed.`,
-    blockContinuePrompt: (blockNum) => `Click below to continue to round ${blockNum + 1}.`,
-    blockPointsLabel: "Points This Round:",
-    totalPointsLabel: "Total Points So Far:",
+    /* BLOCK BREAK PAGES */
+    blockBreakContent: (blockNum, totalBlocks, blockPoints, totalPoints, showSummary = true) => `<b>Round ${blockNum} Complete!</b><br>
+        You have completed round ${blockNum} of ${totalBlocks}.<br>
+        Take a short break if needed.` + (showSummary ? `<br>
+            <b>Points This Round:</b> ${blockPoints}<br>
+            <b>Total Points So Far:</b> ${totalPoints}
+            ` : ""),
     continueButton: "Continue",
-    // Results/Debrief
-    taskComplete: "Task Complete!",
-    finalScoreLabel: "Final Score:",
-    totalCardsFlippedLabel: "Total Cards Flipped:",
-    averagePointsPerCardLabel: "Average Points Per Card:",
-    riskTakingScoreLabel: "Risk-Taking Score:",
-    thanksMessage: "Thank you for completing the Columbia Card Task!",
+    /* DEBRIEF PAGE */
+    blockBreakdownTitle: "Round-by-Round Breakdown:",
+    // table headers
+    round: "Round",
+    points: "Points",
+    cards: "Cards",
+    avgPerCard: "Avg/Card",
+    // content under table
+    debriefContent: (totalScore, totalCards, avgPointsPerCard, riskScore) => `Final Score: ${totalScore}<br>
+        Total Cards Flipped: ${totalCards}<br>
+        Average Points Per Card: ${avgPointsPerCard}<br>
+        Risk-Taking Score:<br>
+        ${riskScore}<br>
+        Thank you for completing the Columbia Card Task!`,
     finishButton: "Finish",
-    // Trial feedback (for practice)
-    goodChoiceMessage: "Good choice!",
-    gainCardMessage: (points) => `You gained ${points} points!`,
-    lossCardMessage: (points) => `You lost ${Math.abs(points)} points.`,
-    noCardsFlippedMessage: "You didn't flip any cards this round.",
-    // Button labels (empty strings give us just arrows per jsPsychInstructions)
-    back_button: "",
-    next_button: "",
-    // Risk assessment messages  
-    riskAssessmentConservative: "You played conservatively, flipping fewer cards to minimize risk.",
-    riskAssessmentModerate: "You showed moderate risk-taking behavior.",
-    riskAssessmentAggressive: "You took high risks by flipping many cards for potential rewards."
+    // risk-taking interpretations
+    riskConservative: "You played conservatively, flipping fewer cards to minimize risk.",
+    riskModerate: "You showed moderate risk-taking behavior.",
+    riskAggressive: "You took high risks by flipping many cards for potential rewards."
   };
 
   // src/index.ts
-  function createInstructions(instructions = instruction_pages, texts = trial_text) {
-    var _a, _b;
-    if (instructions.length === 0) {
-      instructions = instruction_pages;
-    }
+  function createInstructions(instructions, texts) {
+    const pages = instructions;
     return {
       type: InstructionsPlugin,
-      pages: instructions.map((page) => `<div class="timeline-instructions"><p>${page}</p></div>`),
+      pages: pages.map((page) => `<div class="timeline-instructions"><p>${page}</p></div>`),
       show_clickable_nav: true,
       allow_keys: true,
       key_forward: "ArrowRight",
       key_backward: "ArrowLeft",
-      button_label_previous: (_a = texts == null ? void 0 : texts.back_button) != null ? _a : texts.back_button,
-      button_label_next: (_b = texts == null ? void 0 : texts.next_button) != null ? _b : texts.next_button,
+      button_label_previous: (texts == null ? void 0 : texts.backButton) || "",
+      button_label_next: (texts == null ? void 0 : texts.nextButton) || "",
       data: { task: "columbia-card", phase: "instructions" }
     };
   }
@@ -3919,8 +3908,8 @@ var jsPsychTimelineColumbiaCard = (function (exports) {
       button_html: (choice) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`
     };
   };
-  var createColumbiaCardTrial = (config, texts = trial_text, blockNumber, trialNumber, jsPsych) => {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
+  var createColumbiaCardTrial = (jsPsych, config, blockNumber, trialNumber) => {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i;
     return {
       type: ColumbiaCardTaskPlugin,
       num_cards: (_a = config.num_cards) != null ? _a : 32,
@@ -3932,12 +3921,12 @@ var jsPsychTimelineColumbiaCard = (function (exports) {
       loss_value: (_g = config.loss_value) != null ? _g : -250,
       gain_value: (_h = config.gain_value) != null ? _h : 10,
       starting_score: (_i = config.starting_score) != null ? _i : 0,
-      card_front_symbol: (_j = config.card_front_symbol) != null ? _j : texts.defaultCardFrontSymbol,
-      instructions: (_k = config.task_instructions) != null ? _k : texts.defaultInstructions,
-      gain_cards_label: (_l = config.gain_cards_label) != null ? _l : texts.defaultGainCardsLabel,
-      loss_cards_label: (_m = config.loss_cards_label) != null ? _m : texts.defaultLossCardsLabel,
-      score_label: (_n = config.score_label) != null ? _n : texts.defaultScoreLabel,
-      continue_button_text: (_o = config.continue_button_text) != null ? _o : texts.defaultContinueButtonText,
+      card_front_symbol: config.text_object.defaultCardFrontSymbol,
+      instructions: config.text_object.defaultInstructions,
+      gain_cards_label: config.text_object.defaultGainCardsLabel,
+      loss_cards_label: config.text_object.defaultLossCardsLabel,
+      score_label: config.text_object.defaultScoreLabel,
+      continue_button_text: config.text_object.defaultContinueButtonText,
       data: {
         task: "columbia-card",
         phase: "main-trial",
@@ -3970,16 +3959,7 @@ var jsPsychTimelineColumbiaCard = (function (exports) {
       type: HtmlButtonResponsePlugin,
       stimulus: () => {
         const { blockPoints, totalPoints } = calculateBlockStats();
-        let content = `<p>${texts.blockBreakContent(blockNum, num_blocks)}</p>`;
-        if (showBlockSummary) {
-          content += `
-          <div style="margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 5px;">
-            <p><strong>${texts.blockPointsLabel}</strong> ${blockPoints}</p>
-            <p><strong>${texts.totalPointsLabel}</strong> ${totalPoints}</p>
-          </div>
-        `;
-        }
-        return content;
+        return `<p>${texts.blockBreakContent(blockNum, num_blocks, blockPoints, totalPoints, showBlockSummary)}</p>`;
       },
       choices: [texts.continueButton],
       data: {
@@ -4017,24 +3997,18 @@ var jsPsychTimelineColumbiaCard = (function (exports) {
     loss_value = -250,
     gain_value = 10,
     starting_score = 0,
-    card_front_symbol = trial_text.defaultCardFrontSymbol,
-    task_instructions = trial_text.defaultInstructions,
-    gain_cards_label = trial_text.defaultGainCardsLabel,
-    loss_cards_label = trial_text.defaultLossCardsLabel,
-    score_label = trial_text.defaultScoreLabel,
-    continue_button_text = trial_text.defaultContinueButtonText,
     // practice configuration
     practice_num_cards = 16,
     practice_num_loss_cards = 2,
     practice_gain_value = 5,
     practice_loss_value = -50,
     // texts
-    instructions_array: instructions = instruction_pages,
-    text_object: texts = trial_text
+    text_object = trial_text
   } = {}) {
+    text_object = __spreadValues(__spreadValues({}, trial_text), text_object != null ? text_object : {});
     const timeline = [];
     if (show_instructions) {
-      timeline.push(createInstructions(instructions, texts));
+      timeline.push(createInstructions(text_object.instructions_pages));
     }
     if (show_practice) {
       const practiceTrials = createPractice({
@@ -4047,44 +4021,38 @@ var jsPsychTimelineColumbiaCard = (function (exports) {
         loss_value: practice_loss_value,
         gain_value: practice_gain_value,
         starting_score,
-        card_front_symbol,
-        task_instructions,
-        gain_cards_label,
-        loss_cards_label,
-        score_label,
-        continue_button_text,
-        text_object: texts
+        text_object
       });
-      timeline.push(...practiceTrials);
+      timeline.push(practiceTrials);
     }
     for (let blockNum = 1; blockNum <= num_blocks; blockNum++) {
       for (let trialNum = 1; trialNum <= num_trials; trialNum++) {
-        const cardTrial = createColumbiaCardTrial({
-          num_cards,
-          num_loss_cards,
-          grid_columns,
-          card_width,
-          card_height,
-          flip_duration,
-          loss_value,
-          gain_value,
-          starting_score,
-          card_front_symbol,
-          task_instructions,
-          gain_cards_label,
-          loss_cards_label,
-          score_label,
-          continue_button_text
-        }, texts, blockNum, trialNum, jsPsych);
+        const cardTrial = createColumbiaCardTrial(
+          jsPsych,
+          {
+            num_cards,
+            num_loss_cards,
+            grid_columns,
+            card_width,
+            card_height,
+            flip_duration,
+            loss_value,
+            gain_value,
+            starting_score,
+            text_object
+          },
+          blockNum,
+          trialNum
+        );
         timeline.push(cardTrial);
       }
       if (blockNum < num_blocks) {
-        const blockBreakTrial = createBlockBreak(jsPsych, blockNum, num_blocks, texts, show_block_summary);
+        const blockBreakTrial = createBlockBreak(jsPsych, blockNum, num_blocks, text_object, show_block_summary);
         timeline.push(blockBreakTrial);
       }
     }
     if (show_debrief) {
-      const debriefTrial = createDebrief(jsPsych, texts);
+      const debriefTrial = createDebrief(jsPsych, text_object);
       timeline.push(debriefTrial);
     }
     return {
@@ -4101,7 +4069,7 @@ var jsPsychTimelineColumbiaCard = (function (exports) {
       data: { task: "columbia-card", phase: "practice", page: "intro" },
       button_html: (choice) => `<button class="jspsych-btn timeline-html-btn">${choice}</button>`
     };
-    const practiceTrial = createColumbiaCardTrial(config, texts, 0, 0);
+    const practiceTrial = createColumbiaCardTrial(void 0, config, 0, 0);
     practiceTrial.data.phase = "practice-trial";
     return [
       practiceIntro,
@@ -4135,11 +4103,11 @@ var jsPsychTimelineColumbiaCard = (function (exports) {
       const riskPercentage = totalPossibleCards > 0 ? totalCards / totalPossibleCards * 100 : 0;
       let riskScore = "";
       if (riskPercentage < 30) {
-        riskScore = texts.riskAssessmentConservative;
+        riskScore = texts.riskConservative;
       } else if (riskPercentage < 60) {
-        riskScore = texts.riskAssessmentModerate;
+        riskScore = texts.riskModerate;
       } else {
-        riskScore = texts.riskAssessmentAggressive;
+        riskScore = texts.riskAggressive;
       }
       return { totalScore, totalCards, avgPointsPerCard, riskScore, blockBreakdown };
     };
@@ -4148,17 +4116,17 @@ var jsPsychTimelineColumbiaCard = (function (exports) {
       stimulus: () => {
         const { totalScore, totalCards, avgPointsPerCard, riskScore, blockBreakdown } = calculateStats();
         let blockTable = "";
-        if (blockBreakdown.length > 1) {
+        if (blockBreakdown.length > 1 && texts.blockBreakdownTitle) {
           blockTable = `
-          <div style="margin: 20px 0;">
-            <h3>Round-by-Round Breakdown:</h3>
-            <table style="border-collapse: collapse; margin: 0 auto; text-align: center;">
+          <div id="block-breakdown" style="margin: 20px 0;">
+            <h4>${texts.blockBreakdownTitle}</h4>
+            <table id="breakdown-table" style="border-collapse: collapse; margin: 0 auto; text-align: center;">
               <thead>
                 <tr style="background-color: #f8f9fa;">
-                  <th style="border: 1px solid #dee2e6; padding: 8px;">Round</th>
-                  <th style="border: 1px solid #dee2e6; padding: 8px;">Points</th>
-                  <th style="border: 1px solid #dee2e6; padding: 8px;">Cards</th>
-                  <th style="border: 1px solid #dee2e6; padding: 8px;">Avg/Card</th>
+                  <th style="border: 1px solid #dee2e6; padding: 8px;">${texts.round}</th>
+                  <th style="border: 1px solid #dee2e6; padding: 8px;">${texts.points}</th>
+                  <th style="border: 1px solid #dee2e6; padding: 8px;">${texts.cards}</th>
+                  <th style="border: 1px solid #dee2e6; padding: 8px;">${texts.avgPerCard}</th>
                 </tr>
               </thead>
               <tbody>
@@ -4175,18 +4143,9 @@ var jsPsychTimelineColumbiaCard = (function (exports) {
           </div>
         `;
         }
-        return `
-        <div class="columbia-card-debrief">
-          <h2>${texts.taskComplete}</h2>
-          <p><strong>${texts.finalScoreLabel}</strong> ${totalScore}</p>
-          <p><strong>${texts.totalCardsFlippedLabel}</strong> ${totalCards}</p>
-          <p><strong>${texts.averagePointsPerCardLabel}</strong> ${avgPointsPerCard}</p>
-          ${blockTable}
-          <p><strong>${texts.riskTakingScoreLabel}</strong></p>
-          <p style="font-style: italic;">${riskScore}</p>
-          <p>${texts.thanksMessage}</p>
-        </div>
-      `;
+        return `<div class="columbia-card-debrief">
+          ${blockTable + `<p>${texts.debriefContent(totalScore, totalCards, avgPointsPerCard, riskScore)}</p>`}
+        </div>`;
       },
       choices: [texts.finishButton],
       data: { task: "columbia-card", phase: "debrief" },

@@ -27,7 +27,7 @@ h2 {
 
 p { /* From: spatial-nback-styles.css */
     margin: 5vmin 0;
-    font-size: clamp(15px, 5vmin, 60px);
+    font-size: clamp(15px, 5vmin, 120px);
     line-height: 1.5;    
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -52,7 +52,7 @@ p { /* From: spatial-nback-styles.css */
 
 /* bigger font */
 .timeline-instructions p {
-    font-size: clamp(15px, 7vmin, 40px);
+    font-size: clamp(15px, 7vmin, 100px);
 }
 
 /* TRIAL PHASE */
@@ -76,33 +76,27 @@ p { /* From: spatial-nback-styles.css */
     margin: clamp(5px, 3vh, 80px) 0;
 }
 
-/* CART TASK STYLES */
-/* override timeline-trial's display: flex; */
-.card-grid {
-    display: grid;
+/* ========================================
+   COLUMBIA CARD TASK STYLES
+======================================== */
+
+/* Card grid mobile responsiveness */
+.cct-grid {
+    grid-template-columns: repeat(4, 8fr);
 }
 
-.card {
-    /* width: 100%; */
-    /* min-height: 100px; */
-    width: min(19vw, 120px); /* Never larger than 120px */
-    aspect-ratio: 3 / 4;
-    margin: 0.75vmin;
-    border: 3px solid #2c3e50;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: clamp(24px, 6vw, 40px);
-    background: linear-gradient(45deg, #4169E1, #6495ED);
-    color: white;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    /* box-sizing: border-box; */
-    
-    -webkit-tap-highlight-color: transparent;
+/* Card mobile styling */
+/* .cct-card {
+    width: 100%;
+    aspect-ratio: 3/4;
+    min-height: clamp(80px, 12vw, 120px);
     touch-action: manipulation;
-}
+} */
+
+/* Card face text scaling */
+/* .cct-card-face {
+    font-size: clamp(12px, 3.5vw, 16px);
+} */
 
 /* ========================================
    BUTTON CONTAINERS & POSITIONING
@@ -240,13 +234,29 @@ p { /* From: spatial-nback-styles.css */
 
 /* Mobile styles */
 @media (max-width: 768px) {
+    /* Columbia Card Task mobile grid adjustments */
+    .cct-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: clamp(6px, 1.5vw, 10px);
+        padding: 0 clamp(8px, 2vw, 15px);
+    }
 
+    .cct-card-face {
+        font-size: clamp(10px, 2.8vw, 14px);
+    }
 }
 
 /* Phone styles */
 @media (max-width: 480px) {
-    /* .timeline-instructions {
-        padding-bottom: 40vmin;
+    /* Columbia Card Task phone grid adjustments */
+    /* .cct-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: clamp(4px, 1.2vw, 8px);
+        padding: 0 clamp(5px, 1.5vw, 10px);
+    }
+
+    .cct-card-face {
+        font-size: clamp(9px, 2.5vw, 12px);
     } */
 }
 
@@ -267,10 +277,23 @@ p { /* From: spatial-nback-styles.css */
     #nback-feedback-section {
     margin-bottom: 10vh;
     }
+
     #nback-grid-container {
         margin: 0; /* pushes grid up */
     }
+    
     .jspsych-btn { /* reduce padding and font size on small screens */
         padding: clamp(5px, 3.5vmin, 35px) clamp(15px, 4vmin, 40px);
     }
+
+    /* Columbia Card Task landscape adjustments */
+    /* .cct-grid {
+        margin-bottom: 20vh;
+        gap: clamp(4px, 1.2vw, 8px);
+        padding: 0 clamp(5px, 1.5vw, 15px);
+    }
+
+    .cct-card-face {
+        font-size: clamp(9px, 2.2vw, 12px);
+    } */
 }

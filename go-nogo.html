@@ -34,26 +34,25 @@
       probability: 0.75,
       show_debrief: false,
       // stimuli
-      go_stimulus: "<h1>Y</h1>",
-      nogo_stimulus: "<h1>X</h1>",
+      // go_stimulus: "<h1>Y</h1>",
+      // nogo_stimulus: "<h1>X</h1>",
       go_practice_timeout: 10000,
-      nogo_practice_timeout: 3000,
+      nogo_practice_timeout: 30000000,
       // go_stimuli,
       // nogo_stimuli,
       button_text: "Continue",
       // texts
-      // instructions_array: instructions = instruction_pages,
-      text_object: englishText,
+      instructions_array: instruction_pages,
+      text_object: english_text,
     };
-    const instructions = jsPsychTimelineGoNogoTimeline.createInstructions(instruction_pages, englishText);
-    const practice = jsPsychTimelineGoNogoTimeline.timelineUnits.createPractice(config);
-    const task = jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, config);
+    const instructions = jsPsychTimelineGoNoGo.createInstructions(instruction_pages, english_text);
+    const practice = jsPsychTimelineGoNoGo.timelineUnits.createPractice(config);
+    const task = jsPsychTimelineGoNoGo.createTimeline(jsPsych, config);
     const mainTimeline = [instructions, practice, task];
-      // timeline for debugging
-    const testTimeline = [instructions, practice, jsPsychTimelineGoNogoTimeline.createTimeline(jsPsych, {num_blocks: 2, num_trials: 3, go_stimulus: "<h1>Y</h1>", nogo_stimulus: "<h1>X</h1>",})];
+    // timeline for debugging
+    const testTimeline = [instructions, practice, jsPsychTimelineGoNoGo.createTimeline(jsPsych, {num_blocks: 2, num_trials: 3, go_stimulus: "<h1>Y</h1>", nogo_stimulus: "<h1>X</h1>",})];
     
     jatos.onLoad(() => {
-
         jsPsych.run(mainTimeline);
     });
 
