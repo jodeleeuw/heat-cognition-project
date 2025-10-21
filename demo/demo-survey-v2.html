@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HotCog Demo</title>
+
+    <script src="https://unpkg.com/jspsych@8"></script>
+
+    <script src="https://unpkg.com/@jspsych-contrib/plugin-survey-slider"></script>
+    <link rel="stylesheet" href="https://unpkg.com/jspsych@8.2.2/css/jspsych.css" />
+    <script src="https://unpkg.com/@jspsych/plugin-survey@3.0.0"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@3.0.0/css/survey.min.css">
+    <script src="plugin-survey-vert-slider.js"></script>
+    <script src="plugin-survey-svo.js"></script>
+    <script src="survey-text.js"></script>
+    <style>
+        .hotcog-containers {
+            padding: 16px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const jsPsych = initJsPsych({
+            on_finish: function() {
+                jsPsych.data.displayData();
+            }
+        });
+
+        let timeline = [];
+
+        const who5_trial = {
+            type: jsPsychSurvey,
+            survey_json: {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [{
+                    elements: [
+                        {
+                            type: "matrix",
+                            name: "who5",
+                            title: WHO5_PREAMBLE,
+                            rows: Object.keys(WHO5_PROMPTS).map(key => ({
+                                value: `A-${key}`,
+                                text: WHO5_PROMPTS[key]
+                            })),
+                            columns: WHO5_SCALE.map((label, i) => ({
+                                value: i,
+                                text: label
+                            })),
+                            isRequired: true
+                        }
+                    ]
+                }]
+            }
+        }
+        timeline.push(who5_trial);
+
+        const phq4_trial = {
+            type: jsPsychSurvey,
+            survey_json: {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [{
+                    elements: [
+                        {
+                            type: "matrix",
+                            name: "phq4",
+                            title: PHQ4_PREAMBLE,
+                            rows: Object.keys(PHQ4_PROMPTS).map(key => ({
+                                value: `A-${key}`,
+                                text: PHQ4_PROMPTS[key]
+                            })),
+                            columns: PHQ4_SCALE.map((label, i) => ({
+                                value: i,
+                                text: label
+                            })),
+                            isRequired: true
+                        }
+                    ]
+                }]
+            }
+        }
+        timeline.push(phq4_trial);
+
+        const vams_trial = {
+            type: jsPsychSurveyVertSlider,
+            questions: [
+                { prompt: VAMS_PROMPTS.VA1, name: "M-VA1", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
+                { prompt: VAMS_PROMPTS.VA2, name: "M-VA2", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
+                { prompt: VAMS_PROMPTS.VA3, name: "M-VA3", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
+                { prompt: VAMS_PROMPTS.VAMS4, name: "M-VAMS4", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
+                { prompt: VAMS_PROMPTS.VA5, name: "M-VA5", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
+                { prompt: VAMS_PROMPTS.VA6, name: "M-VA6", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
+            ],
+            preamble: VAMS_PREAMBLE,
+            css_classes: ['hotcog-containers']
+        }
+        timeline.push(vams_trial);
+
+        const bpaq_trial = {
+            type: jsPsychSurvey,
+            survey_json: {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [{
+                    elements: [
+                        {
+                            type: "matrix",
+                            name: "bpaq",
+                            title: BPAQ_PREAMBLE,
+                            rows: Object.keys(BPAQ_PROMPTS).map(key => ({
+                                value: `M-${key}`,
+                                text: BPAQ_PROMPTS[key]
+                            })),
+                            columns: BPAQ_SCALE.map((label, i) => ({
+                                value: i,
+                                text: label
+                            })),
+                            isRequired: true
+                        }
+                    ]
+                }]
+            }
+        }
+        timeline.push(bpaq_trial);
+
+        const ac_trial = {
+            type: jsPsychSurvey,
+            survey_json: {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [{
+                    elements: [
+                        {
+                            type: "matrix",
+                            name: "ac",
+                            title: AC_PREAMBLE,
+                            rows: Object.keys(AC_PROMPTS).map(key => ({
+                                value: `M-${key}`,
+                                text: AC_PROMPTS[key]
+                            })),
+                            columns: AC_SCALE.map((label, i) => ({
+                                value: i,
+                                text: label
+                            })),
+                            isRequired: true
+                        }
+                    ]
+                }]
+            }
+        }
+        timeline.push(ac_trial);
+
+        const svo_trial = {
+            type: jsPsychSurveySvo,
+            questions: [
+                {
+                    self_values: [85, 85, 85, 85, 85, 85, 85, 85, 85],
+                    other_values: [85, 76, 68, 59, 50, 41, 33, 24, 15],
+                    self_label: SVO_SELF_LABEL,
+                    other_label: SVO_OTHER_LABEL,
+                    name: "M-SVOT1",
+                },
+                {
+                    self_values: [85, 87, 89, 91, 93, 94, 96, 98, 100],
+                    other_values: [15, 19, 24, 28, 33, 37, 41, 46, 50],
+                    self_label: SVO_SELF_LABEL,
+                    other_label: SVO_OTHER_LABEL,
+                    name: "M-SVOT2",
+                },
+                {
+                    self_values: [50, 54, 59, 63, 68, 72, 76, 81, 85],
+                    other_values: [100, 98, 96, 94, 93, 91, 89, 87, 85],
+                    self_label: SVO_SELF_LABEL,
+                    other_label: SVO_OTHER_LABEL,
+                    name: "M-SVOT3",
+                },
+                {
+                    self_values: [50, 54, 59, 63, 68, 72, 76, 81, 85],
+                    other_values: [100, 89, 79, 68, 58, 47, 36, 26, 15],
+                    self_label: SVO_SELF_LABEL,
+                    other_label: SVO_OTHER_LABEL,
+                    name: "M-SVOT4",
+                },
+                {
+                    self_values: [100, 94, 88, 81, 75, 69, 63, 56, 50],
+                    other_values: [50, 56, 63, 69, 75, 81, 88, 94, 100],
+                    self_label: SVO_SELF_LABEL,
+                    other_label: SVO_OTHER_LABEL,
+                    name: "M-SVOT5",
+                },
+                {
+                    self_values: [100, 98, 96, 94, 93, 91, 89, 87, 85],
+                    other_values: [50, 54, 59, 63, 68, 72, 76, 81, 85],
+                    self_label: SVO_SELF_LABEL,
+                    other_label: SVO_OTHER_LABEL,
+                    name: "M-SVOT6",
+                }
+            ],
+            preamble: SVO_PREAMBLE,
+            require_selection: true,
+            button_label: SVO_BUTTON_LABEL,
+            css_classes: ['hotcog-containers']
+        };
+        timeline.push(svo_trial);
+
+        const tic_trial = {
+            type: jsPsychSurvey,
+            survey_json: {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [{
+                    elements: [
+                        {
+                            type: "matrix",
+                            name: "tic",
+                            title: TIC_PREAMBLE,
+                            rows: Object.keys(TIC_PROMPTS).map(key => ({
+                                value: `A-${key}`,
+                                text: TIC_PROMPTS[key]
+                            })),
+                            columns: TIC_SCALE.map((label, i) => ({
+                                value: i,
+                                text: label
+                            })),
+                            isRequired: true
+                        }
+                    ]
+                }]
+            }
+        }
+        timeline.push(tic_trial);
+
+        const cce_trial = {
+            type: jsPsychSurvey,
+            survey_json: {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [{
+                    elements: [
+                        {
+                            type: "matrix",
+                            name: "cce",
+                            title: CCE_PREAMBLE,
+                            rows: Object.keys(CCE_PROMPTS).map(key => ({
+                                value: `M-${key}`,
+                                text: CCE_PROMPTS[key]
+                            })),
+                            columns: CCE_SCALE.map((label, i) => ({
+                                value: i,
+                                text: label
+                            })),
+                            isRequired: true
+                        }
+                    ]
+                }]
+            }
+        }
+        timeline.push(cce_trial);
+
+        const ccj_trial = {
+            type: jsPsychSurvey,
+            survey_json: {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [{
+                    elements: [
+                        {
+                            type: "matrix",
+                            name: "ccj",
+                            title: CCJ_PREAMBLE,
+                            rows: Object.keys(CCJ_PROMPTS).map(key => ({
+                                value: `M-${key}`,
+                                text: CCJ_PROMPTS[key]
+                            })),
+                            columns: CCJ_SCALE.map((label, i) => ({
+                                value: i,
+                                text: label
+                            })),
+                            isRequired: true
+                        }
+                    ]
+                }]
+            }
+        }
+        timeline.push(ccj_trial);
+
+        const cca_trial = {
+            type: jsPsychSurvey,
+            survey_json: {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [{
+                    elements: [
+                        {
+                            type: "matrix",
+                            name: "cca",
+                            title: CCA_PREAMBLE,
+                            rows: Object.keys(CCA_PROMPTS).map(key => ({
+                                value: `M-${key}`,
+                                text: CCA_PROMPTS[key]
+                            })),
+                            columns: CCA_SCALE.map((label, i) => ({
+                                value: i,
+                                text: label
+                            })),
+                            isRequired: true
+                        }
+                    ]
+                }]
+            }
+        }
+        timeline.push(cca_trial);
+
+        const ccb_trial = {
+            type: jsPsychSurvey,
+            survey_json: {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [{
+                    elements: [
+                        {
+                            type: "matrix",
+                            name: "ccb",
+                            title: CCB_PREAMBLE,
+                            rows: Object.keys(CCB_PROMPTS).map(key => ({
+                                value: `M-${key}`,
+                                text: CCB_PROMPTS[key]
+                            })),
+                            columns: CCB_SCALE.map((label, i) => ({
+                                value: i,
+                                text: label
+                            })),
+                            isRequired: true
+                        }
+                    ]
+                }]
+            }
+        }
+        timeline.push(ccb_trial);
+
+        const ts_trial = {
+            type: jsPsychSurvey,
+            survey_json: {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [{
+                    elements: [
+                        {
+                            type: "matrix",
+                            name: "ts1",
+                            title: TS_PROMPTS.TS1.prompt,
+                            rows: [{
+                                value: "A-TS1",
+                                text: ""
+                            }],
+                            columns: TS_PROMPTS.TS1.labels.map((label, i) => ({
+                                value: i,
+                                text: label
+                            })),
+                            isRequired: true
+                        },
+                        {
+                            type: "matrix",
+                            name: "ts2",
+                            title: TS_PROMPTS.TS2.prompt,
+                            rows: [{
+                                value: "A-TS2",
+                                text: ""
+                            }],
+                            columns: TS_PROMPTS.TS2.labels.map((label, i) => ({
+                                value: i,
+                                text: label
+                            })),
+                            isRequired: true
+                        }
+                    ]
+                }]
+            }
+        }
+        timeline.push(ts_trial);
+
+        const sta_trial = {
+            type: jsPsychSurvey,
+            survey_json: {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [{
+                    elements: [
+                        {
+                            type: "matrix",
+                            name: "sta",
+                            title: STA_PREAMBLE,
+                            rows: Object.keys(STA_PROMPTS).map(key => ({
+                                value: `A-${key}`,
+                                text: STA_PROMPTS[key]
+                            })),
+                            columns: STA_SCALE.map((label, i) => ({
+                                value: i,
+                                text: label
+                            })),
+                            isRequired: true
+                        }
+                    ]
+                }]
+            }
+        }
+        timeline.push(sta_trial);
+
+        const sl_trial = {
+            type: jsPsychSurvey,
+            survey_json: {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [{
+                    elements: [
+                        {
+                            type: "matrix",
+                            name: "sl",
+                            title: SL_PREAMBLE,
+                            rows: Object.keys(SL_PROMPTS).map(key => ({
+                                value: `A-${key}`,
+                                text: SL_PROMPTS[key]
+                            })),
+                            columns: SL_SCALE.map((label, i) => ({
+                                value: i,
+                                text: label
+                            })),
+                            isRequired: true
+                        }
+                    ]
+                }]
+            }
+        }
+        timeline.push(sl_trial);
+
+        const de_json = {
+            elements: [{
+                name: "A-DE1",
+                type: "text",
+                title: DE_AGE_TITLE,
+                inputType: "number",
+                min: 18,
+                max: 100,
+                defaultValue: 0,
+                isRequired: true
+            }, {
+                name: "A-DE2",
+                type: "radiogroup",
+                title: DE_GENDER_TITLE,
+                isRequired: true,
+                choices: DE_GENDER_CHOICES,
+                colCount: 1,
+            }, {
+                name: "A-DE6",
+                type: "radiogroup",
+                title: DE_EDUCATION_TITLE,
+                isRequired: true,
+                choices: DE_EDUCATION_CHOICES,
+                colCount: 1
+            }, {
+                type: "html",
+                html: DE_POLITICAL_HTML
+            }, {
+                name: "A-DE7",
+                type: "slider",
+                title: DE_POLITICAL_SOCIAL_TITLE,
+                min: 0,
+                max: 100,
+                step: 1,
+                defaultValue: 50,
+                customLabels: [
+                    { value: 0, label: DE_POLITICAL_LABELS[0] },
+                    { value: 50, label: DE_POLITICAL_LABELS[50] },
+                    { value: 100, label: DE_POLITICAL_LABELS[100] }
+                ]
+            }, {
+                name: "A-DE7a",
+                type: "checkbox",
+                title: " ",
+                choices: [DE_PREFER_NOT_TO_SAY],
+            }, {
+                name: "A-DE8",
+                type: "slider",
+                title: DE_POLITICAL_ECONOMIC_TITLE,
+                min: 0,
+                max: 100,
+                step: 1,
+                defaultValue: 50,
+                customLabels: [
+                    { value: 0, label: DE_POLITICAL_LABELS[0] },
+                    { value: 50, label: DE_POLITICAL_LABELS[50] },
+                    { value: 100, label: DE_POLITICAL_LABELS[100] }
+                ]
+            }, {
+                name: "A-DE8a",
+                type: "checkbox",
+                title: " ",
+                choices: [DE_PREFER_NOT_TO_SAY],
+            },{
+                name: "Comments Box",
+                type: "comment",
+                title: DE_COMMENTS_TITLE
+            }
+        ]};
+        const de_trial = {
+            type: jsPsychSurvey,
+            survey_json: de_json,
+            button_label: DE_BUTTON_LABEL,
+            on_finish: function (data) {
+                if (data.response["A-DE7a"] && data.response["A-DE7a"].includes(DE_PREFER_NOT_TO_SAY)) {
+                    data.response["A-DE7"] = -99;
+                    delete data.response["A-DE7a"];
+                }
+                if (data.response["A-DE8a"] && data.response["A-DE8a"].includes(DE_PREFER_NOT_TO_SAY)) {
+                    data.response["A-DE8"] = -99;
+                    delete data.response["A-DE8a"];
+                }
+            }
+        };
+        timeline.push(de_trial);
+
+        jsPsych.run(timeline);
+    </script>
+</body>
+</html>

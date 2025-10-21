@@ -12,8 +12,9 @@
     <link rel="stylesheet" href="https://unpkg.com/jspsych@8.2.2/css/jspsych.css" />
     <script src="https://unpkg.com/@jspsych/plugin-survey@3.0.0"></script>
     <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@3.0.0/css/survey.min.css">
-    <script src="/plugin-survey-vert-slider.js"></script>
-    <script src="/plugin-survey-svo.js"></script>
+    <script src="plugin-survey-vert-slider.js"></script>
+    <script src="plugin-survey-svo.js"></script>
+    <script src="survey-text.js"></script>
     <style>
         .hotcog-containers {
             padding: 16px;
@@ -30,83 +31,79 @@
 
         let timeline = [];
 
-        const who5_scale = ["none of the time", "some of the time", "less than half of the time", "more than half of the time", "most of the time", "all of the time"];
         const who5_questions = [
-            { prompt: "I have felt cheerful and in good spirits", name: "A-WHO1", labels: who5_scale, required: true },
-            { prompt: "I have felt calm and relaxed", name: "A-WHO2", labels: who5_scale, required: true },
-            { prompt: "I have felt active and vigorous", name: "A-WHO3", labels: who5_scale, required: true },
-            { prompt: "I woke up feeling fresh and rested", name: "A-WHO4", labels: who5_scale, required: true },
-            { prompt: "My daily life has been filled with things that interest me", name: "A-WHO5", labels: who5_scale, required: true }
+            { prompt: WHO5_PROMPTS.WHO1, name: "A-WHO1", labels: WHO5_SCALE, required: true },
+            { prompt: WHO5_PROMPTS.WHO2, name: "A-WHO2", labels: WHO5_SCALE, required: true },
+            { prompt: WHO5_PROMPTS.WHO3, name: "A-WHO3", labels: WHO5_SCALE, required: true },
+            { prompt: WHO5_PROMPTS.WHO4, name: "A-WHO4", labels: WHO5_SCALE, required: true },
+            { prompt: WHO5_PROMPTS.WHO5, name: "A-WHO5", labels: WHO5_SCALE, required: true }
         ]
         const who5_trial = {
             type: jsPsychSurveyLikert,
             questions: who5_questions,
-            preamble: "Please indicate how you have been feeling over the <b>last 2-3 days</b>.",
+            preamble: WHO5_PREAMBLE,
             css_classes: ['hotcog-containers']
         }
         timeline.push(who5_trial);
 
-        const phq4_scale = ["none of the time", "rarely", "sometimes", "often", "all the time"];
         const phq4_questions = [
-            { prompt: "Feeling nervous, anxious or on edge", name: "A-PHQ1", labels: phq4_scale, required: true },
-            { prompt: "Not being able to stop or control worrying", name: "A-PHQ2", labels: phq4_scale, required: true },
-            { prompt: "Feeling down, depressed or hopeless", name: "A-PHQ3", labels: phq4_scale, required: true },
-            { prompt: "Little interest or pleasure in doing things", name: "A-PHQ4", labels: phq4_scale, required: true }
+            { prompt: PHQ4_PROMPTS.PHQ1, name: "A-PHQ1", labels: PHQ4_SCALE, required: true },
+            { prompt: PHQ4_PROMPTS.PHQ2, name: "A-PHQ2", labels: PHQ4_SCALE, required: true },
+            { prompt: PHQ4_PROMPTS.PHQ3, name: "A-PHQ3", labels: PHQ4_SCALE, required: true },
+            { prompt: PHQ4_PROMPTS.PHQ4, name: "A-PHQ4", labels: PHQ4_SCALE, required: true }
         ]
         const phq4_trial = {
             type: jsPsychSurveyLikert,
             questions: phq4_questions,
-            preamble: "Over the <b>last 2-3 days</b>, how often have you been <b>bothered</b> by the following problems?",
+            preamble: PHQ4_PREAMBLE,
             css_classes: ['hotcog-containers']
         }
         timeline.push(phq4_trial);
 
         const vams_questions = [
-            { prompt: "Happy", name: "M-VA1", labels: ["not at all", "extremely"], min: 0, max: 100, step: 1, slider_start: 0 },
-            { prompt: "Sad", name: "M-VA2", labels: ["not at all", "extremely"], min: 0, max: 100, step: 1, slider_start: 0 },
-            { prompt: "Calm", name: "M-VA3", labels: ["not at all", "extremely"], min: 0, max: 100, step: 1, slider_start: 0 },
-            { prompt: "Tense", name: "M-VAMS4", labels: ["not at all", "extremely"], min: 0, max: 100, step: 1, slider_start: 0 },
-            { prompt: "Energetic", name: "M-VA5", labels: ["not at all", "extremely"], min: 0, max: 100, step: 1, slider_start: 0 },
-            { prompt: "Sleepy", name: "M-VA6", labels: ["not at all", "extremely"], min: 0, max: 100, step: 1, slider_start: 0 },
+            { prompt: VAMS_PROMPTS.VA1, name: "M-VA1", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
+            { prompt: VAMS_PROMPTS.VA2, name: "M-VA2", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
+            { prompt: VAMS_PROMPTS.VA3, name: "M-VA3", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
+            { prompt: VAMS_PROMPTS.VAMS4, name: "M-VAMS4", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
+            { prompt: VAMS_PROMPTS.VA5, name: "M-VA5", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
+            { prompt: VAMS_PROMPTS.VA6, name: "M-VA6", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
         ]
         const vams_trial = {
             type: jsPsychSurveyVertSlider,
             questions: vams_questions,
-            preamble: "Click on the answer that bests represents how you feel <b>right now</b>.",
+            preamble: VAMS_PREAMBLE,
             css_classes: ['hotcog-containers']
         }
         timeline.push(vams_trial);
 
-        const bpaq_scale = ["very unlike me", "", "", "", "very like me"];
         const bpaq_questions = [
-            { prompt: "I could have hit someone if sufficiently provoked", name: "M-BP1", labels: bpaq_scale, required: true },
-            { prompt: "I have found myself often disagreeing with people.", name: "M-BP3", labels: bpaq_scale, required: true },
-            { prompt: "I could not help getting into arguments when people disagreed with me.", name: "M-BP4", labels: bpaq_scale, required: true },
-            { prompt: "I have had angry outbursts for no good reason.", name: "M-BP5", labels: bpaq_scale, required: true },
-            { prompt: "I felt like other people have had it easier than me.", name: "M-BP6", labels: bpaq_scale, required: true },
-            { prompt: "I have had trouble controlling my temper.", name: "M-BP7", labels: bpaq_scale, required: true },
-            { prompt: "I have felt bitter about things.", name: "M-BP8", labels: bpaq_scale, required: true },
-            { prompt: "I have felt on the verge of an angry outburst.", name: "M-BP9", labels: bpaq_scale, required: true },
+            { prompt: BPAQ_PROMPTS.BP1, name: "M-BP1", labels: BPAQ_SCALE, required: true },
+            { prompt: BPAQ_PROMPTS.BP3, name: "M-BP3", labels: BPAQ_SCALE, required: true },
+            { prompt: BPAQ_PROMPTS.BP4, name: "M-BP4", labels: BPAQ_SCALE, required: true },
+            { prompt: BPAQ_PROMPTS.BP5, name: "M-BP5", labels: BPAQ_SCALE, required: true },
+            { prompt: BPAQ_PROMPTS.BP6, name: "M-BP6", labels: BPAQ_SCALE, required: true },
+            { prompt: BPAQ_PROMPTS.BP7, name: "M-BP7", labels: BPAQ_SCALE, required: true },
+            { prompt: BPAQ_PROMPTS.BP8, name: "M-BP8", labels: BPAQ_SCALE, required: true },
+            { prompt: BPAQ_PROMPTS.BP9, name: "M-BP9", labels: BPAQ_SCALE, required: true },
         ];
         const bpaq_trial = {
             type: jsPsychSurveyLikert,
             questions: bpaq_questions,
-            preamble: "Please rate how much each of the following statements <b>describes you over the last 2-3 days</b>.",
+            preamble: BPAQ_PREAMBLE,
             css_classes: ['hotcog-containers']
         }
         timeline.push(bpaq_trial);
 
-        const ac_scale = ["none of the time", "rarely", "sometimes", "often", "all of time"];
         const ac_questions = [
-            { prompt: "It has been very hard for me to concentrate on the difficult tasks.", name: "M-AC1", labels: ac_scale, required: true },
-            { prompt: "When I needed to concentrate and solve a problem, I have had trouble focusing my attention.", name: "M-AC2", labels: ac_scale, required: true },
-            { prompt: "When I tried focusing my attention on something, I have had difficulty blocking out distracting thoughts.", name: "M-AC3", labels: ac_scale, required: true },
-            { prompt: "It has been difficult to switch from one task to another.", name: "M-AC4", labels: ac_scale, required: true },
+            { prompt: AC_PROMPTS.AC1, name: "M-AC1", labels: AC_SCALE, required: true },
+            { prompt: AC_PROMPTS.AC2, name: "M-AC2", labels: AC_SCALE, required: true },
+            { prompt: AC_PROMPTS.AC3, name: "M-AC3", labels: AC_SCALE, required: true },
+            { prompt: AC_PROMPTS.AC4, name: "M-AC4", labels: AC_SCALE, required: true },
         ]
         const ac_trial = {
             type: jsPsychSurveyLikert,
             questions: ac_questions,
-            preamble: "Over <b>the last 2-3 days</b>, how often have you been <b>bothered</b> by the following?",
+            preamble: AC_PREAMBLE,
             css_classes: ['hotcog-containers']
         }
         timeline.push(ac_trial);
@@ -115,167 +112,154 @@
             {
                 self_values: [85, 85, 85, 85, 85, 85, 85, 85, 85],
                 other_values: [85, 76, 68, 59, 50, 41, 33, 24, 15],
-                self_label: "You receive",
-                other_label: "Other receives",
+                self_label: SVO_SELF_LABEL,
+                other_label: SVO_OTHER_LABEL,
                 name: "M-SVOT1",
-            }, 
+            },
             {
                 self_values: [85, 87, 89, 91, 93, 94, 96, 98, 100],
                 other_values: [15, 19, 24, 28, 33, 37, 41, 46, 50],
-                self_label: "You receive",
-                other_label: "Other receives",
+                self_label: SVO_SELF_LABEL,
+                other_label: SVO_OTHER_LABEL,
                 name: "M-SVOT2",
             },
             {
                 self_values: [50, 54, 59, 63, 68, 72, 76, 81, 85],
                 other_values: [100, 98, 96, 94, 93, 91, 89, 87, 85],
-                self_label: "You receive",
-                other_label: "Other receives",
+                self_label: SVO_SELF_LABEL,
+                other_label: SVO_OTHER_LABEL,
                 name: "M-SVOT3",
             },
             {
                 self_values: [50, 54, 59, 63, 68, 72, 76, 81, 85],
                 other_values: [100, 89, 79, 68, 58, 47, 36, 26, 15],
-                self_label: "You receive",
-                other_label: "Other receives",
+                self_label: SVO_SELF_LABEL,
+                other_label: SVO_OTHER_LABEL,
                 name: "M-SVOT4",
             },
             {
                 self_values: [100, 94, 88, 81, 75, 69, 63, 56, 50],
                 other_values: [50, 56, 63, 69, 75, 81, 88, 94, 100],
-                self_label: "You receive",
-                other_label: "Other receives",
+                self_label: SVO_SELF_LABEL,
+                other_label: SVO_OTHER_LABEL,
                 name: "M-SVOT5",
             },
             {
                 self_values: [100, 98, 96, 94, 93, 91, 89, 87, 85],
                 other_values: [50, 54, 59, 63, 68, 72, 76, 81, 85],
-                self_label: "You receive",
-                other_label: "Other receives",
+                self_label: SVO_SELF_LABEL,
+                other_label: SVO_OTHER_LABEL,
                 name: "M-SVOT6",
             }
         ]
         const svo_trial = {
             type: jsPsychSurveySvo,
             questions: svo_questions,
-            preamble: `
-In this set of questions, we ask you to imagine that you have been randomly 
-paired with <b>another person</b>, whom we will refer to simply as the “<b>other</b>.” You 
-will be making a series of decisions <b>about allocating finances between you
-and this other person.</b><br>
-For each of the following questions, please indicate the distribution you would 
-prefer. You can only make one mark for each question (each row).<br>
-Please imagine that your decisions will yield money for both yourself and the 
-other person`,
+            preamble: SVO_PREAMBLE,
             require_selection: true,
-            button_label: "Submit",
+            button_label: SVO_BUTTON_LABEL,
             css_classes: ['hotcog-containers']
         };
         timeline.push(svo_trial);
 
 
-        const tic_scale = ["not at all", "a little", "sometimes", "quite a bit", "very much"];
         const tic_questions = [
-            { prompt: "the government in the country you're currently based in?", name: "A-TIC1", labels: tic_scale, required: true },
-            { prompt: "scientific institutions?", name: "A-TIC2", labels: tic_scale, required: true },
-            { prompt: "climate scientists?", name: "A-TIC3", labels: tic_scale, required: true },
-            { prompt: "people from other cultures?", name: "A-TIC4", labels: tic_scale, required: true },
-            { prompt: "people from your country?", name: "A-TIC5", labels: tic_scale, required: true },
-            { prompt: "people in your neighborhood?", name: "A-TIC6", labels: tic_scale, required: true }
+            { prompt: TIC_PROMPTS.TIC1, name: "A-TIC1", labels: TIC_SCALE, required: true },
+            { prompt: TIC_PROMPTS.TIC2, name: "A-TIC2", labels: TIC_SCALE, required: true },
+            { prompt: TIC_PROMPTS.TIC3, name: "A-TIC3", labels: TIC_SCALE, required: true },
+            { prompt: TIC_PROMPTS.TIC4, name: "A-TIC4", labels: TIC_SCALE, required: true },
+            { prompt: TIC_PROMPTS.TIC5, name: "A-TIC5", labels: TIC_SCALE, required: true },
+            { prompt: TIC_PROMPTS.TIC6, name: "A-TIC6", labels: TIC_SCALE, required: true }
         ]
         const tic_trial = {
             type: jsPsychSurveyLikert,
             questions: tic_questions,
-            preamble: "Using a scale from 1 to 5, where 1 means 'no trust at all' and 5 means 'complete trust', <b>how much do you personally trust...</b>",
+            preamble: TIC_PREAMBLE,
             css_classes: ['hotcog-containers']
         }
         timeline.push(tic_trial);
 
-        const cce_scale = ["not at all", "a little", "moderately", "quite a bit", "very much:"];
         const cce_questions = [
-            { prompt: "concerned", name: "M-CCE1", labels: cce_scale, required: true },
-            { prompt: "tense", name: "M-CCE2", labels: cce_scale, required: true },
-            { prompt: "worried", name: "M-CCE3", labels: cce_scale, required: true },
-            { prompt: "anxious", name: "M-CCE4", labels: cce_scale, required: true },
-            { prompt: "depressed", name: "M-CCE5", labels: cce_scale, required: true },
-            { prompt: "hopeless", name: "M-CCE6", labels: cce_scale, required: true },
-            { prompt: "powerless", name: "M-CCE7", labels: cce_scale, required: true },
-            { prompt: "sad", name: "M-CCE8", labels: cce_scale, required: true },
-            { prompt: "helpless", name: "M-CCE9", labels: cce_scale, required: true },
-            { prompt: "hopeful", name: "M-CCE10", labels: cce_scale, required: true },
-            { prompt: "frustrated", name: "M-CCE11", labels: cce_scale, required: true },
-            { prompt: "angry", name: "M-CCE12", labels: cce_scale, required: true },
-            { prompt: "indifferent", name: "M-CCE13", labels: cce_scale, required: true }
+            { prompt: CCE_PROMPTS.CCE1, name: "M-CCE1", labels: CCE_SCALE, required: true },
+            { prompt: CCE_PROMPTS.CCE2, name: "M-CCE2", labels: CCE_SCALE, required: true },
+            { prompt: CCE_PROMPTS.CCE3, name: "M-CCE3", labels: CCE_SCALE, required: true },
+            { prompt: CCE_PROMPTS.CCE4, name: "M-CCE4", labels: CCE_SCALE, required: true },
+            { prompt: CCE_PROMPTS.CCE5, name: "M-CCE5", labels: CCE_SCALE, required: true },
+            { prompt: CCE_PROMPTS.CCE6, name: "M-CCE6", labels: CCE_SCALE, required: true },
+            { prompt: CCE_PROMPTS.CCE7, name: "M-CCE7", labels: CCE_SCALE, required: true },
+            { prompt: CCE_PROMPTS.CCE8, name: "M-CCE8", labels: CCE_SCALE, required: true },
+            { prompt: CCE_PROMPTS.CCE9, name: "M-CCE9", labels: CCE_SCALE, required: true },
+            { prompt: CCE_PROMPTS.CCE10, name: "M-CCE10", labels: CCE_SCALE, required: true },
+            { prompt: CCE_PROMPTS.CCE11, name: "M-CCE11", labels: CCE_SCALE, required: true },
+            { prompt: CCE_PROMPTS.CCE12, name: "M-CCE12", labels: CCE_SCALE, required: true },
+            { prompt: CCE_PROMPTS.CCE13, name: "M-CCE13", labels: CCE_SCALE, required: true }
         ]
         const cce_trial = {
             type: jsPsychSurveyLikert,
             questions: cce_questions,
-            preamble: "<b>Right now, thinking about climate change</b> makes me feel...",
+            preamble: CCE_PREAMBLE,
             css_classes: ['hotcog-containers']
         }
         timeline.push(cce_trial);
 
-        const ccj_scale = ["strongly disagree", "somewhat disagree", "neither agree nor disagree", "somewhat agree", "strongly agree"];
         const ccj_questions = [
-            { prompt: "People living in poverty suffer worse effects from climate change.", name: "M-CCJ1", labels: ccj_scale, required: true },
-            { prompt: "Around the world, people who are least responsible for causing climate change suffer the most severe climate change impacts.", name: "M-CCJ2", labels: ccj_scale, required: true },
-            { prompt: "Climate change affects women worse than men around the world.", name: "M-CCJ3", labels: ccj_scale, required: true },
-            { prompt: "Climate change will worsen existing oppressions and inequalities (for example, the gap between rich and poor countries).", name: "M-CCJ4", labels: ccj_scale, required: true },
-            { prompt: "Solving climate change requires redistributing resources from the wealthy to those who have less.", name: "M-CCJ5", labels: ccj_scale, required: true },
-            { prompt: "People from communities most affected by climate change should have more of a say in decisions about solutions to climate change than they currently do", name: "M-CCJ6", labels: ccj_scale, required: true }
+            { prompt: CCJ_PROMPTS.CCJ1, name: "M-CCJ1", labels: CCJ_SCALE, required: true },
+            { prompt: CCJ_PROMPTS.CCJ2, name: "M-CCJ2", labels: CCJ_SCALE, required: true },
+            { prompt: CCJ_PROMPTS.CCJ3, name: "M-CCJ3", labels: CCJ_SCALE, required: true },
+            { prompt: CCJ_PROMPTS.CCJ4, name: "M-CCJ4", labels: CCJ_SCALE, required: true },
+            { prompt: CCJ_PROMPTS.CCJ5, name: "M-CCJ5", labels: CCJ_SCALE, required: true },
+            { prompt: CCJ_PROMPTS.CCJ6, name: "M-CCJ6", labels: CCJ_SCALE, required: true }
         ]
         const ccj_trial = {
             type: jsPsychSurveyLikert,
             questions: ccj_questions,
-            preamble: "The following statements relate to <b>social and global inequalities</b> in the context of climate change. Please indicate <b>how much you agree or disagree</b> with each statement.",
+            preamble: CCJ_PREAMBLE,
             css_classes: ['hotcog-containers']
         }
         timeline.push(ccj_trial);
 
-        const cca_scale = ["not at all", "a little", "moderately", "quite a bit", "very much"];
         const cca_questions = [
-            { prompt: "Floods", name: "M-CCA1", labels: cca_scale, required: true },
-            { prompt: "Heatwaves", name: "M-CCA2", labels: cca_scale, required: true },
-            { prompt: "Heavy rains", name: "M-CCA3", labels: cca_scale, required: true },
-            { prompt: "Hurricanes", name: "M-CCA4", labels: cca_scale, required: true },
-            { prompt: "Droughts", name: "M-CCA5", labels: cca_scale, required: true },
-            { prompt: "Extremely cold days", name: "M-CCA6", labels: cca_scale, required: true },
-            { prompt: "Wildfires", name: "M-CCA7", labels: cca_scale, required: true }
+            { prompt: CCA_PROMPTS.CCA1, name: "M-CCA1", labels: CCA_SCALE, required: true },
+            { prompt: CCA_PROMPTS.CCA2, name: "M-CCA2", labels: CCA_SCALE, required: true },
+            { prompt: CCA_PROMPTS.CCA3, name: "M-CCA3", labels: CCA_SCALE, required: true },
+            { prompt: CCA_PROMPTS.CCA4, name: "M-CCA4", labels: CCA_SCALE, required: true },
+            { prompt: CCA_PROMPTS.CCA5, name: "M-CCA5", labels: CCA_SCALE, required: true },
+            { prompt: CCA_PROMPTS.CCA6, name: "M-CCA6", labels: CCA_SCALE, required: true },
+            { prompt: CCA_PROMPTS.CCA7, name: "M-CCA7", labels: CCA_SCALE, required: true }
         ]
         const cca_trial = {
             type: jsPsychSurveyLikert,
             questions: cca_questions,
-            preamble: "To what extent do you think climate change has changed the frequency and/or severity of the following weather events?",
+            preamble: CCA_PREAMBLE,
             css_classes: ['hotcog-containers']
         }
         timeline.push(cca_trial);
 
-        const ccb_scale = ["not at all", "", "", "", "extremely accurate"];
         const ccb_questions = [
-            { prompt: "Taking action to fight climate change is necessary to avoid a global catastrophe.", name: "M-CCB1", labels: ccb_scale, required: true },
-            { prompt: "Human activities are causing climate change.", name: "M-CCB2", labels: ccb_scale, required: true },
-            { prompt: "Climate change poses a serious threat to humanity.", name: "M-CCB3", labels: ccb_scale, required: true },
-            { prompt: "Climate change is a global emergency.", name: "M-CCB4", labels: ccb_scale, required: true }
+            { prompt: CCB_PROMPTS.CCB1, name: "M-CCB1", labels: CCB_SCALE, required: true },
+            { prompt: CCB_PROMPTS.CCB2, name: "M-CCB2", labels: CCB_SCALE, required: true },
+            { prompt: CCB_PROMPTS.CCB3, name: "M-CCB3", labels: CCB_SCALE, required: true },
+            { prompt: CCB_PROMPTS.CCB4, name: "M-CCB4", labels: CCB_SCALE, required: true }
         ]
         const ccb_trial = {
             type: jsPsychSurveyLikert,
             questions: ccb_questions,
-            preamble: "How accurate do you think these statements are?",
+            preamble: CCB_PREAMBLE,
             css_classes: ['hotcog-containers']
         }
         timeline.push(ccb_trial);
 
         const ts_questions = [
             {
-                prompt: "How do you feel right now?",
+                prompt: TS_PROMPTS.TS1.prompt,
                 name: "A-TS1",
-                labels: ["cold", "cool", "slightly cool", "neutral (your ideal temperature)", "slightly warm", "warm", "hot"],
+                labels: TS_PROMPTS.TS1.labels,
                 required: true,
             },
             {
-                prompt: "How satisfied are you with the thermal environment right now?",
+                prompt: TS_PROMPTS.TS2.prompt,
                 name: "A-TS2",
-                labels: ["very dissatisfied", "dissatisfied", "slightly dissatisfied", "neutral", "slightly satisfied", "satisfied", "very satisfied"],
+                labels: TS_PROMPTS.TS2.labels,
                 required: true,
             }
         ]
@@ -286,35 +270,33 @@ other person`,
         }
         timeline.push(ts_trial);
 
-        const sta_scale = ["not at all", "a little", "moderately", "quite a bit", "very much"];
         const sta_questions = [
-            { prompt: "Your ability to concentrate", name: "A-STA1", labels: sta_scale, required: true },
-            { prompt: "Your memory", name: "A-STA2", labels: sta_scale, required: true },
-            { prompt: "Your mood", name: "A-STA3", labels: sta_scale, required: true },
-            { prompt: "Your quality of sleep", name: "A-STA4", labels: sta_scale, required: true },
-            { prompt: "Your overall health", name: "A-STA5", labels: sta_scale, required: true },
-            { prompt: "Your well-being", name: "A-STA6", labels: sta_scale, required: true },
-            { prompt: "The well-being of your friends and family", name: "A-STA7", labels: sta_scale, required: true }
+            { prompt: STA_PROMPTS.STA1, name: "A-STA1", labels: STA_SCALE, required: true },
+            { prompt: STA_PROMPTS.STA2, name: "A-STA2", labels: STA_SCALE, required: true },
+            { prompt: STA_PROMPTS.STA3, name: "A-STA3", labels: STA_SCALE, required: true },
+            { prompt: STA_PROMPTS.STA4, name: "A-STA4", labels: STA_SCALE, required: true },
+            { prompt: STA_PROMPTS.STA5, name: "A-STA5", labels: STA_SCALE, required: true },
+            { prompt: STA_PROMPTS.STA6, name: "A-STA6", labels: STA_SCALE, required: true },
+            { prompt: STA_PROMPTS.STA7, name: "A-STA7", labels: STA_SCALE, required: true }
         ]
         const sta_trial = {
             type: jsPsychSurveyLikert,
             questions: sta_questions,
-            preamble: "How much have the <b>temperatures</b> you experienced over <b>the last 2-3 days affected</b>:",
+            preamble: STA_PREAMBLE,
             css_classes: ['hotcog-containers']
         }
         timeline.push(sta_trial);
         
-        const sl_scale = ["strongly disagree", "somewhat disagree", "neither agree nor disagree", "somewhat agree", "strongly agree"];
         const sl_questions = [
-            { prompt: "My sleep quality over the past 2-3 days has been bad.", name: "A-SL1", labels: sl_scale, required: true },
-            { prompt: "I feel that I have not gotten enough sleep over the last 2-3 days.", name: "A-SL2", labels: sl_scale, required: true },
-            { prompt: "I have had difficulties sleeping because I was feeling too hot.", name: "A-SL3", labels: sl_scale, required: true },
-            { prompt: "I have had difficulties sleeping for some other reason.", name: "A-SL4", labels: sl_scale, required: true }
+            { prompt: SL_PROMPTS.SL1, name: "A-SL1", labels: SL_SCALE, required: true },
+            { prompt: SL_PROMPTS.SL2, name: "A-SL2", labels: SL_SCALE, required: true },
+            { prompt: SL_PROMPTS.SL3, name: "A-SL3", labels: SL_SCALE, required: true },
+            { prompt: SL_PROMPTS.SL4, name: "A-SL4", labels: SL_SCALE, required: true }
         ]
         const sl_trial = {
             type: jsPsychSurveyLikert,
             questions: sl_questions,
-            preamble: "The next questions are <b>about your sleep</b> in the <b>last 2-3 days</b>. How much do you agree with the following statements?",
+            preamble: SL_PREAMBLE,
             css_classes: ['hotcog-containers']
         }
         timeline.push(sl_trial);
@@ -323,7 +305,7 @@ other person`,
             elements: [{
                 name: "A-DE1",
                 type: "text",
-                title: "What is your age?",
+                title: DE_AGE_TITLE,
                 inputType: "number",
                 min: 18,
                 max: 100,
@@ -332,77 +314,72 @@ other person`,
             }, {
                 name: "A-DE2",
                 type: "radiogroup",
-                title: "What is your gender?",
+                title: DE_GENDER_TITLE,
                 isRequired: true,
-                choices: ["Female", "Male", "Non-binary/Other", "Prefer not to say"],
+                choices: DE_GENDER_CHOICES,
                 colCount: 1,
             }, {
                 name: "A-DE6",
                 type: "radiogroup",
-                title: "How many years of formal education have you completed? Please select the one that is closest to your level of education.",
+                title: DE_EDUCATION_TITLE,
                 isRequired: true,
-                choices: [
-                    "0-6 (Up to grade school/elementary school)", 
-                    "7-12 (Up to high school)", 
-                    "13-16 (College/undergraduate university/certificate training)", 
-                    "17+ (doctorate degree, medical degree, etc.)"
-                ],
+                choices: DE_EDUCATION_CHOICES,
                 colCount: 1
             }, {
                 type: "html",
-                html: "What is your <b>political orientation</b> for the issues listed below?<br>Please note, by 'liberal' we mean classically left-wing, and by 'conservative', we mean classically right-wing."
+                html: DE_POLITICAL_HTML
             }, {
                 name: "A-DE7",
                 type: "slider",
-                title: "For social issues (e.g., health care, education, etc.)",
+                title: DE_POLITICAL_SOCIAL_TITLE,
                 min: 0,
                 max: 100,
                 step: 1,
                 defaultValue: 50,
                 customLabels: [
-                    { value: 0, label: "Extremely liberal/left-wing" },
-                    { value: 50, label: "Moderate" },
-                    { value: 100, label: "Extremely conservative/right-wing" }
+                    { value: 0, label: DE_POLITICAL_LABELS[0] },
+                    { value: 50, label: DE_POLITICAL_LABELS[50] },
+                    { value: 100, label: DE_POLITICAL_LABELS[100] }
                 ]
             }, {
                 name: "A-DE7a",
-                type: "checkbox", 
+                type: "checkbox",
                 title: " ",
-                choices: ["Prefer not to say"],
+                choices: [DE_PREFER_NOT_TO_SAY],
             }, {
                 name: "A-DE8",
                 type: "slider",
-                title: "For economic issues (e.g., taxes)",
+                title: DE_POLITICAL_ECONOMIC_TITLE,
                 min: 0,
                 max: 100,
                 step: 1,
                 defaultValue: 50,
                 customLabels: [
-                    { value: 0, label: "Extremely liberal/left-wing" },
-                    { value: 50, label: "Moderate" },
-                    { value: 100, label: "Extremely conservative/right-wing" }
+                    { value: 0, label: DE_POLITICAL_LABELS[0] },
+                    { value: 50, label: DE_POLITICAL_LABELS[50] },
+                    { value: 100, label: DE_POLITICAL_LABELS[100] }
                 ]
             }, {
                 name: "A-DE8a",
                 type: "checkbox",
-                title: " ", 
-                choices: ["Prefer not to say"],
+                title: " ",
+                choices: [DE_PREFER_NOT_TO_SAY],
             },{
                 name: "Comments Box",
                 type: "comment",
-                title: "Do you have any comments for this survey?"
+                title: DE_COMMENTS_TITLE
             }
         ]};
         const de_trial = {
             type: jsPsychSurvey,
             survey_json: de_json,
-            button_label: "Submit and finish",
+            button_label: DE_BUTTON_LABEL,
             on_finish: function (data) {
-                if (data.response["A-DE7a"] && data.response["A-DE7a"].includes("Prefer not to say")) {
+                if (data.response["A-DE7a"] && data.response["A-DE7a"].includes(DE_PREFER_NOT_TO_SAY)) {
                     data.response["A-DE7"] = -99;
                     delete data.response["A-DE7a"];
                 }
-                if (data.response["A-DE8a"] && data.response["A-DE8a"].includes("Prefer not to say")) {
+                if (data.response["A-DE8a"] && data.response["A-DE8a"].includes(DE_PREFER_NOT_TO_SAY)) {
                     data.response["A-DE8"] = -99;
                     delete data.response["A-DE8a"];
                 }
