@@ -6,11 +6,10 @@
     <title>HotCog Demo</title>
 
     <script src="https://unpkg.com/jspsych@8"></script>
-
     <script src="https://unpkg.com/@jspsych-contrib/plugin-survey-slider"></script>
     <link rel="stylesheet" href="https://unpkg.com/jspsych@8.2.2/css/jspsych.css" />
-    <script src="https://unpkg.com/@jspsych/plugin-survey@3.0.0"></script>
-    <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@3.0.0/css/survey.min.css">
+    <script src="https://unpkg.com/@jspsych/plugin-survey@4.0.0"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@4.0.0/css/survey.min.css">
     <script src="plugin-survey-vert-slider.js"></script>
     <script src="plugin-survey-svo.js"></script>
     <script src="survey-text.js"></script>
@@ -85,17 +84,94 @@
         timeline.push(phq4_trial);
 
         const vams_trial = {
-            type: jsPsychSurveyVertSlider,
-            questions: [
-                { prompt: VAMS_PROMPTS.VA1, name: "M-VA1", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
-                { prompt: VAMS_PROMPTS.VA2, name: "M-VA2", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
-                { prompt: VAMS_PROMPTS.VA3, name: "M-VA3", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
-                { prompt: VAMS_PROMPTS.VAMS4, name: "M-VAMS4", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
-                { prompt: VAMS_PROMPTS.VA5, name: "M-VA5", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
-                { prompt: VAMS_PROMPTS.VA6, name: "M-VA6", labels: VAMS_LABELS, min: 0, max: 100, step: 1, slider_start: 0 },
-            ],
-            preamble: VAMS_PREAMBLE,
-            css_classes: ['hotcog-containers']
+            type: jsPsychSurvey,
+            survey_json: {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [{
+                    title: VAMS_PREAMBLE,
+                    elements: [
+                        {
+                            type: "slider",
+                            name: "M-VA1",
+                            title: VAMS_PROMPTS.VA1,
+                            min: 0,
+                            max: 100,
+                            step: 1,
+                            defaultValue: 0,
+                            customLabels: [
+                                { value: 0, text: VAMS_LABELS[0] },
+                                { value: 100, text: VAMS_LABELS[1] }
+                            ]
+                        },
+                        {
+                            type: "slider",
+                            name: "M-VA2",
+                            title: VAMS_PROMPTS.VA2,
+                            min: 0,
+                            max: 100,
+                            step: 1,
+                            defaultValue: 0,
+                            customLabels: [
+                                { value: 0, text: VAMS_LABELS[0] },
+                                { value: 100, text: VAMS_LABELS[1] }
+                            ]
+                        },
+                        {
+                            type: "slider",
+                            name: "M-VA3",
+                            title: VAMS_PROMPTS.VA3,
+                            min: 0,
+                            max: 100,
+                            step: 1,
+                            defaultValue: 0,
+                            customLabels: [
+                                { value: 0, text: VAMS_LABELS[0] },
+                                { value: 100, text: VAMS_LABELS[1] }
+                            ]
+                        },
+                        {
+                            type: "slider",
+                            name: "M-VA4",
+                            title: VAMS_PROMPTS.VA4,
+                            min: 0,
+                            max: 100,
+                            step: 1,
+                            defaultValue: 0,
+                            customLabels: [
+                                { value: 0, text: VAMS_LABELS[0] },
+                                { value: 100, text: VAMS_LABELS[1] }
+                            ]
+                        },
+                        {
+                            type: "slider",
+                            name: "M-VA5",
+                            title: VAMS_PROMPTS.VA5,
+                            min: 0,
+                            max: 100,
+                            step: 1,
+                            defaultValue: 0,
+                            customLabels: [
+                                { value: 0, text: VAMS_LABELS[0] },
+                                { value: 100, text: VAMS_LABELS[1] }
+                            ]
+                        },
+                        {
+                            type: "slider",
+                            name: "M-VA6",
+                            title: VAMS_PROMPTS.VA6,
+                            min: 0,
+                            max: 100,
+                            step: 1,
+                            defaultValue: 0,
+                            customLabels: [
+                                { value: 0, text: VAMS_LABELS[0] },
+                                { value: 100, text: VAMS_LABELS[1] }
+                            ]
+                        }
+                    ]
+                }]
+            }
         }
         timeline.push(vams_trial);
 

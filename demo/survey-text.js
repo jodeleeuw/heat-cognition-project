@@ -26,13 +26,13 @@ const PHQ4_PROMPTS = {
 // ============================================================================
 // Visual Analogue Mood Scales
 // ============================================================================
-const VAMS_PREAMBLE = "Click on the answer that bests represents how you feel <b>right now</b>.";
+const VAMS_PREAMBLE = "Click on the answer that bests represents how you feel right now.";
 const VAMS_LABELS = ["not at all", "extremely"];
 const VAMS_PROMPTS = {
     VA1: "Happy",
     VA2: "Sad",
     VA3: "Calm",
-    VAMS4: "Tense",
+    VA4: "Tense",
     VA5: "Energetic",
     VA6: "Sleepy"
 };
