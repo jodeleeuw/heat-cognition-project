@@ -22,6 +22,10 @@
       .hotcog-containers {
         padding: 16px;
       }
+      /* Hide slider tooltips */
+      .sd-slider__tooltip {
+        display: none !important;
+      }
     </style>
   </head>
   <body>
@@ -114,78 +118,78 @@
                   type: "slider",
                   name: "M-VA1",
                   title: VAMS_PROMPTS.VA1,
-                  min: 0,
-                  max: 100,
+                  min: -50,
+                  max: 50,
                   step: 1,
-                  defaultValue: 0,
+                  isRequired: true,
                   customLabels: [
-                    { value: 0, text: VAMS_LABELS[0] },
-                    { value: 100, text: VAMS_LABELS[1] },
+                    { value: -50, text: VAMS_LABELS[0] },
+                    { value: 50, text: VAMS_LABELS[1] },
                   ],
                 },
                 {
                   type: "slider",
                   name: "M-VA2",
                   title: VAMS_PROMPTS.VA2,
-                  min: 0,
-                  max: 100,
+                  min: -50,
+                  max: 50,
                   step: 1,
-                  defaultValue: 0,
+                  isRequired: true,
                   customLabels: [
-                    { value: 0, text: VAMS_LABELS[0] },
-                    { value: 100, text: VAMS_LABELS[1] },
+                    { value: -50, text: VAMS_LABELS[0] },
+                    { value: 50, text: VAMS_LABELS[1] },
                   ],
                 },
                 {
                   type: "slider",
                   name: "M-VA3",
                   title: VAMS_PROMPTS.VA3,
-                  min: 0,
-                  max: 100,
+                  min: -50,
+                  max: 50,
                   step: 1,
-                  defaultValue: 0,
+                  isRequired: true,
                   customLabels: [
-                    { value: 0, text: VAMS_LABELS[0] },
-                    { value: 100, text: VAMS_LABELS[1] },
+                    { value: -50, text: VAMS_LABELS[0] },
+                    { value: 50, text: VAMS_LABELS[1] },
                   ],
                 },
                 {
                   type: "slider",
                   name: "M-VA4",
                   title: VAMS_PROMPTS.VA4,
-                  min: 0,
-                  max: 100,
+                  min: -50,
+                  max: 50,
                   step: 1,
-                  defaultValue: 0,
+                  isRequired: true,
                   customLabels: [
-                    { value: 0, text: VAMS_LABELS[0] },
-                    { value: 100, text: VAMS_LABELS[1] },
+                    { value: -50, text: VAMS_LABELS[0] },
+                    { value: 50, text: VAMS_LABELS[1] },
                   ],
                 },
                 {
                   type: "slider",
                   name: "M-VA5",
                   title: VAMS_PROMPTS.VA5,
-                  min: 0,
-                  max: 100,
+                  min: -50,
+                  max: 50,
                   step: 1,
-                  defaultValue: 0,
+                  isRequired: true,
                   customLabels: [
-                    { value: 0, text: VAMS_LABELS[0] },
-                    { value: 100, text: VAMS_LABELS[1] },
+                    { value: -50, text: VAMS_LABELS[0] },
+                    { value: 50, text: VAMS_LABELS[1] },
                   ],
                 },
                 {
                   type: "slider",
                   name: "M-VA6",
                   title: VAMS_PROMPTS.VA6,
-                  min: 0,
-                  max: 100,
+                  min: -50,
+                  max: 50,
                   step: 1,
-                  defaultValue: 0,
+                  isRequired: true,
                   customLabels: [
-                    { value: 0, text: VAMS_LABELS[0] },
-                    { value: 100, text: VAMS_LABELS[1] },
+                    { value: -50, text: VAMS_LABELS[0] },
+                    { value: 50, text: VAMS_LABELS[1] },
                   ],
                 },
               ],
@@ -207,12 +211,17 @@
                 type: "slider",
                 name: `M-${key}`,
                 title: BPAQ_PROMPTS[key],
-                min: 0,
-                max: 4,
+                min: -2,
+                max: 2,
                 step: 1,
+                isRequired: true,
+                showTicks: true,
                 customLabels: [
-                  { value: 0, text: BPAQ_SCALE[0] },
-                  { value: 4, text: BPAQ_SCALE[4] }
+                  { value: -2, text: BPAQ_SCALE[0] },
+                  { value: -1, text: " "},
+                  { value: 0, text: " " },
+                  { value: 1, text: " "},
+                  { value: 2, text: BPAQ_SCALE[4] }
                 ]
               }))
             },
@@ -247,6 +256,7 @@
             },
           ],
         },
+        min_width: "min(100vw, 1200px)"
       };
 
       const svo_trials = {
@@ -526,12 +536,13 @@
                 type: "slider",
                 name: `M-${key}`,
                 title: CCB_PROMPTS[key],
-                min: 0,
-                max: 4,
+                min: -2,
+                max: 2,
                 step: 1,
+                isRequired: true,
                 customLabels: [
-                  { value: 0, text: CCB_SCALE[0] },
-                  { value: 4, text: CCB_SCALE[4] }
+                  { value: -2, text: CCB_SCALE[0] },
+                  { value: 2, text: CCB_SCALE[1] }
                 ]
               }))
             },
@@ -546,10 +557,11 @@
           completeText: "Continue",
           pages: [
             {
+              title: TS_PREAMBLE,
               elements: [
                 {
                   type: "radiogroup",
-                  name: "A-TS1",
+                  name: "TS1",
                   title: TS_PROMPTS.TS1.prompt,
                   choices: TS_PROMPTS.TS1.labels.map((label, i) => ({
                     value: i,
@@ -559,7 +571,7 @@
                 },
                 {
                   type: "radiogroup",
-                  name: "A-TS2",
+                  name: "TS2",
                   title: TS_PROMPTS.TS2.prompt,
                   choices: TS_PROMPTS.TS2.labels.map((label, i) => ({
                     value: i,
@@ -639,9 +651,6 @@
             type: "text",
             title: DE_AGE_TITLE,
             inputType: "number",
-            min: 18,
-            max: 100,
-            defaultValue: 0,
             isRequired: true,
           },
           {
@@ -673,14 +682,14 @@
                 name: "A-DE7",
                 title: " ",
                 type: "slider",
-                min: 0,
-                max: 100,
+                min: -50,
+                max: 50,
                 step: 1,
-                defaultValue: 50,
+                isRequired: true,
                 customLabels: [
-                  { value: 0, label: DE_POLITICAL_LABELS['0'] },
-                  { value: 50, label: DE_POLITICAL_LABELS['50'] },
-                  { value: 100, label: DE_POLITICAL_LABELS['100'] },
+                  { value: -50, text: DE_POLITICAL_LABELS['0'] },
+                  { value: 0, text: DE_POLITICAL_LABELS['50'] },
+                  { value: 50, text: DE_POLITICAL_LABELS['100'] },
                 ],
                 visibleIf: "{A-DE7a} notcontains 'Prefer not to say'"
               },
@@ -693,6 +702,10 @@
             ]
           },
           {
+            type: "html",
+            html: "<div style='margin-top: 20px;'></div>"
+          },
+          {
             type: "panel",
             name: "political-economic-panel",
             title: DE_POLITICAL_ECONOMIC_TITLE,
@@ -701,14 +714,14 @@
                 name: "A-DE8",
                 type: "slider",
                 title: " ",
-                min: 0,
-                max: 100,
+                min: -50,
+                max: 50,
                 step: 1,
-                defaultValue: 50,
+                isRequired: true,
                 customLabels: [
-                  { value: 0, label: DE_POLITICAL_LABELS['0'] },
-                  { value: 50, label: DE_POLITICAL_LABELS['50'] },
-                  { value: 100, label: DE_POLITICAL_LABELS['100'] },
+                  { value: -50, text: DE_POLITICAL_LABELS['0'] },
+                  { value: 0, text: DE_POLITICAL_LABELS['50'] },
+                  { value: 50, text: DE_POLITICAL_LABELS['100'] },
                 ],
                 visibleIf: "{A-DE8a} notcontains 'Prefer not to say'"
               },
@@ -749,9 +762,9 @@
         },
       };
 
-      timeline.push(who5_trial);
-      timeline.push(phq4_trial);
-      timeline.push(vams_trial);
+      // timeline.push(who5_trial);
+      // timeline.push(phq4_trial);
+      // timeline.push(vams_trial);
       timeline.push(bpaq_trial);
       timeline.push(ac_trial);
       timeline.push(svo_trials);

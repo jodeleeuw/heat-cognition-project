@@ -4,11 +4,11 @@
 const WHO5_PREAMBLE = "Please indicate how you have been feeling over the last 2-3 days.";
 const WHO5_SCALE = ["none of the time", "some of the time", "less than half of the time", "more than half of the time", "most of the time", "all of the time"];
 const WHO5_PROMPTS = {
-    WHO1: "I have felt cheerful and in good spirits",
-    WHO2: "I have felt calm and relaxed",
-    WHO3: "I have felt active and vigorous",
-    WHO4: "I woke up feeling fresh and rested",
-    WHO5: "My daily life has been filled with things that interest me"
+    WHO1: "I have felt cheerful and in good spirits.",
+    WHO2: "I have felt calm and relaxed.",
+    WHO3: "I have felt active and vigorous.",
+    WHO4: "I woke up feeling fresh and rested.",
+    WHO5: "My daily life has been filled with things that interest me."
 };
 
 // ============================================================================
@@ -17,7 +17,7 @@ const WHO5_PROMPTS = {
 const PHQ4_PREAMBLE = "Over the last 2-3 days, how often have you been bothered by the following problems?";
 const PHQ4_SCALE = ["none of the time", "rarely", "sometimes", "often", "all the time"];
 const PHQ4_PROMPTS = {
-    PHQ1: "Feeling nervous, anxious or on edge",
+    PHQ1: "Feeling nervous, anxious, or on edge",
     PHQ2: "Not being able to stop or control worrying",
     PHQ3: "Feeling down, depressed or hopeless",
     PHQ4: "Little interest or pleasure in doing things"
@@ -59,7 +59,7 @@ const BPAQ_PROMPTS = {
 const AC_PREAMBLE = "Over the last 2-3 days, how often have you been bothered by the following?";
 const AC_SCALE = ["none of the time", "rarely", "sometimes", "often", "all of time"];
 const AC_PROMPTS = {
-    AC1: "It has been very hard for me to concentrate on the difficult tasks.",
+    AC1: "It has been very hard for me to concentrate on difficult tasks.",
     AC2: "When I needed to concentrate and solve a problem, I have had trouble focusing my attention.",
     AC3: "When I tried focusing my attention on something, I have had difficulty blocking out distracting thoughts.",
     AC4: "It has been difficult to switch from one task to another."
@@ -68,14 +68,10 @@ const AC_PROMPTS = {
 // ============================================================================
 // Social Value Orientation
 // ============================================================================
-const SVO_PREAMBLE = `In this set of questions, we ask you to imagine that you have been randomly
-paired with <b>another person</b>, whom we will refer to simply as the "<b>other</b>." You
-will be making a series of decisions <b>about allocating finances between you
-and this other person.</b><br>
-For each of the following questions, please indicate the distribution you would
-prefer. You can only make one mark for each question (each row).<br>
-Please imagine that your decisions will yield money for both yourself and the
-other person`;
+const SVO_PREAMBLE = `In this set of questions, we ask you to imagine that you have been randomly paired with another anonymous person, whom we will refer to simply as the "other." You will be making a series of decisions about allocating finances between you and this other person.<br><br>
+For each of the following questions, please indicate the distribution you would prefer. You can only make one mark for each question (each row).<br><br>
+In the example below, a person has chosen to distribute money so that he/she receives 50, while the anonymous other person receives 40.<br><br>
+Please imagine that your decisions will yield money for both yourself and the other person. There are no right or wrong answers, this is all about personal preferences.`;
 const SVO_SELF_LABEL = "You receive";
 const SVO_OTHER_LABEL = "Other receives";
 const SVO_BUTTON_LABEL = "Submit";
@@ -126,14 +122,14 @@ const CCJ_PROMPTS = {
     CCJ3: "Climate change affects women worse than men around the world.",
     CCJ4: "Climate change will worsen existing oppressions and inequalities (for example, the gap between rich and poor countries).",
     CCJ5: "Solving climate change requires redistributing resources from the wealthy to those who have less.",
-    CCJ6: "People from communities most affected by climate change should have more of a say in decisions about solutions to climate change than they currently do"
+    CCJ6: "People from communities most affected by climate change should have more of a say in decisions about solutions to climate change than they currently do."
 };
 
 // ============================================================================
 // Climate Change Attribution
 // ============================================================================
 const CCA_PREAMBLE = "To what extent do you think climate change has changed the frequency and/or severity of the following weather events?";
-const CCA_SCALE = ["not at all", "a little", "moderately", "quite a bit", "very much"];
+const CCA_SCALE = ["strongly decreased", "somewhat decreased", "no change", "somewhat increased", "strongly increased"];
 const CCA_PROMPTS = {
     CCA1: "Floods",
     CCA2: "Heatwaves",
@@ -141,14 +137,15 @@ const CCA_PROMPTS = {
     CCA4: "Hurricanes",
     CCA5: "Droughts",
     CCA6: "Extremely cold days",
-    CCA7: "Wildfires"
+    CCA7: "Wildfires",
+    CCA8: "Earthquakes"
 };
 
 // ============================================================================
 // Climate Change Beliefs
 // ============================================================================
 const CCB_PREAMBLE = "How accurate do you think these statements are?";
-const CCB_SCALE = ["not at all", "", "", "", "extremely accurate"];
+const CCB_SCALE = ["not at all", "extremely accurate"];
 const CCB_PROMPTS = {
     CCB1: "Taking action to fight climate change is necessary to avoid a global catastrophe.",
     CCB2: "Human activities are causing climate change.",
@@ -159,6 +156,7 @@ const CCB_PROMPTS = {
 // ============================================================================
 // Thermal Sensation
 // ============================================================================
+const TS_PREAMBLE = "Please tell us how you currently feel about your thermal environment.";
 const TS_PROMPTS = {
     TS1: {
         prompt: "How do you feel right now?",
@@ -191,7 +189,7 @@ const STA_PROMPTS = {
 const SL_PREAMBLE = "The next questions are about your sleep in the last 2-3 days. How much do you agree with the following statements?";
 const SL_SCALE = ["strongly disagree", "somewhat disagree", "neither agree nor disagree", "somewhat agree", "strongly agree"];
 const SL_PROMPTS = {
-    SL1: "My sleep quality over the past 2-3 days has been bad.",
+    SL1: "My sleep quality over the last 2-3 days has been bad.",
     SL2: "I feel that I have not gotten enough sleep over the last 2-3 days.",
     SL3: "I have had difficulties sleeping because I was feeling too hot.",
     SL4: "I have had difficulties sleeping for some other reason."
