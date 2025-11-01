@@ -26,11 +26,113 @@
       .sd-slider__tooltip {
         display: none !important;
       }
+
+      /* SVO Dual-Label Slider Styling */
+      .svo-dual-slider {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+      }
+
+      .svo-labels-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .svo-row-label {
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .svo-top-labels,
+      .svo-bottom-labels {
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+        gap: 8px;
+        width: 100%;
+      }
+
+      .svo-label-box {
+        border: 2px solid #333;
+        padding: 8px 4px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 14px;
+        background: white;
+        position: relative;
+        transition: background-color 0.2s ease;
+      }
+
+      .svo-label-box.selected {
+        background-color: #007bff;
+        color: white;
+      }
+
+      /* Ticks connecting labels to slider */
+      .svo-label-box::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        background: #666;
+        height: 12px;
+      }
+
+      .svo-top-labels .svo-label-box::after {
+        bottom: -12px;
+      }
+
+      .svo-bottom-labels .svo-label-box::after {
+        top: -12px;
+      }
+
+      .svo-slider-container {
+        margin: 12px 0;
+        position: relative;
+        /* Match the grid width exactly */
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+        gap: 8px;
+      }
+
+      .svo-slider-input {
+        /* Span all 9 columns plus gaps */
+        grid-column: 1 / -1;
+        width: calc(100% - 24px); /* Account for thumb width */
+        margin: 0 12px; /* Center the slider track - half thumb width on each side */
+        height: 8px;
+        -webkit-appearance: none;
+        appearance: none;
+        background: #ddd;
+        outline: none;
+        border-radius: 4px;
+      }
+
+      .svo-slider-input::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        background: #333;
+        cursor: pointer;
+        border-radius: 50%;
+      }
+
+      .svo-slider-input::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+        background: #333;
+        cursor: pointer;
+        border-radius: 50%;
+        border: none;
+      }
     </style>
   </head>
   <body>
     <script>
-
       // todo: randomize order of survey pages (will get paths through)
       // validation/pre-pilot: questionnaire on one
       // get launched for JATOS
@@ -73,7 +175,7 @@
             },
           ],
         },
-        min_width: "min(100vw, 1200px)"
+        min_width: "min(100vw, 1200px)",
       };
 
       const phq4_trial = {
@@ -102,7 +204,7 @@
             },
           ],
         },
-        min_width: "min(100vw, 1200px)"
+        min_width: "min(100vw, 1200px)",
       };
 
       const vams_trial = {
@@ -196,7 +298,25 @@
             },
           ],
         },
-        min_width: "min(100vw, 1200px)"
+        survey_function: function (survey) {
+          // Fix: Override BEFORE rendering to avoid SurveyJS duplicate ID bug
+          survey.getAllQuestions().forEach((question) => {
+            if (question.getType() === "slider") {
+              question.handlePointerDown = function (e) {
+                question.oldValue = question.renderedValue;
+                question.animatedThumb = false;
+              };
+
+              question.handlePointerUp = function (event) {
+                event.stopPropagation();
+                question.setSliderValue(question.renderedValue);
+                question.refreshInputRange();
+                question.oldValue = null;
+              };
+            }
+          });
+        },
+        min_width: "min(100vw, 1200px)",
       };
 
       const bpaq_trial = {
@@ -218,16 +338,34 @@
                 showTicks: true,
                 customLabels: [
                   { value: -2, text: BPAQ_SCALE[0] },
-                  { value: -1, text: " "},
+                  { value: -1, text: " " },
                   { value: 0, text: " " },
-                  { value: 1, text: " "},
-                  { value: 2, text: BPAQ_SCALE[4] }
-                ]
-              }))
+                  { value: 1, text: " " },
+                  { value: 2, text: BPAQ_SCALE[4] },
+                ],
+              })),
             },
           ],
         },
-        min_width: "min(100vw, 1200px)"
+        survey_function: function (survey) {
+          // Fix: Override BEFORE rendering to avoid SurveyJS duplicate ID bug
+          survey.getAllQuestions().forEach((question) => {
+            if (question.getType() === "slider") {
+              question.handlePointerDown = function (e) {
+                question.oldValue = question.renderedValue;
+                question.animatedThumb = false;
+              };
+
+              question.handlePointerUp = function (event) {
+                event.stopPropagation();
+                question.setSliderValue(question.renderedValue);
+                question.refreshInputRange();
+                question.oldValue = null;
+              };
+            }
+          });
+        },
+        min_width: "min(100vw, 1200px)",
       };
 
       const ac_trial = {
@@ -256,118 +394,164 @@
             },
           ],
         },
-        min_width: "min(100vw, 1200px)"
+        min_width: "min(100vw, 1200px)",
       };
 
       const svo_trials = {
-        timeline: [{
-          type: jsPsychSurvey,
-          survey_json: function() {
-            const trial_index = jsPsych.evaluateTimelineVariable('trial_index');
-            const name = jsPsych.evaluateTimelineVariable('name');
+        timeline: [
+          {
+            type: jsPsychSurvey,
+            survey_json: function () {
+              const trial_index =
+                jsPsych.evaluateTimelineVariable("trial_index");
+              const name = jsPsych.evaluateTimelineVariable("name");
 
-            const elements = [];
+              const elements = [];
 
-            // Add preamble as separate HTML element on first trial only
-            if (trial_index === 0) {
-              elements.push({
-                type: "html",
-                name: "svo-preamble",
-                html: `<div style="font-size: 14px; line-height: 1.5; max-width: 700px; margin: 0 auto 20px; padding: 16px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #007bff;">
+              // Add preamble as separate HTML element on first trial only
+              if (trial_index === 0) {
+                elements.push({
+                  type: "html",
+                  name: "svo-preamble",
+                  html: `<div style="font-size: 14px; line-height: 1.5; max-width: 700px; margin: 0 auto 20px; padding: 16px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #007bff;">
                   ${SVO_PREAMBLE}
-                </div>`
-              });
-            }
-
-            elements.push({
-              type: "html",
-              name: `svo-trial-${trial_index + 1}-display`,
-              html: `<div id="svo-trial-${trial_index + 1}-container" class="svo-container"></div>`
-            });
-
-            elements.push({
-              type: "radiogroup",
-              name: name,
-              visible: false,
-              isRequired: true,
-              choices: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-            });
-
-            return {
-              showQuestionNumbers: false,
-              completeText: "Continue",
-              pages: [{
-                elements: elements
-              }]
-            };
-          },
-          on_load: function() {
-            const survey = this.survey;
-            const trial_index = jsPsych.evaluateTimelineVariable('trial_index');
-            const self_values = jsPsych.evaluateTimelineVariable('self_values');
-            const other_values = jsPsych.evaluateTimelineVariable('other_values');
-            const name = jsPsych.evaluateTimelineVariable('name');
-
-            // Wait for DOM to be ready
-            setTimeout(() => {
-              const container = document.getElementById(`svo-trial-${trial_index + 1}-container`);
-              if (!container) return;
-
-              // 3x3 grid layout for all screen sizes
-              let html = '<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 600px; margin: 0 auto;">';
-
-              for (let i = 0; i < self_values.length; i++) {
-                html += `
-                  <button type="button" class="svo-choice-btn" data-choice="${i}" style="
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 12px 8px;
-                    border: 2px solid #ccc;
-                    background: white;
-                    cursor: pointer;
-                    border-radius: 8px;
-                    gap: 4px;
-                    min-height: 80px;
-                  ">
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                      <span style="font-size: 10px; color: #666;">${SVO_SELF_LABEL}</span>
-                      <span style="font-size: 16px; font-weight: bold;">${self_values[i]}</span>
-                    </div>
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: 8px;">
-                      <span style="font-size: 10px; color: #666;">${SVO_OTHER_LABEL}</span>
-                      <span style="font-size: 16px; font-weight: bold;">${other_values[i]}</span>
-                    </div>
-                  </button>
-                `;
+                </div>`,
+                });
               }
 
-              html += '</div>';
-              container.innerHTML = html;
-
-              // Attach click handlers
-              const buttons = container.querySelectorAll('.svo-choice-btn');
-              buttons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                  const choice = parseInt(this.getAttribute('data-choice'));
-
-                  // Update visual selection
-                  buttons.forEach(b => {
-                    b.style.backgroundColor = 'white';
-                    b.style.borderColor = '#ccc';
-                  });
-
-                  this.style.backgroundColor = '#e0e0e0';
-                  this.style.borderColor = '#333';
-
-                  // Update hidden radiogroup
-                  survey.setValue(name, choice);
-                });
+              // Single slider - will be customized with onAfterRenderQuestion
+              elements.push({
+                type: "slider",
+                name: name,
+                title: " ", // Empty title, we'll add custom labels
+                min: -4,
+                max: 4,
+                step: 1,
+                isRequired: true,
+                showTicks: false, // We'll create custom ticks
               });
-            }, 10);
-          }
-        }],
+
+              return {
+                showQuestionNumbers: false,
+                completeText: "Continue",
+                pages: [
+                  {
+                    elements: elements,
+                  },
+                ],
+              };
+            },
+            survey_function: function (survey) {
+              const name = jsPsych.evaluateTimelineVariable("name");
+              const self_values = jsPsych.evaluateTimelineVariable("self_values");
+              const other_values = jsPsych.evaluateTimelineVariable("other_values");
+
+              console.log('SVO survey_function called', { name, self_values, other_values });
+
+              // Add step fix for sliders (from earlier fix)
+              survey.getAllQuestions().forEach((question) => {
+                if (question.getType() === "slider") {
+                  question.handlePointerDown = function (e) {
+                    question.oldValue = question.renderedValue;
+                    question.animatedThumb = false;
+                  };
+
+                  question.handlePointerUp = function (event) {
+                    event.stopPropagation();
+                    question.setSliderValue(question.renderedValue);
+                    question.refreshInputRange();
+                    question.oldValue = null;
+                  };
+                }
+              });
+
+              // Add onAfterRenderQuestion handler
+              survey.onAfterRenderQuestion.add(function (sender, options) {
+                const question = options.question;
+                console.log('onAfterRenderQuestion fired', question.name, question.getType());
+
+                // Only process SVO slider questions
+                if (question.name !== name || question.getType() !== "slider") return;
+
+                console.log('Processing SVO slider', name);
+                const questionElement = options.htmlElement;
+
+                // Build custom dual-label slider HTML
+                const container = document.createElement('div');
+                container.className = 'svo-dual-slider';
+                container.innerHTML = `
+                  <div class="svo-labels-container">
+                    <div class="svo-row-label">${SVO_SELF_LABEL}</div>
+                    <div class="svo-top-labels">
+                      ${self_values.map((val, i) => `
+                        <div class="svo-label-box" data-index="${i - 4}">
+                          ${val}
+                        </div>
+                      `).join('')}
+                    </div>
+                    <div class="svo-slider-container">
+                      <input type="range" class="svo-slider-input" min="-4" max="4" step="1" value="0">
+                    </div>
+                    <div class="svo-bottom-labels">
+                      ${other_values.map((val, i) => `
+                        <div class="svo-label-box" data-index="${i - 4}">
+                          ${val}
+                        </div>
+                      `).join('')}
+                    </div>
+                    <div class="svo-row-label">${SVO_OTHER_LABEL}</div>
+                  </div>
+                `;
+
+                // Hide default SurveyJS slider
+                const defaultSlider = questionElement.querySelector('.sd-slider');
+                if (defaultSlider) {
+                  defaultSlider.style.display = 'none';
+                }
+
+                // Insert custom slider
+                questionElement.appendChild(container);
+
+                // Sync custom slider with question value
+                const customSlider = container.querySelector('.svo-slider-input');
+                const topLabels = container.querySelectorAll('.svo-top-labels .svo-label-box');
+                const bottomLabels = container.querySelectorAll('.svo-bottom-labels .svo-label-box');
+
+                function updateSelectedLabels(value) {
+                  // Remove all selected classes
+                  topLabels.forEach(box => box.classList.remove('selected'));
+                  bottomLabels.forEach(box => box.classList.remove('selected'));
+
+                  // Add selected class to the box matching the slider value
+                  // value ranges from -4 to 4, index ranges from 0 to 8
+                  const index = parseInt(value) + 4;
+                  if (index >= 0 && index < 9) {
+                    topLabels[index].classList.add('selected');
+                    bottomLabels[index].classList.add('selected');
+                  }
+                }
+
+                customSlider.addEventListener('input', function() {
+                  const value = parseInt(this.value);
+                  question.value = value;
+                  updateSelectedLabels(value);
+                });
+
+                customSlider.addEventListener('change', function() {
+                  const value = parseInt(this.value);
+                  question.value = value;
+                  updateSelectedLabels(value);
+                });
+
+                // Sync question value to slider (if pre-filled)
+                if (question.value !== undefined) {
+                  customSlider.value = question.value;
+                  updateSelectedLabels(question.value);
+                }
+              });
+            },
+          },
+        ],
         timeline_variables: [
           {
             trial_index: 0,
@@ -405,7 +589,7 @@
             other_values: [50, 54, 59, 63, 68, 72, 76, 81, 85],
             name: "M-SVOT6",
           },
-        ]
+        ],
       };
 
       const tic_trial = {
@@ -434,7 +618,7 @@
             },
           ],
         },
-        min_width: "min(100vw, 1200px)"
+        min_width: "min(100vw, 1200px)",
       };
 
       const cce_trial = {
@@ -463,7 +647,7 @@
             },
           ],
         },
-        min_width: "min(100vw, 1200px)"
+        min_width: "min(100vw, 1200px)",
       };
 
       const ccj_trial = {
@@ -492,7 +676,7 @@
             },
           ],
         },
-        min_width: "min(100vw, 1200px)"
+        min_width: "min(100vw, 1200px)",
       };
 
       const cca_trial = {
@@ -521,7 +705,7 @@
             },
           ],
         },
-        min_width: "min(100vw, 1200px)"
+        min_width: "min(100vw, 1200px)",
       };
 
       const ccb_trial = {
@@ -542,12 +726,30 @@
                 isRequired: true,
                 customLabels: [
                   { value: -2, text: CCB_SCALE[0] },
-                  { value: 2, text: CCB_SCALE[1] }
-                ]
-              }))
+                  { value: 2, text: CCB_SCALE[1] },
+                ],
+              })),
             },
           ],
-        }
+        },
+        survey_function: function (survey) {
+          // Fix: Override BEFORE rendering to avoid SurveyJS duplicate ID bug
+          survey.getAllQuestions().forEach((question) => {
+            if (question.getType() === "slider") {
+              question.handlePointerDown = function (e) {
+                question.oldValue = question.renderedValue;
+                question.animatedThumb = false;
+              };
+
+              question.handlePointerUp = function (event) {
+                event.stopPropagation();
+                question.setSliderValue(question.renderedValue);
+                question.refreshInputRange();
+                question.oldValue = null;
+              };
+            }
+          });
+        },
       };
 
       const ts_trial = {
@@ -565,9 +767,9 @@
                   title: TS_PROMPTS.TS1.prompt,
                   choices: TS_PROMPTS.TS1.labels.map((label, i) => ({
                     value: i,
-                    text: label
+                    text: label,
                   })),
-                  isRequired: true
+                  isRequired: true,
                 },
                 {
                   type: "radiogroup",
@@ -575,15 +777,15 @@
                   title: TS_PROMPTS.TS2.prompt,
                   choices: TS_PROMPTS.TS2.labels.map((label, i) => ({
                     value: i,
-                    text: label
+                    text: label,
                   })),
-                  isRequired: true
-                }
+                  isRequired: true,
+                },
               ],
             },
           ],
         },
-        min_width: "min(100vw, 1200px)"
+        min_width: "min(100vw, 1200px)",
       };
 
       const sta_trial = {
@@ -612,7 +814,7 @@
             },
           ],
         },
-        min_width: "min(100vw, 1200px)"
+        min_width: "min(100vw, 1200px)",
       };
 
       const sl_trial = {
@@ -641,7 +843,7 @@
             },
           ],
         },
-        min_width: "min(100vw, 1200px)"
+        min_width: "min(100vw, 1200px)",
       };
 
       const de_json = {
@@ -687,23 +889,23 @@
                 step: 1,
                 isRequired: true,
                 customLabels: [
-                  { value: -50, text: DE_POLITICAL_LABELS['0'] },
-                  { value: 0, text: DE_POLITICAL_LABELS['50'] },
-                  { value: 50, text: DE_POLITICAL_LABELS['100'] },
+                  { value: -50, text: DE_POLITICAL_LABELS["0"] },
+                  { value: 0, text: DE_POLITICAL_LABELS["50"] },
+                  { value: 50, text: DE_POLITICAL_LABELS["100"] },
                 ],
-                visibleIf: "{A-DE7a} notcontains 'Prefer not to say'"
+                visibleIf: "{A-DE7a} notcontains 'Prefer not to say'",
               },
               {
                 name: "A-DE7a",
                 type: "checkbox",
                 title: " ",
                 choices: [DE_PREFER_NOT_TO_SAY],
-              }
-            ]
+              },
+            ],
           },
           {
             type: "html",
-            html: "<div style='margin-top: 20px;'></div>"
+            html: "<div style='margin-top: 20px;'></div>",
           },
           {
             type: "panel",
@@ -719,19 +921,19 @@
                 step: 1,
                 isRequired: true,
                 customLabels: [
-                  { value: -50, text: DE_POLITICAL_LABELS['0'] },
-                  { value: 0, text: DE_POLITICAL_LABELS['50'] },
-                  { value: 50, text: DE_POLITICAL_LABELS['100'] },
+                  { value: -50, text: DE_POLITICAL_LABELS["0"] },
+                  { value: 0, text: DE_POLITICAL_LABELS["50"] },
+                  { value: 50, text: DE_POLITICAL_LABELS["100"] },
                 ],
-                visibleIf: "{A-DE8a} notcontains 'Prefer not to say'"
+                visibleIf: "{A-DE8a} notcontains 'Prefer not to say'",
               },
               {
                 name: "A-DE8a",
                 type: "checkbox",
                 title: " ",
                 choices: [DE_PREFER_NOT_TO_SAY],
-              }
-            ]
+              },
+            ],
           },
           {
             name: "Comments Box",
@@ -765,8 +967,8 @@
       // timeline.push(who5_trial);
       // timeline.push(phq4_trial);
       // timeline.push(vams_trial);
-      timeline.push(bpaq_trial);
-      timeline.push(ac_trial);
+      // timeline.push(bpaq_trial);
+      // timeline.push(ac_trial);
       timeline.push(svo_trials);
       timeline.push(tic_trial);
       timeline.push(cce_trial);
