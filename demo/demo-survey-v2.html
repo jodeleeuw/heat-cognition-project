@@ -30,39 +30,40 @@
       /* SVO Dual-Label Slider Styling */
       .svo-dual-slider {
         max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
+        margin: 0 auto;
+        padding: 10px;
       }
 
       .svo-labels-container {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: clamp(4px, 1vw, 8px);
       }
 
       .svo-row-label {
         font-weight: 600;
-        font-size: 14px;
-        margin-bottom: 8px;
+        font-size: clamp(12px, 2vw, 14px);
+        margin-bottom: clamp(4px, 1vw, 8px);
       }
 
       .svo-top-labels,
       .svo-bottom-labels {
         display: grid;
         grid-template-columns: repeat(9, 1fr);
-        gap: 8px;
+        gap: clamp(2px, 1vw, 8px);
         width: 100%;
       }
 
       .svo-label-box {
         border: 2px solid #333;
-        padding: 8px 4px;
+        padding: clamp(4px, 1vw, 8px) clamp(2px, 0.5vw, 4px);
         text-align: center;
         font-weight: 600;
-        font-size: 14px;
+        font-size: clamp(10px, 2vw, 14px);
         background: white;
         position: relative;
         transition: background-color 0.2s ease;
+        min-width: 0; /* Allow boxes to shrink below content size */
       }
 
       .svo-label-box.selected {
@@ -78,32 +79,32 @@
         transform: translateX(-50%);
         width: 2px;
         background: #666;
-        height: 12px;
+        height: clamp(6px, 1.5vw, 12px);
       }
 
       .svo-top-labels .svo-label-box::after {
-        bottom: -12px;
+        bottom: calc(-1 * clamp(6px, 1.5vw, 12px));
       }
 
       .svo-bottom-labels .svo-label-box::after {
-        top: -12px;
+        top: calc(-1 * clamp(6px, 1.5vw, 12px));
       }
 
       .svo-slider-container {
-        margin: 12px 0;
+        margin: clamp(6px, 1.5vw, 12px) 0;
         position: relative;
         /* Match the grid width exactly */
         display: grid;
         grid-template-columns: repeat(9, 1fr);
-        gap: 8px;
+        gap: clamp(2px, 1vw, 8px);
       }
 
       .svo-slider-input {
         /* Span all 9 columns plus gaps */
         grid-column: 1 / -1;
-        width: calc(100% - 24px); /* Account for thumb width */
-        margin: 0 12px; /* Center the slider track - half thumb width on each side */
-        height: 8px;
+        width: calc(100% - clamp(16px, 3vw, 24px)); /* Account for thumb width */
+        margin: 0 calc(clamp(16px, 3vw, 24px) / 2); /* Center the slider track */
+        height: clamp(6px, 1vw, 8px);
         -webkit-appearance: none;
         appearance: none;
         background: #ddd;
@@ -114,16 +115,16 @@
       .svo-slider-input::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
-        width: 24px;
-        height: 24px;
+        width: clamp(16px, 3vw, 24px);
+        height: clamp(16px, 3vw, 24px);
         background: #333;
         cursor: pointer;
         border-radius: 50%;
       }
 
       .svo-slider-input::-moz-range-thumb {
-        width: 24px;
-        height: 24px;
+        width: clamp(16px, 3vw, 24px);
+        height: clamp(16px, 3vw, 24px);
         background: #333;
         cursor: pointer;
         border-radius: 50%;
