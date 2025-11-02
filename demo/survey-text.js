@@ -94,7 +94,7 @@ const TIC_PROMPTS = {
 // Climate Change Emotions
 // ============================================================================
 const CCE_PREAMBLE = "Right now, thinking about climate change makes me feel...";
-const CCE_SCALE = ["not at all", "a little", "moderately", "quite a bit", "very much:"];
+const CCE_SCALE = ["not at all", "a little", "moderately", "quite a bit", "very much"];
 const CCE_PROMPTS = {
     CCE1: "concerned",
     CCE2: "tense",
@@ -212,9 +212,9 @@ const DE_POLITICAL_HTML = "What is your <b>political orientation</b> for the iss
 const DE_POLITICAL_SOCIAL_TITLE = "For social issues (e.g., health care, education, etc.)";
 const DE_POLITICAL_ECONOMIC_TITLE = "For economic issues (e.g., taxes)";
 const DE_POLITICAL_LABELS = {
-    0: "Extremely liberal/left-wing",
+    0: "Extremely liberal/\u200Bleft-wing",
     50: "Moderate",
-    100: "Extremely conservative/right-wing"
+    100: "Extremely conservative/\u200Bright-wing"
 };
 const DE_PREFER_NOT_TO_SAY = "Prefer not to say";
 const DE_COMMENTS_TITLE = "Do you have any comments for this survey?";

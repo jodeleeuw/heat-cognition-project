@@ -19,6 +19,9 @@
     <script src="plugin-survey-svo.js"></script>
     <script src="survey-text.js"></script>
     <style>
+      html { 
+        background-color: #f5f5f5;
+      }
       .hotcog-containers {
         padding: 16px;
       }
@@ -27,11 +30,69 @@
         display: none !important;
       }
 
+      /* Survey background - darker gray instead of white */
+      .sd-root-modern {
+        background-color: #f5f5f5 !important;
+      }
+
+      .sd-page {
+        background-color: #f5f5f5 !important;
+      }
+
       /* SVO Dual-Label Slider Styling */
       .svo-dual-slider {
         max-width: 800px;
         margin: 0 auto;
         padding: 10px;
+      }
+
+      /* Political orientation slider labels - responsive */
+      .sd-question[data-name="A-DE7"] .sd-slider__label,
+      .sd-question[data-name="A-DE8"] .sd-slider__label {
+        font-size: clamp(9px, 1.8vw, 13px) !important;
+        white-space: normal !important;
+        max-width: 80px;
+        line-height: 1.2;
+        text-align: center;
+        word-wrap: break-word;
+      }
+
+      /* VAMS emotion scale labels - responsive */
+      .sd-question[data-name^="M-VA"] .sd-slider__label {
+        font-size: clamp(10px, 2vw, 14px) !important;
+      }
+
+      /* On very small screens, allow even more wrapping */
+      @media (max-width: 500px) {
+        .sd-question[data-name="A-DE7"] .sd-slider__label,
+        .sd-question[data-name="A-DE8"] .sd-slider__label {
+          max-width: 60px;
+          font-size: 9px !important;
+        }
+
+        /* Left align the first label (left-wing at 0%) */
+        [data-name="A-DE7"] .sd-slider__label[style*="left: 0%"] .sd-slider__label-text,
+        [data-name="A-DE8"] .sd-slider__label[style*="left: 0%"] .sd-slider__label-text {
+          text-align: left !important;
+        }
+
+        [data-name="A-DE7"] .sd-slider__label[style*="left: 0%"] .sv-string-viewer,
+        [data-name="A-DE8"] .sd-slider__label[style*="left: 0%"] .sv-string-viewer {
+          text-align: left !important;
+          display: block;
+        }
+
+        /* Right align the last label (right-wing at 100%) */
+        [data-name="A-DE7"] .sd-slider__label[style*="left: 100%"] .sd-slider__label-text,
+        [data-name="A-DE8"] .sd-slider__label[style*="left: 100%"] .sd-slider__label-text {
+          text-align: right !important;
+        }
+
+        [data-name="A-DE7"] .sd-slider__label[style*="left: 100%"] .sv-string-viewer,
+        [data-name="A-DE8"] .sd-slider__label[style*="left: 100%"] .sv-string-viewer {
+          text-align: right !important;
+          display: block;
+        }
       }
 
       .svo-labels-container {
@@ -152,6 +213,7 @@
 
       const who5_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'WHO5' },
         survey_json: {
           showQuestionNumbers: false,
           completeText: "Continue",
@@ -181,6 +243,7 @@
 
       const phq4_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'PHQ4' },
         survey_json: {
           showQuestionNumbers: false,
           completeText: "Continue",
@@ -210,92 +273,32 @@
 
       const vams_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'VAMS' },
         survey_json: {
           showQuestionNumbers: false,
           completeText: "Continue",
           pages: [
             {
               title: VAMS_PREAMBLE,
-              elements: [
-                {
-                  type: "slider",
-                  name: "M-VA1",
-                  title: VAMS_PROMPTS.VA1,
-                  min: -50,
-                  max: 50,
-                  step: 1,
-                  isRequired: true,
-                  customLabels: [
-                    { value: -50, text: VAMS_LABELS[0] },
-                    { value: 50, text: VAMS_LABELS[1] },
-                  ],
-                },
-                {
-                  type: "slider",
-                  name: "M-VA2",
-                  title: VAMS_PROMPTS.VA2,
-                  min: -50,
-                  max: 50,
-                  step: 1,
-                  isRequired: true,
-                  customLabels: [
-                    { value: -50, text: VAMS_LABELS[0] },
-                    { value: 50, text: VAMS_LABELS[1] },
-                  ],
-                },
-                {
-                  type: "slider",
-                  name: "M-VA3",
-                  title: VAMS_PROMPTS.VA3,
-                  min: -50,
-                  max: 50,
-                  step: 1,
-                  isRequired: true,
-                  customLabels: [
-                    { value: -50, text: VAMS_LABELS[0] },
-                    { value: 50, text: VAMS_LABELS[1] },
-                  ],
-                },
-                {
-                  type: "slider",
-                  name: "M-VA4",
-                  title: VAMS_PROMPTS.VA4,
-                  min: -50,
-                  max: 50,
-                  step: 1,
-                  isRequired: true,
-                  customLabels: [
-                    { value: -50, text: VAMS_LABELS[0] },
-                    { value: 50, text: VAMS_LABELS[1] },
-                  ],
-                },
-                {
-                  type: "slider",
-                  name: "M-VA5",
-                  title: VAMS_PROMPTS.VA5,
-                  min: -50,
-                  max: 50,
-                  step: 1,
-                  isRequired: true,
-                  customLabels: [
-                    { value: -50, text: VAMS_LABELS[0] },
-                    { value: 50, text: VAMS_LABELS[1] },
-                  ],
-                },
-                {
-                  type: "slider",
-                  name: "M-VA6",
-                  title: VAMS_PROMPTS.VA6,
-                  min: -50,
-                  max: 50,
-                  step: 1,
-                  isRequired: true,
-                  customLabels: [
-                    { value: -50, text: VAMS_LABELS[0] },
-                    { value: 50, text: VAMS_LABELS[1] },
-                  ],
-                },
-              ],
+              elements: Object.keys(VAMS_PROMPTS).map((key) => ({
+                type: "panel",
+                name: `vams-panel-${key}`,
+                elements: [
+                  {
+                    type: "slider",
+                    name: `M-${key}`,
+                    title: VAMS_PROMPTS[key],
+                    min: -50,
+                    max: 50,
+                    step: 1,
+                    isRequired: true,
+                    customLabels: [
+                      { value: -50, text: VAMS_LABELS[0] },
+                      { value: 50, text: VAMS_LABELS[1] },
+                    ],
+                  },
+                ],
+              })),
             },
           ],
         },
@@ -322,6 +325,7 @@
 
       const bpaq_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'BPAQ' },
         survey_json: {
           showQuestionNumbers: false,
           completeText: "Continue",
@@ -329,20 +333,26 @@
             {
               title: BPAQ_PREAMBLE,
               elements: Object.keys(BPAQ_PROMPTS).map((key) => ({
-                type: "slider",
-                name: `M-${key}`,
-                title: BPAQ_PROMPTS[key],
-                min: -2,
-                max: 2,
-                step: 1,
-                isRequired: true,
-                showTicks: true,
-                customLabels: [
-                  { value: -2, text: BPAQ_SCALE[0] },
-                  { value: -1, text: " " },
-                  { value: 0, text: " " },
-                  { value: 1, text: " " },
-                  { value: 2, text: BPAQ_SCALE[4] },
+                type: "panel",
+                name: `bpaq-panel-${key}`,
+                elements: [
+                  {
+                    type: "slider",
+                    name: `M-${key}`,
+                    title: BPAQ_PROMPTS[key],
+                    min: -2,
+                    max: 2,
+                    step: 1,
+                    isRequired: true,
+                    showTicks: true,
+                    customLabels: [
+                      { value: -2, text: BPAQ_SCALE[0] },
+                      { value: -1, text: " " },
+                      { value: 0, text: " " },
+                      { value: 1, text: " " },
+                      { value: 2, text: BPAQ_SCALE[4] },
+                    ],
+                  },
                 ],
               })),
             },
@@ -371,6 +381,7 @@
 
       const ac_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'AC' },
         survey_json: {
           showQuestionNumbers: false,
           completeText: "Continue",
@@ -402,35 +413,41 @@
         timeline: [
           {
             type: jsPsychSurvey,
+            data: { survey_page: 'SVO' },
             survey_json: function () {
               const trial_index =
                 jsPsych.evaluateTimelineVariable("trial_index");
               const name = jsPsych.evaluateTimelineVariable("name");
+              const is_instructions = jsPsych.evaluateTimelineVariable("is_instructions");
 
               const elements = [];
 
-              // Add preamble as separate HTML element on first trial only
-              if (trial_index === 0) {
+              if (is_instructions) {
+                // Instructions page with non-interactive example
                 elements.push({
                   type: "html",
-                  name: "svo-preamble",
-                  html: `<div style="font-size: 14px; line-height: 1.5; max-width: 700px; margin: 0 auto 20px; padding: 16px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #007bff;">
-                  ${SVO_PREAMBLE}
-                </div>`,
+                  name: "svo-instructions",
+                  html: `<div style="font-size: 14px; line-height: 1.5; max-width: 700px; margin: 0 auto 20px;">
+                    <p>In this set of questions, we ask you to imagine that you have been randomly paired with another anonymous person, whom we will refer to simply as the "other." You will be making a series of decisions about allocating finances between you and this other person.</p>
+                    <p>For each of the following questions, please indicate the distribution you would prefer. You can only make one mark for each question (each row).</p>
+                    <p>In the example below, a person has chosen to distribute money so that he/she receives 50, while the anonymous other person receives 40.</p>
+                    <div id="svo-example-container"></div>
+                    <p>Please imagine that your decisions will yield money for both yourself and the other person. There are no right or wrong answers, this is all about personal preferences.</p>
+                  </div>`,
+                });
+              } else {
+                // Regular question slider
+                elements.push({
+                  type: "slider",
+                  name: name,
+                  title: "Select your preference", // Empty title, we'll add custom labels
+                  min: -4,
+                  max: 4,
+                  step: 1,
+                  isRequired: true,
+                  showTicks: false, // We'll create custom ticks
                 });
               }
-
-              // Single slider - will be customized with onAfterRenderQuestion
-              elements.push({
-                type: "slider",
-                name: name,
-                title: " ", // Empty title, we'll add custom labels
-                min: -4,
-                max: 4,
-                step: 1,
-                isRequired: true,
-                showTicks: false, // We'll create custom ticks
-              });
 
               return {
                 showQuestionNumbers: false,
@@ -446,8 +463,9 @@
               const name = jsPsych.evaluateTimelineVariable("name");
               const self_values = jsPsych.evaluateTimelineVariable("self_values");
               const other_values = jsPsych.evaluateTimelineVariable("other_values");
+              const is_instructions = jsPsych.evaluateTimelineVariable("is_instructions");
 
-              console.log('SVO survey_function called', { name, self_values, other_values });
+              console.log('SVO survey_function called', { name, self_values, other_values, is_instructions });
 
               // Add step fix for sliders (from earlier fix)
               survey.getAllQuestions().forEach((question) => {
@@ -466,18 +484,8 @@
                 }
               });
 
-              // Add onAfterRenderQuestion handler
-              survey.onAfterRenderQuestion.add(function (sender, options) {
-                const question = options.question;
-                console.log('onAfterRenderQuestion fired', question.name, question.getType());
-
-                // Only process SVO slider questions
-                if (question.name !== name || question.getType() !== "slider") return;
-
-                console.log('Processing SVO slider', name);
-                const questionElement = options.htmlElement;
-
-                // Build custom dual-label slider HTML
+              // Function to create SVO slider HTML
+              function createSvoSliderHTML(interactive) {
                 const container = document.createElement('div');
                 container.className = 'svo-dual-slider';
                 container.innerHTML = `
@@ -491,7 +499,7 @@
                       `).join('')}
                     </div>
                     <div class="svo-slider-container">
-                      <input type="range" class="svo-slider-input" min="-4" max="4" step="1" value="0">
+                      <input type="range" class="svo-slider-input" min="-4" max="4" step="1" value="0" ${interactive ? '' : 'disabled'}>
                     </div>
                     <div class="svo-bottom-labels">
                       ${other_values.map((val, i) => `
@@ -503,89 +511,140 @@
                     <div class="svo-row-label">${SVO_OTHER_LABEL}</div>
                   </div>
                 `;
+                return container;
+              }
 
-                // Hide default SurveyJS slider
-                const defaultSlider = questionElement.querySelector('.sd-slider');
-                if (defaultSlider) {
-                  defaultSlider.style.display = 'none';
-                }
+              if (is_instructions) {
+                // For instructions page, insert example slider after render
+                survey.onAfterRenderQuestion.add(function (sender, options) {
+                  if (options.question.name === 'svo-instructions') {
+                    const exampleContainer = document.getElementById('svo-example-container');
+                    if (exampleContainer) {
+                      const container = createSvoSliderHTML(false);
+                      exampleContainer.appendChild(container);
 
-                // Insert custom slider
-                questionElement.appendChild(container);
+                      // Set example to middle position (value 0 = index 4)
+                      const customSlider = container.querySelector('.svo-slider-input');
+                      const topLabels = container.querySelectorAll('.svo-top-labels .svo-label-box');
+                      const bottomLabels = container.querySelectorAll('.svo-bottom-labels .svo-label-box');
 
-                // Sync custom slider with question value
-                const customSlider = container.querySelector('.svo-slider-input');
-                const topLabels = container.querySelectorAll('.svo-top-labels .svo-label-box');
-                const bottomLabels = container.querySelectorAll('.svo-bottom-labels .svo-label-box');
-
-                function updateSelectedLabels(value) {
-                  // Remove all selected classes
-                  topLabels.forEach(box => box.classList.remove('selected'));
-                  bottomLabels.forEach(box => box.classList.remove('selected'));
-
-                  // Add selected class to the box matching the slider value
-                  // value ranges from -4 to 4, index ranges from 0 to 8
-                  const index = parseInt(value) + 4;
-                  if (index >= 0 && index < 9) {
-                    topLabels[index].classList.add('selected');
-                    bottomLabels[index].classList.add('selected');
+                      customSlider.value = 0;
+                      topLabels[4].classList.add('selected');
+                      bottomLabels[4].classList.add('selected');
+                    }
                   }
-                }
-
-                customSlider.addEventListener('input', function() {
-                  const value = parseInt(this.value);
-                  question.value = value;
-                  updateSelectedLabels(value);
                 });
+              } else {
+                // Add onAfterRenderQuestion handler for interactive sliders
+                survey.onAfterRenderQuestion.add(function (sender, options) {
+                  const question = options.question;
+                  console.log('onAfterRenderQuestion fired', question.name, question.getType());
 
-                customSlider.addEventListener('change', function() {
-                  const value = parseInt(this.value);
-                  question.value = value;
-                  updateSelectedLabels(value);
+                  // Only process SVO slider questions
+                  if (question.name !== name || question.getType() !== "slider") return;
+
+                  console.log('Processing SVO slider', name);
+                  const questionElement = options.htmlElement;
+
+                  // Build custom dual-label slider HTML
+                  const container = createSvoSliderHTML(true);
+
+                  // Hide default SurveyJS slider
+                  const defaultSlider = questionElement.querySelector('.sd-slider');
+                  if (defaultSlider) {
+                    defaultSlider.style.display = 'none';
+                  }
+
+                  // Insert custom slider
+                  questionElement.appendChild(container);
+
+                  // Sync custom slider with question value
+                  const customSlider = container.querySelector('.svo-slider-input');
+                  const topLabels = container.querySelectorAll('.svo-top-labels .svo-label-box');
+                  const bottomLabels = container.querySelectorAll('.svo-bottom-labels .svo-label-box');
+
+                  function updateSelectedLabels(value) {
+                    // Remove all selected classes
+                    topLabels.forEach(box => box.classList.remove('selected'));
+                    bottomLabels.forEach(box => box.classList.remove('selected'));
+
+                    // Add selected class to the box matching the slider value
+                    // value ranges from -4 to 4, index ranges from 0 to 8
+                    const index = parseInt(value) + 4;
+                    if (index >= 0 && index < 9) {
+                      topLabels[index].classList.add('selected');
+                      bottomLabels[index].classList.add('selected');
+                    }
+                  }
+
+                  customSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    question.value = value;
+                    updateSelectedLabels(value);
+                  });
+
+                  customSlider.addEventListener('change', function() {
+                    const value = parseInt(this.value);
+                    question.value = value;
+                    updateSelectedLabels(value);
+                  });
+
+                  // Sync question value to slider (if pre-filled)
+                  if (question.value !== undefined) {
+                    customSlider.value = question.value;
+                    updateSelectedLabels(question.value);
+                  }
                 });
-
-                // Sync question value to slider (if pre-filled)
-                if (question.value !== undefined) {
-                  customSlider.value = question.value;
-                  updateSelectedLabels(question.value);
-                }
-              });
+              }
             },
           },
         ],
         timeline_variables: [
           {
             trial_index: 0,
+            is_instructions: true,
+            self_values: [30, 35, 40, 45, 50, 55, 60, 65, 70],
+            other_values: [80, 70, 60, 50, 40, 30, 20, 10, 0],
+            name: "svo-instructions",
+          },
+          {
+            trial_index: 1,
+            is_instructions: false,
             self_values: [85, 85, 85, 85, 85, 85, 85, 85, 85],
             other_values: [85, 76, 68, 59, 50, 41, 33, 24, 15],
             name: "M-SVOT1",
           },
           {
-            trial_index: 1,
+            trial_index: 2,
+            is_instructions: false,
             self_values: [85, 87, 89, 91, 93, 94, 96, 98, 100],
             other_values: [15, 19, 24, 28, 33, 37, 41, 46, 50],
             name: "M-SVOT2",
           },
           {
-            trial_index: 2,
+            trial_index: 3,
+            is_instructions: false,
             self_values: [50, 54, 59, 63, 68, 72, 76, 81, 85],
             other_values: [100, 98, 96, 94, 93, 91, 89, 87, 85],
             name: "M-SVOT3",
           },
           {
-            trial_index: 3,
+            trial_index: 4,
+            is_instructions: false,
             self_values: [50, 54, 59, 63, 68, 72, 76, 81, 85],
             other_values: [100, 89, 79, 68, 58, 47, 36, 26, 15],
             name: "M-SVOT4",
           },
           {
-            trial_index: 4,
+            trial_index: 5,
+            is_instructions: false,
             self_values: [100, 94, 88, 81, 75, 69, 63, 56, 50],
             other_values: [50, 56, 63, 69, 75, 81, 88, 94, 100],
             name: "M-SVOT5",
           },
           {
-            trial_index: 5,
+            trial_index: 6,
+            is_instructions: false,
             self_values: [100, 98, 96, 94, 93, 91, 89, 87, 85],
             other_values: [50, 54, 59, 63, 68, 72, 76, 81, 85],
             name: "M-SVOT6",
@@ -595,6 +654,7 @@
 
       const tic_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'TIC' },
         survey_json: {
           showQuestionNumbers: false,
           completeText: "Continue",
@@ -624,6 +684,7 @@
 
       const cce_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'CCE' },
         survey_json: {
           showQuestionNumbers: false,
           completeText: "Continue",
@@ -653,6 +714,7 @@
 
       const ccj_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'CCJ' },
         survey_json: {
           showQuestionNumbers: false,
           completeText: "Continue",
@@ -682,6 +744,7 @@
 
       const cca_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'CCA' },
         survey_json: {
           showQuestionNumbers: false,
           completeText: "Continue",
@@ -711,6 +774,7 @@
 
       const ccb_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'CCB' },
         survey_json: {
           showQuestionNumbers: false,
           completeText: "Continue",
@@ -755,6 +819,7 @@
 
       const ts_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'TS' },
         survey_json: {
           showQuestionNumbers: false,
           completeText: "Continue",
@@ -791,6 +856,7 @@
 
       const sta_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'STA' },
         survey_json: {
           showQuestionNumbers: false,
           completeText: "Continue",
@@ -820,6 +886,7 @@
 
       const sl_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'SL' },
         survey_json: {
           showQuestionNumbers: false,
           completeText: "Continue",
@@ -947,6 +1014,7 @@
       // fix the prefer not to say item
       const de_trial = {
         type: jsPsychSurvey,
+        data: { survey_page: 'Demographics' },
         survey_json: de_json,
         button_label: DE_BUTTON_LABEL,
         on_finish: function (data) {
@@ -967,9 +1035,9 @@
 
       // timeline.push(who5_trial);
       // timeline.push(phq4_trial);
-      // timeline.push(vams_trial);
-      // timeline.push(bpaq_trial);
-      // timeline.push(ac_trial);
+      timeline.push(vams_trial);
+      timeline.push(bpaq_trial);
+      timeline.push(ac_trial);
       timeline.push(svo_trials);
       timeline.push(tic_trial);
       timeline.push(cce_trial);
