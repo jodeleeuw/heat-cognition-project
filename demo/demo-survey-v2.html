@@ -16,6 +16,7 @@
       href="https://unpkg.com/@jspsych/plugin-survey@4.0.0/css/survey.min.css"
     />
     <script src="survey-text.js"></script>
+    <script src="jatos.js"></script>
     <style>
       html { 
         background-color: #f5f5f5;
@@ -201,8 +202,16 @@
       // -- whole package ready to go
       // -- all the tasks working, paths up
 
+      const IN_JATOS = typeof jatos !== "undefined";
+
       const jsPsych = initJsPsych({
         on_finish: function () {
+          if (IN_JATOS) {
+            jatos.submitResultData(jsPsych.data.get().json());
+            jatos.finishStudy();
+          } else {
+            jsPsych.data.displayData();
+          }
           jsPsych.data.displayData();
         },
       });
@@ -1047,7 +1056,16 @@
       timeline.push(sl_trial);
       timeline.push(de_trial);
 
-      jsPsych.run(timeline);
+      if (IN_JATOS) {
+        const jatos_id = jatos.studyResultId;
+        jsPsych.data.addProperties({ jatos_id: jatos_id });
+        jatos.onLoad(() => {
+          jsPsych.run(timeline);
+        });
+      } else {
+        jsPsych.run(timeline);
+      }
+      
     </script>
   </body>
 </html>
