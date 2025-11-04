@@ -207,8 +207,7 @@
       const jsPsych = initJsPsych({
         on_finish: function () {
           if (IN_JATOS) {
-            jatos.submitResultData(jsPsych.data.get().json());
-            jatos.finishStudy();
+            jatos.startNextComponent(jsPsych.data.get().json())
           } else {
             jsPsych.data.displayData();
           }
