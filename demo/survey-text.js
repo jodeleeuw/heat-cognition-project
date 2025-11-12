@@ -218,4 +218,225 @@ const DE_POLITICAL_LABELS = {
 };
 const DE_PREFER_NOT_TO_SAY = "Prefer not to say";
 const DE_COMMENTS_TITLE = "Do you have any comments for this survey?";
-const DE_BUTTON_LABEL = "Submit and finish";
+const DE_BUTTON_LABEL = "Continue";
+
+// ============================================================================
+// Introduction Screen
+// ============================================================================
+const INTRO_TITLE = "Welcome to our survey!";
+const INTRO_HTML = `
+<div style="max-width: 800px; margin: 0 auto; text-align: left; line-height: 1.6;">
+  <p>Dear participant,</p>
+
+  <p>We invite you to participate in our study on your cognitive systems and your personal beliefs.</p>
+
+  <p>The expected duration of your participation is 15-18 minutes. You may be asked to play some short games, answer some questions about your beliefs, and report information about your demographics (including age, gender, etc.).</p>
+
+  <p>Please answer as accurately as possible — there are no right or wrong answers.</p>
+</div>
+`;
+
+// ============================================================================
+// Informed Consent
+// ============================================================================
+const CONSENT_TITLE = "Informed Consent";
+const CONSENT_HTML = `
+<div style="max-width: 800px; margin: 0 auto; text-align: left; line-height: 1.6;">
+  <h3>Data protection and consent to participate</h3>
+
+  <p>First of all, we would like to ask you to give your consent to the following points. If you do not want to give your consent, you can leave the questionnaire now.</p>
+
+  <p>You can access the Letter of Information with further details here: <a href="https://cloud.uni-konstanz.de/index.php/s/RbQwQSPzf4cQHwj" target="_blank">https://cloud.uni-konstanz.de/index.php/s/RbQwQSPzf4cQHwj</a></p>
+
+  <ol>
+    <li>I understand that my participation is voluntary and that I can end my participation at any time without having to give a reason for it and without this restricting my rights.</li>
+    <li>I consent that I will provide location data in form of a zip, postal code or segments of IP address. I understand that this kind of location data will be used in an aggregated and anonymized way only.</li>
+    <li>I consent that my data from this questionnaire will be used and shared for research purposes (e.g. in publications, journals etc.) and potentially made available for other researchers in open science platforms.</li>
+    <li>I consent that my data from this questionnaire will be saved by the researchers, at least until the requirements for publishing one or more articles in a journal are met. This includes my consent to this.</li>
+  </ol>
+
+  <p>I hereby certify that I have understood the participation information described above, and that I agree with the above mentioned conditions of participation.</p>
+
+  <p>I hereby certify that I am aware that attention checks will be used to recognize participants whose data we cannot use due to inattentive reading. Unfortunately, if you fail such checks, we cannot pay you.</p>
+
+  <p><strong>Please check all boxes below to continue:</strong></p>
+</div>
+`;
+const CONSENT_CHECKBOXES = [
+  "I consent to the above points.",
+  "I confirm that I am 18 years or older.",
+  "I understand that there will be attention checks and I will not get paid if I fail them."
+];
+
+// ============================================================================
+// Location Questions
+// ============================================================================
+const LOC_CITY_TITLE = "What city or region are you currently located in?";
+const LOC_COUNTRY_TITLE = "What country are you currently located in?";
+
+// ============================================================================
+// Work Conditions
+// ============================================================================
+const WC_EMPLOYMENT_TITLE = "What is your current employment status?";
+const WC_EMPLOYMENT_CHOICES = [
+  "Employed full-time",
+  "Employed part-time",
+  "Self-employed",
+  "Unemployed",
+  "Student",
+  "Retired",
+  "Unable to work",
+  "Prefer not to say"
+];
+const WC_LOCATION_TITLE = "Where do you primarily work?";
+const WC_LOCATION_CHOICES = [
+  "From home",
+  "At an office or workplace",
+  "Outdoors",
+  "Mixed/varies",
+  "Not applicable",
+  "Prefer not to say"
+];
+const WC_AC_TITLE = "Does your primary work location have air conditioning?";
+const WC_AC_CHOICES = [
+  "Yes, and it works well",
+  "Yes, but it doesn't work well",
+  "No",
+  "Not applicable",
+  "Don't know"
+];
+
+// ============================================================================
+// Mental & Physical Health Conditions
+// ============================================================================
+const MH_PREAMBLE = "Have you ever been diagnosed with any of the following conditions? (Select all that apply)";
+const MH_MENTAL_TITLE = "Mental health conditions:";
+const MH_MENTAL_CHOICES = [
+  "Depression",
+  "Anxiety disorder",
+  "Bipolar disorder",
+  "Post-traumatic stress disorder (PTSD)",
+  "Other mental health condition",
+  "None of the above",
+  "Prefer not to say"
+];
+const MH_PHYSICAL_TITLE = "Physical health conditions:";
+const MH_PHYSICAL_CHOICES = [
+  "Cardiovascular disease (heart disease, hypertension, etc.)",
+  "Diabetes",
+  "Respiratory condition (asthma, COPD, etc.)",
+  "Chronic pain condition",
+  "Neurological condition",
+  "Other chronic physical health condition",
+  "None of the above",
+  "Prefer not to say"
+];
+
+// ============================================================================
+// Chronic Pain
+// ============================================================================
+const CP_PREAMBLE = "The following questions are about chronic pain.";
+const CP_EXPERIENCE_TITLE = "Do you experience chronic pain (pain lasting 3 months or longer)?";
+const CP_EXPERIENCE_CHOICES = ["Yes", "No", "Prefer not to say"];
+const CP_SEVERITY_TITLE = "Over the last 2-3 days, how would you rate your pain on average?";
+const CP_SEVERITY_LABELS = ["No pain", "Worst imaginable pain"];
+
+// ============================================================================
+// Loneliness Scale (UCLA 3-item)
+// ============================================================================
+const LS_PREAMBLE = "The next questions are about your social connections. Over the last 2-3 days, how often have you felt:";
+const LS_SCALE = ["never", "rarely", "sometimes", "often", "always"];
+const LS_PROMPTS = {
+  LS1: "Lack of companionship",
+  LS2: "Left out",
+  LS3: "Isolated from others"
+};
+
+// ============================================================================
+// Brief Resilience Scale
+// ============================================================================
+const BRS_PREAMBLE = "Please indicate the extent to which you agree with each of the following statements about yourself over the last 2-3 days.";
+const BRS_SCALE = ["strongly disagree", "disagree", "neutral", "agree", "strongly agree"];
+const BRS_PROMPTS = {
+  BRS1: "I tend to bounce back quickly after hard times.",
+  BRS2: "I have a hard time making it through stressful events.",
+  BRS3: "It does not take me long to recover from a stressful event.",
+  BRS4: "It is hard for me to snap back when something bad happens.",
+  BRS5: "I usually come through difficult times with little trouble.",
+  BRS6: "I tend to take a long time to get over set-backs in my life."
+};
+
+// ============================================================================
+// Green and Blue Spaces Access
+// ============================================================================
+const GBS_PREAMBLE = "The following questions are about your access to natural environments.";
+const GBS_SCALE = ["strongly disagree", "disagree", "neutral", "agree", "strongly agree"];
+const GBS_PROMPTS = {
+  GBS1: "I have easy access to green spaces (parks, forests, gardens, etc.).",
+  GBS2: "I have easy access to blue spaces (lakes, rivers, oceans, etc.).",
+  GBS3: "I regularly spend time in natural outdoor environments.",
+  GBS4: "The natural spaces near me are well-maintained and pleasant."
+};
+
+// ============================================================================
+// Air Conditioning Access
+// ============================================================================
+const AC_ACCESS_PREAMBLE = "The following questions are about your access to cooling resources.";
+const AC_HOME_TITLE = "Does your home have air conditioning?";
+const AC_HOME_CHOICES = [
+  "Yes, central air conditioning throughout the home",
+  "Yes, air conditioning in some rooms",
+  "Yes, portable air conditioning unit(s)",
+  "No air conditioning",
+  "Prefer not to say"
+];
+const AC_FREQUENCY_TITLE = "Over the last 2-3 days, how often did you use air conditioning at home?";
+const AC_FREQUENCY_CHOICES = [
+  "Not at all",
+  "Rarely",
+  "Sometimes",
+  "Most of the time",
+  "All of the time",
+  "Not applicable (no air conditioning)"
+];
+const AC_PUBLIC_TITLE = "Do you have access to air-conditioned public spaces (libraries, shopping centers, community centers, etc.) in your area?";
+const AC_PUBLIC_CHOICES = ["Yes", "No", "Don't know"];
+
+// ============================================================================
+// Housing Conditions
+// ============================================================================
+const HC_PREAMBLE = "The following questions are about your current housing situation.";
+const HC_TYPE_TITLE = "What type of housing do you currently live in?";
+const HC_TYPE_CHOICES = [
+  "Detached single-family home",
+  "Attached home (townhouse, duplex, etc.)",
+  "Apartment/flat in a building",
+  "Mobile home",
+  "Other",
+  "Prefer not to say"
+];
+const HC_OWN_TITLE = "Do you own or rent your home?";
+const HC_OWN_CHOICES = ["Own", "Rent", "Other arrangement", "Prefer not to say"];
+const HC_QUALITY_TITLE = "How would you rate the overall condition of your housing?";
+const HC_QUALITY_SCALE = ["very poor", "poor", "fair", "good", "excellent"];
+const HC_INSULATION_TITLE = "How well insulated is your home against outdoor temperatures?";
+const HC_INSULATION_SCALE = ["very poorly", "poorly", "adequately", "well", "very well"];
+
+// ============================================================================
+// Heat Actions - City Level
+// ============================================================================
+const HA_PREAMBLE = "The following questions are about climate and heat-related actions in your city or community.";
+const HA_SCALE = ["strongly disagree", "disagree", "neutral", "agree", "strongly agree", "don't know"];
+const HA_PROMPTS = {
+  HA1: "My city/community has adequate plans to deal with extreme heat events.",
+  HA2: "My city/community provides sufficient cooling centers or public spaces during heat waves.",
+  HA3: "My city/community is taking meaningful action to address climate change.",
+  HA4: "I am satisfied with my local government's response to climate change.",
+  HA5: "My city/community has adequate green spaces and tree cover to provide shade and cooling."
+};
+
+// ============================================================================
+// Final Comments
+// ============================================================================
+const FINAL_COMMENTS_TITLE = "Do you have any final comments or feedback about this survey?";
+const FINAL_BUTTON_LABEL = "Submit and finish";

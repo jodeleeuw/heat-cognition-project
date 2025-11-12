@@ -919,6 +919,454 @@
         min_width: "min(100vw, 1200px)",
       };
 
+      const intro_trial = {
+        type: jsPsychSurvey,
+        data: { survey_page: 'Intro' },
+        survey_json: {
+          showQuestionNumbers: false,
+          completeText: "Continue",
+          pages: [
+            {
+              elements: [
+                {
+                  type: "html",
+                  name: "intro",
+                  html: INTRO_HTML,
+                },
+              ],
+            },
+          ],
+        },
+        min_width: "min(100vw, 1200px)",
+      };
+
+      const consent_trial = {
+        type: jsPsychSurvey,
+        data: { survey_page: 'Consent' },
+        survey_json: {
+          showQuestionNumbers: false,
+          completeText: "Continue",
+          pages: [
+            {
+              elements: [
+                {
+                  type: "html",
+                  name: "consent-text",
+                  html: CONSENT_HTML,
+                },
+                {
+                  type: "checkbox",
+                  name: "A-CONSENT1",
+                  title: " ",
+                  choices: [CONSENT_CHECKBOXES[0]],
+                  isRequired: true,
+                },
+                {
+                  type: "checkbox",
+                  name: "A-CONSENT2",
+                  title: " ",
+                  choices: [CONSENT_CHECKBOXES[1]],
+                  isRequired: true,
+                },
+                {
+                  type: "checkbox",
+                  name: "A-CONSENT3",
+                  title: " ",
+                  choices: [CONSENT_CHECKBOXES[2]],
+                  isRequired: true,
+                },
+              ],
+            },
+          ],
+        },
+        min_width: "min(100vw, 1200px)",
+      };
+
+      const location_trial = {
+        type: jsPsychSurvey,
+        data: { survey_page: 'Location' },
+        survey_json: {
+          showQuestionNumbers: false,
+          completeText: "Continue",
+          pages: [
+            {
+              elements: [
+                {
+                  type: "text",
+                  name: "A-LOC1",
+                  title: LOC_CITY_TITLE,
+                  isRequired: true,
+                },
+                {
+                  type: "text",
+                  name: "A-LOC2",
+                  title: LOC_COUNTRY_TITLE,
+                  isRequired: true,
+                },
+              ],
+            },
+          ],
+        },
+        min_width: "min(100vw, 1200px)",
+      };
+
+      const work_conditions_trial = {
+        type: jsPsychSurvey,
+        data: { survey_page: 'WorkConditions' },
+        survey_json: {
+          showQuestionNumbers: false,
+          completeText: "Continue",
+          pages: [
+            {
+              elements: [
+                {
+                  type: "radiogroup",
+                  name: "A-WC1",
+                  title: WC_EMPLOYMENT_TITLE,
+                  choices: WC_EMPLOYMENT_CHOICES,
+                  isRequired: true,
+                  colCount: 1,
+                },
+                {
+                  type: "radiogroup",
+                  name: "A-WC2",
+                  title: WC_LOCATION_TITLE,
+                  choices: WC_LOCATION_CHOICES,
+                  isRequired: true,
+                  colCount: 1,
+                },
+                {
+                  type: "radiogroup",
+                  name: "A-WC3",
+                  title: WC_AC_TITLE,
+                  choices: WC_AC_CHOICES,
+                  isRequired: true,
+                  colCount: 1,
+                },
+              ],
+            },
+          ],
+        },
+        min_width: "min(100vw, 1200px)",
+      };
+
+      const health_conditions_trial = {
+        type: jsPsychSurvey,
+        data: { survey_page: 'HealthConditions' },
+        survey_json: {
+          showQuestionNumbers: false,
+          completeText: "Continue",
+          pages: [
+            {
+              elements: [
+                {
+                  type: "html",
+                  html: `<p style="font-weight: 600; margin-bottom: 20px;">${MH_PREAMBLE}</p>`,
+                },
+                {
+                  type: "checkbox",
+                  name: "A-MH1",
+                  title: MH_MENTAL_TITLE,
+                  choices: MH_MENTAL_CHOICES,
+                  isRequired: true,
+                  colCount: 1,
+                },
+                {
+                  type: "checkbox",
+                  name: "A-MH2",
+                  title: MH_PHYSICAL_TITLE,
+                  choices: MH_PHYSICAL_CHOICES,
+                  isRequired: true,
+                  colCount: 1,
+                },
+              ],
+            },
+          ],
+        },
+        min_width: "min(100vw, 1200px)",
+      };
+
+      const chronic_pain_trial = {
+        type: jsPsychSurvey,
+        data: { survey_page: 'ChronicPain' },
+        survey_json: {
+          showQuestionNumbers: false,
+          completeText: "Continue",
+          pages: [
+            {
+              elements: [
+                {
+                  type: "html",
+                  html: `<p style="font-weight: 600; margin-bottom: 20px;">${CP_PREAMBLE}</p>`,
+                },
+                {
+                  type: "radiogroup",
+                  name: "A-CP1",
+                  title: CP_EXPERIENCE_TITLE,
+                  choices: CP_EXPERIENCE_CHOICES,
+                  isRequired: true,
+                  colCount: 1,
+                },
+                {
+                  type: "slider",
+                  name: "A-CP2",
+                  title: CP_SEVERITY_TITLE,
+                  min: 0,
+                  max: 10,
+                  step: 1,
+                  isRequired: true,
+                  visibleIf: "{A-CP1} = 'Yes'",
+                  customLabels: [
+                    { value: 0, text: CP_SEVERITY_LABELS[0] },
+                    { value: 10, text: CP_SEVERITY_LABELS[1] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        survey_function: function (survey) {
+          survey.getAllQuestions().forEach((question) => {
+            if (question.getType() === "slider") {
+              question.handlePointerDown = function (e) {
+                question.oldValue = question.renderedValue;
+                question.animatedThumb = false;
+              };
+
+              question.handlePointerUp = function (event) {
+                event.stopPropagation();
+                question.setSliderValue(question.renderedValue);
+                question.refreshInputRange();
+                question.oldValue = null;
+              };
+            }
+          });
+        },
+        min_width: "min(100vw, 1200px)",
+      };
+
+      const loneliness_trial = {
+        type: jsPsychSurvey,
+        data: { survey_page: 'Loneliness' },
+        survey_json: {
+          showQuestionNumbers: false,
+          completeText: "Continue",
+          pages: [
+            {
+              elements: [
+                {
+                  type: "matrix",
+                  name: "loneliness",
+                  title: LS_PREAMBLE,
+                  rows: Object.keys(LS_PROMPTS).map((key) => ({
+                    value: `A-${key}`,
+                    text: LS_PROMPTS[key],
+                  })),
+                  columns: LS_SCALE.map((label, i) => ({
+                    value: i,
+                    text: label,
+                  })),
+                  isRequired: true,
+                },
+              ],
+            },
+          ],
+        },
+        min_width: "min(100vw, 1200px)",
+      };
+
+      const resilience_trial = {
+        type: jsPsychSurvey,
+        data: { survey_page: 'Resilience' },
+        survey_json: {
+          showQuestionNumbers: false,
+          completeText: "Continue",
+          pages: [
+            {
+              elements: [
+                {
+                  type: "matrix",
+                  name: "resilience",
+                  title: BRS_PREAMBLE,
+                  rows: Object.keys(BRS_PROMPTS).map((key) => ({
+                    value: `A-${key}`,
+                    text: BRS_PROMPTS[key],
+                  })),
+                  columns: BRS_SCALE.map((label, i) => ({
+                    value: i,
+                    text: label,
+                  })),
+                  isRequired: true,
+                },
+              ],
+            },
+          ],
+        },
+        min_width: "min(100vw, 1200px)",
+      };
+
+      const green_blue_spaces_trial = {
+        type: jsPsychSurvey,
+        data: { survey_page: 'GreenBlueSpaces' },
+        survey_json: {
+          showQuestionNumbers: false,
+          completeText: "Continue",
+          pages: [
+            {
+              elements: [
+                {
+                  type: "matrix",
+                  name: "green_blue",
+                  title: GBS_PREAMBLE,
+                  rows: Object.keys(GBS_PROMPTS).map((key) => ({
+                    value: `A-${key}`,
+                    text: GBS_PROMPTS[key],
+                  })),
+                  columns: GBS_SCALE.map((label, i) => ({
+                    value: i,
+                    text: label,
+                  })),
+                  isRequired: true,
+                },
+              ],
+            },
+          ],
+        },
+        min_width: "min(100vw, 1200px)",
+      };
+
+      const ac_access_trial = {
+        type: jsPsychSurvey,
+        data: { survey_page: 'ACAccess' },
+        survey_json: {
+          showQuestionNumbers: false,
+          completeText: "Continue",
+          pages: [
+            {
+              elements: [
+                {
+                  type: "html",
+                  html: `<p style="font-weight: 600; margin-bottom: 20px;">${AC_ACCESS_PREAMBLE}</p>`,
+                },
+                {
+                  type: "radiogroup",
+                  name: "A-AC1",
+                  title: AC_HOME_TITLE,
+                  choices: AC_HOME_CHOICES,
+                  isRequired: true,
+                  colCount: 1,
+                },
+                {
+                  type: "radiogroup",
+                  name: "A-AC2",
+                  title: AC_FREQUENCY_TITLE,
+                  choices: AC_FREQUENCY_CHOICES,
+                  isRequired: true,
+                  colCount: 1,
+                },
+                {
+                  type: "radiogroup",
+                  name: "A-AC3",
+                  title: AC_PUBLIC_TITLE,
+                  choices: AC_PUBLIC_CHOICES,
+                  isRequired: true,
+                  colCount: 1,
+                },
+              ],
+            },
+          ],
+        },
+        min_width: "min(100vw, 1200px)",
+      };
+
+      const housing_conditions_trial = {
+        type: jsPsychSurvey,
+        data: { survey_page: 'HousingConditions' },
+        survey_json: {
+          showQuestionNumbers: false,
+          completeText: "Continue",
+          pages: [
+            {
+              elements: [
+                {
+                  type: "html",
+                  html: `<p style="font-weight: 600; margin-bottom: 20px;">${HC_PREAMBLE}</p>`,
+                },
+                {
+                  type: "radiogroup",
+                  name: "A-HC1",
+                  title: HC_TYPE_TITLE,
+                  choices: HC_TYPE_CHOICES,
+                  isRequired: true,
+                  colCount: 1,
+                },
+                {
+                  type: "radiogroup",
+                  name: "A-HC2",
+                  title: HC_OWN_TITLE,
+                  choices: HC_OWN_CHOICES,
+                  isRequired: true,
+                  colCount: 1,
+                },
+                {
+                  type: "radiogroup",
+                  name: "A-HC3",
+                  title: HC_QUALITY_TITLE,
+                  choices: HC_QUALITY_SCALE.map((label, i) => ({
+                    value: i,
+                    text: label,
+                  })),
+                  isRequired: true,
+                  colCount: 1,
+                },
+                {
+                  type: "radiogroup",
+                  name: "A-HC4",
+                  title: HC_INSULATION_TITLE,
+                  choices: HC_INSULATION_SCALE.map((label, i) => ({
+                    value: i,
+                    text: label,
+                  })),
+                  isRequired: true,
+                  colCount: 1,
+                },
+              ],
+            },
+          ],
+        },
+        min_width: "min(100vw, 1200px)",
+      };
+
+      const heat_actions_trial = {
+        type: jsPsychSurvey,
+        data: { survey_page: 'HeatActions' },
+        survey_json: {
+          showQuestionNumbers: false,
+          completeText: "Continue",
+          pages: [
+            {
+              elements: [
+                {
+                  type: "matrix",
+                  name: "heat_actions",
+                  title: HA_PREAMBLE,
+                  rows: Object.keys(HA_PROMPTS).map((key) => ({
+                    value: `A-${key}`,
+                    text: HA_PROMPTS[key],
+                  })),
+                  columns: HA_SCALE.map((label, i) => ({
+                    value: i,
+                    text: label,
+                  })),
+                  isRequired: true,
+                },
+              ],
+            },
+          ],
+        },
+        min_width: "min(100vw, 1200px)",
+      };
+
       const de_json = {
         elements: [
           {
@@ -1008,11 +1456,6 @@
               },
             ],
           },
-          {
-            name: "Comments Box",
-            type: "comment",
-            title: DE_COMMENTS_TITLE,
-          },
         ],
       };
 
@@ -1038,11 +1481,40 @@
         },
       };
 
+      const final_comments_trial = {
+        type: jsPsychSurvey,
+        data: { survey_page: 'FinalComments' },
+        survey_json: {
+          showQuestionNumbers: false,
+          completeText: FINAL_BUTTON_LABEL,
+          pages: [
+            {
+              elements: [
+                {
+                  name: "A-FINALCOMMENTS",
+                  type: "comment",
+                  title: FINAL_COMMENTS_TITLE,
+                },
+              ],
+            },
+          ],
+        },
+        min_width: "min(100vw, 1200px)",
+      };
+
+      timeline.push(intro_trial);
+      timeline.push(consent_trial);
+      timeline.push(location_trial);
+      timeline.push(work_conditions_trial);
+      timeline.push(health_conditions_trial);
+      timeline.push(chronic_pain_trial);
       timeline.push(who5_trial);
       timeline.push(phq4_trial);
       timeline.push(vams_trial);
       timeline.push(bpaq_trial);
       timeline.push(ac_trial);
+      timeline.push(loneliness_trial);
+      timeline.push(resilience_trial);
       timeline.push(svo_trials);
       timeline.push(tic_trial);
       timeline.push(cce_trial);
@@ -1052,7 +1524,12 @@
       timeline.push(ts_trial);
       timeline.push(sta_trial);
       timeline.push(sl_trial);
+      timeline.push(green_blue_spaces_trial);
+      timeline.push(ac_access_trial);
+      timeline.push(housing_conditions_trial);
+      timeline.push(heat_actions_trial);
       timeline.push(de_trial);
+      timeline.push(final_comments_trial);
 
       if (IN_JATOS) {
         const jatos_id = jatos.studyResultId;
