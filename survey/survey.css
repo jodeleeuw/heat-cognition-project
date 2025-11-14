@@ -1,0 +1,177 @@
+.hotcog-containers {
+  padding: 16px;
+}
+/* Hide slider tooltips */
+.sd-slider__tooltip {
+  display: none !important;
+}
+
+/* Survey background - darker gray instead of white */
+.sd-root-modern {
+  background-color: #f5f5f5 !important;
+}
+
+.sd-page {
+  background-color: #f5f5f5 !important;
+}
+
+/* SVO Dual-Label Slider Styling */
+.svo-dual-slider {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+/* Political orientation slider labels - responsive */
+.sd-question[data-name="A-DE7"] .sd-slider__label,
+.sd-question[data-name="A-DE8"] .sd-slider__label {
+  font-size: clamp(9px, 1.8vw, 13px) !important;
+  white-space: normal !important;
+  max-width: 80px;
+  line-height: 1.2;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+/* VAMS emotion scale labels - responsive */
+.sd-question[data-name^="M-VA"] .sd-slider__label {
+  font-size: clamp(10px, 2vw, 14px) !important;
+}
+
+/* On very small screens, allow even more wrapping */
+@media (max-width: 500px) {
+  .sd-question[data-name="A-DE7"] .sd-slider__label,
+  .sd-question[data-name="A-DE8"] .sd-slider__label {
+    max-width: 60px;
+    font-size: 9px !important;
+  }
+
+  /* Left align the first label (left-wing at 0%) */
+  [data-name="A-DE7"]
+    .sd-slider__label[style*="left: 0%"]
+    .sd-slider__label-text,
+  [data-name="A-DE8"]
+    .sd-slider__label[style*="left: 0%"]
+    .sd-slider__label-text {
+    text-align: left !important;
+  }
+
+  [data-name="A-DE7"] .sd-slider__label[style*="left: 0%"] .sv-string-viewer,
+  [data-name="A-DE8"] .sd-slider__label[style*="left: 0%"] .sv-string-viewer {
+    text-align: left !important;
+    display: block;
+  }
+
+  /* Right align the last label (right-wing at 100%) */
+  [data-name="A-DE7"]
+    .sd-slider__label[style*="left: 100%"]
+    .sd-slider__label-text,
+  [data-name="A-DE8"]
+    .sd-slider__label[style*="left: 100%"]
+    .sd-slider__label-text {
+    text-align: right !important;
+  }
+
+  [data-name="A-DE7"] .sd-slider__label[style*="left: 100%"] .sv-string-viewer,
+  [data-name="A-DE8"] .sd-slider__label[style*="left: 100%"] .sv-string-viewer {
+    text-align: right !important;
+    display: block;
+  }
+}
+
+.svo-labels-container {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 1vw, 8px);
+}
+
+.svo-row-label {
+  font-weight: 600;
+  font-size: clamp(12px, 2vw, 14px);
+  margin-bottom: clamp(4px, 1vw, 8px);
+}
+
+.svo-top-labels,
+.svo-bottom-labels {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: clamp(2px, 1vw, 8px);
+  width: 100%;
+}
+
+.svo-label-box {
+  border: 2px solid #333;
+  padding: clamp(4px, 1vw, 8px) clamp(2px, 0.5vw, 4px);
+  text-align: center;
+  font-weight: 600;
+  font-size: clamp(10px, 2vw, 14px);
+  background: white;
+  position: relative;
+  transition: background-color 0.2s ease;
+  min-width: 0; /* Allow boxes to shrink below content size */
+}
+
+.svo-label-box.selected {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Ticks connecting labels to slider */
+.svo-label-box::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  background: #666;
+  height: clamp(6px, 1.5vw, 12px);
+}
+
+.svo-top-labels .svo-label-box::after {
+  bottom: calc(-1 * clamp(6px, 1.5vw, 12px));
+}
+
+.svo-bottom-labels .svo-label-box::after {
+  top: calc(-1 * clamp(6px, 1.5vw, 12px));
+}
+
+.svo-slider-container {
+  margin: clamp(6px, 1.5vw, 12px) 0;
+  position: relative;
+  /* Match the grid width exactly */
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: clamp(2px, 1vw, 8px);
+}
+
+.svo-slider-input {
+  /* Span all 9 columns plus gaps */
+  grid-column: 1 / -1;
+  width: calc(100% - clamp(16px, 3vw, 24px)); /* Account for thumb width */
+  margin: 0 calc(clamp(16px, 3vw, 24px) / 2); /* Center the slider track */
+  height: clamp(6px, 1vw, 8px);
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ddd;
+  outline: none;
+  border-radius: 4px;
+}
+
+.svo-slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: clamp(16px, 3vw, 24px);
+  height: clamp(16px, 3vw, 24px);
+  background: #333;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.svo-slider-input::-moz-range-thumb {
+  width: clamp(16px, 3vw, 24px);
+  height: clamp(16px, 3vw, 24px);
+  background: #333;
+  cursor: pointer;
+  border-radius: 50%;
+  border: none;
+}
