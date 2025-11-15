@@ -36,6 +36,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
+        if: github.event_name == 'push'
         uses: tj-actions/changed-files@v41
         with:
           files: |
@@ -58,16 +59,54 @@ jobs:
             .github/**
             dashboard.html
 
-      - name: Upload changed files to JATOS
-        if: steps.changed-files.outputs.any_changed == 'true'
+      - name: Get all files (manual run)
+        id: all-files
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          FILES=$(find . -type f \( \
+            -name "*.html" -o \
+            -name "*.js" -o \
+            -name "*.css" -o \
+            -name "*.json" -o \
+            -name "*.png" -o \
+            -name "*.jpg" -o \
+            -name "*.jpeg" -o \
+            -name "*.gif" -o \
+            -name "*.svg" -o \
+            -name "*.ico" -o \
+            -name "*.woff" -o \
+            -name "*.woff2" -o \
+            -name "*.ttf" -o \
+            -name "*.eot" \
+          \) ! -name "*.md" ! -path "./.github/*" ! -name "dashboard.html" | sed 's|^\./||')
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Upload files to JATOS
         env:
           JATOS_URL: ${{ secrets.JATOS_URL }}
           JATOS_API_TOKEN: ${{ secrets.JATOS_API_TOKEN }}
           JATOS_STUDY_ID: ${{ secrets.JATOS_STUDY_ID }}
         run: |
-          echo "Uploading changed files to JATOS..."
+          echo "Uploading files to JATOS..."
 
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          # Determine which files to upload
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            FILES="${{ steps.all-files.outputs.files }}"
+            echo "Manual run - uploading all files"
+          else
+            FILES="${{ steps.changed-files.outputs.all_changed_files }}"
+            echo "Push event - uploading changed files"
+          fi
+
+          if [ -z "$FILES" ]; then
+            echo "No files to upload"
+            exit 0
+          fi
+
+          # Upload each file
+          for file in $FILES; do
             echo "Uploading: $file"
 
             # Upload file to JATOS study assets
@@ -88,11 +127,19 @@ jobs:
           echo "Deployment complete!"
 
       - name: Summary
-        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           echo "### Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Trigger:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Files deployed to JATOS:**" >> $GITHUB_STEP_SUMMARY
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            FILES="${{ steps.all-files.outputs.files }}"
+          else
+            FILES="${{ steps.changed-files.outputs.all_changed_files }}"
+          fi
+
+          for file in $FILES; do
             echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
           done
