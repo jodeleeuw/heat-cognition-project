@@ -109,11 +109,10 @@ jobs:
           for file in $FILES; do
             echo "Uploading: $file"
 
-            # Upload file to JATOS study assets
+            # Upload file to JATOS study assets using multipart/form-data
             curl -X POST \
               -H "Authorization: Bearer ${JATOS_API_TOKEN}" \
-              -H "Content-Type: application/octet-stream" \
-              --data-binary "@${file}" \
+              -F "studyAssetsFile=@${file}" \
               "${JATOS_URL}/jatos/api/v1/studies/${JATOS_STUDY_ID}/assets/${file}"
 
             if [ $? -eq 0 ]; then
