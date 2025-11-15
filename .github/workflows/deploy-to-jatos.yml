@@ -1,0 +1,98 @@
+name: Deploy to JATOS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.html'
+      - '**.js'
+      - '**.css'
+      - '**.json'
+      - '**.png'
+      - '**.jpg'
+      - '**.jpeg'
+      - '**.gif'
+      - '**.svg'
+      - '**.ico'
+      - '**.woff'
+      - '**.woff2'
+      - '**.ttf'
+      - '**.eot'
+    paths-ignore:
+      - '**.md'
+      - '.github/**'
+      - 'dashboard.html'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v41
+        with:
+          files: |
+            **.html
+            **.js
+            **.css
+            **.json
+            **.png
+            **.jpg
+            **.jpeg
+            **.gif
+            **.svg
+            **.ico
+            **.woff
+            **.woff2
+            **.ttf
+            **.eot
+          files_ignore: |
+            **.md
+            .github/**
+            dashboard.html
+
+      - name: Upload changed files to JATOS
+        if: steps.changed-files.outputs.any_changed == 'true'
+        env:
+          JATOS_URL: ${{ secrets.JATOS_URL }}
+          JATOS_API_TOKEN: ${{ secrets.JATOS_API_TOKEN }}
+          JATOS_STUDY_ID: ${{ secrets.JATOS_STUDY_ID }}
+        run: |
+          echo "Uploading changed files to JATOS..."
+
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "Uploading: $file"
+
+            # Upload file to JATOS study assets
+            curl -X POST \
+              -H "Authorization: Bearer ${JATOS_API_TOKEN}" \
+              -H "Content-Type: application/octet-stream" \
+              --data-binary "@${file}" \
+              "${JATOS_URL}/jatos/api/v1/studies/${JATOS_STUDY_ID}/assets/${file}"
+
+            if [ $? -eq 0 ]; then
+              echo "✓ Successfully uploaded: $file"
+            else
+              echo "✗ Failed to upload: $file"
+              exit 1
+            fi
+          done
+
+          echo "Deployment complete!"
+
+      - name: Summary
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "### Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Files deployed to JATOS:**" >> $GITHUB_STEP_SUMMARY
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
+          done
