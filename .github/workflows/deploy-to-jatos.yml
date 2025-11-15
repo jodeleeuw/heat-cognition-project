@@ -19,10 +19,9 @@ on:
       - '**.woff2'
       - '**.ttf'
       - '**.eot'
-    paths-ignore:
-      - '**.md'
-      - '.github/**'
-      - 'dashboard.html'
+      - '!**.md'
+      - '!.github/**'
+      - '!dashboard.html'
 
 jobs:
   deploy:
