@@ -54,9 +54,40 @@ function getVariant(variantNumber) {
 }
 
 /**
+ * Get trial objects from global scope
+ * This function must be called after all trial definitions are loaded
+ * @returns {object} Object containing all trial definitions
+ */
+function getTrialObjects() {
+  // Try to access trials from global scope
+  // These are defined as const in other scripts, so we use eval or direct references
+  return {
+    intro_trial: typeof intro_trial !== 'undefined' ? intro_trial : undefined,
+    consent_trial: typeof consent_trial !== 'undefined' ? consent_trial : undefined,
+    ip_check: typeof ip_check !== 'undefined' ? ip_check : undefined,
+    browser_check: typeof browser_check !== 'undefined' ? browser_check : undefined,
+    de_trial: typeof de_trial !== 'undefined' ? de_trial : undefined,
+    vulnerability_timeline: typeof vulnerability_timeline !== 'undefined' ? vulnerability_timeline : undefined,
+    go_nogo_trial: typeof go_nogo_trial !== 'undefined' ? go_nogo_trial : undefined,
+    nback_trial: typeof nback_trial !== 'undefined' ? nback_trial : undefined,
+    bart_trial: typeof bart_trial !== 'undefined' ? bart_trial : undefined,
+    cpr_trial: typeof cpr_trial !== 'undefined' ? cpr_trial : undefined,
+    svo_trials: typeof svo_trials !== 'undefined' ? svo_trials : undefined,
+    vams_trial: typeof vams_trial !== 'undefined' ? vams_trial : undefined,
+    bpaq_trial: typeof bpaq_trial !== 'undefined' ? bpaq_trial : undefined,
+    ac_trial: typeof ac_trial !== 'undefined' ? ac_trial : undefined,
+    cce_trial: typeof cce_trial !== 'undefined' ? cce_trial : undefined,
+    ccj_trial: typeof ccj_trial !== 'undefined' ? ccj_trial : undefined,
+    cca_trial: typeof cca_trial !== 'undefined' ? cca_trial : undefined,
+    ccb_trial: typeof ccb_trial !== 'undefined' ? ccb_trial : undefined,
+    final_comments_trial: typeof final_comments_trial !== 'undefined' ? final_comments_trial : undefined
+  };
+}
+
+/**
  * Build a jsPsych timeline for a specific variant
  * This function maps component names to their actual trial objects
- * Note: Trial objects must be defined in the global scope before calling this function
+ * Note: Trial objects must be defined before calling this function
  *
  * @param {number} variantNumber - Variant number (1-25)
  * @returns {Array} Array of trial objects for the variant, or empty array if variant not found
@@ -69,18 +100,20 @@ function buildVariantTimeline(variantNumber) {
     return [];
   }
 
+  // Get trial objects from global scope
+  const trialObjects = getTrialObjects();
+
   const timeline = [];
 
   // Add core survey trials (common to all variants)
-  // These should be added by the main experiment file before variant-specific components
-  timeline.push(intro_trial);
-  timeline.push(consent_trial);
-  timeline.push(ip_check);
-  timeline.push(browser_check);
-  timeline.push(de_trial); // Demographics
+  timeline.push(trialObjects.intro_trial);
+  timeline.push(trialObjects.consent_trial);
+  timeline.push(trialObjects.ip_check);
+  timeline.push(trialObjects.browser_check);
+  timeline.push(trialObjects.de_trial); // Demographics
 
   // vulnerability trials
-  timeline.push(vulnerability_timeline)
+  timeline.push(trialObjects.vulnerability_timeline);
 
   // Add variant-specific components
   variant.components.forEach(componentName => {
@@ -94,22 +127,25 @@ function buildVariantTimeline(variantNumber) {
     // Handle combined components (arrays)
     if (Array.isArray(trialRef)) {
       trialRef.forEach(ref => {
-        const trial = window[ref];
+        const trial = trialObjects[ref];
         if (trial) {
           timeline.push(trial);
         } else {
-          console.warn(`Trial object "${ref}" not found in global scope`);
+          console.warn(`Trial object "${ref}" not found - may not be implemented yet`);
         }
       });
     } else {
-      const trial = window[trialRef];
+      const trial = trialObjects[trialRef];
       if (trial) {
         timeline.push(trial);
       } else {
-        console.warn(`Trial object "${trialRef}" not found in global scope`);
+        console.warn(`Trial object "${trialRef}" not found - may not be implemented yet`);
       }
     }
   });
+
+  // Add final comments trial
+  timeline.push(trialObjects.final_comments_trial);
 
   return timeline;
 }
