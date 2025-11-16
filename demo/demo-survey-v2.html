@@ -19,7 +19,9 @@
     />
     <script src="../survey/survey-text.js"></script>
     <script src="../survey/survey-items.js"></script>
+    <script src="../survey/vulnerability-items.js"></script>
     <script src="../utility/utility-trials.js"></script>
+    <script src="../variants.js"></script>
     <script src="jatos.js"></script>
     <link rel="stylesheet" href="../survey/survey.css">
     <style>
@@ -30,18 +32,80 @@
   </head>
   <body>
     <script>
-      // todo: randomize order of survey pages (will get paths through)
-      // validation/pre-pilot: questionnaire on one
-      // get launched for JATOS
-
-      // by november:
-      // -- whole package ready to go
-      // -- all the tasks working, paths up
-
       const IN_JATOS = typeof jatos !== "undefined";
 
+      /**
+       * Assign a variant using batch session data to balance across variants
+       * @returns {number} Variant number (1-25)
+       */
+      async function assignVariant() {
+        if (!IN_JATOS) {
+          // For local testing, use a random variant
+          return Math.floor(Math.random() * 25) + 1;
+        }
+
+        // Get current variant counts from batch session
+        let variantCounts = jatos.batchSession.get('variantCounts');
+
+        if (!variantCounts) {
+          // Initialize variant counts for all 25 variants
+          variantCounts = {};
+          for (let i = 1; i <= 25; i++) {
+            variantCounts[i] = 0;
+          }
+        }
+
+        // Find the variant with the lowest count
+        let minCount = Infinity;
+        let availableVariants = [];
+
+        for (let i = 1; i <= 25; i++) {
+          const count = variantCounts[i] || 0;
+          if (count < minCount) {
+            minCount = count;
+            availableVariants = [i];
+          } else if (count === minCount) {
+            availableVariants.push(i);
+          }
+        }
+
+        // Randomly select from variants with the lowest count
+        const assignedVariant = availableVariants[Math.floor(Math.random() * availableVariants.length)];
+
+        // Increment the count for the assigned variant
+        variantCounts[assignedVariant] = (variantCounts[assignedVariant] || 0) + 1;
+
+        // Update batch session data
+        await jatos.batchSession.set('variantCounts', variantCounts);
+
+        return assignedVariant;
+      }
+
+      /**
+       * Mark variant as completed in batch session
+       */
+      async function markVariantCompleted(variantNumber) {
+        if (!IN_JATOS) return;
+
+        let completedCounts = jatos.batchSession.get('completedCounts');
+
+        if (!completedCounts) {
+          completedCounts = {};
+          for (let i = 1; i <= 25; i++) {
+            completedCounts[i] = 0;
+          }
+        }
+
+        completedCounts[variantNumber] = (completedCounts[variantNumber] || 0) + 1;
+        await jatos.batchSession.set('completedCounts', completedCounts);
+      }
+
       const jsPsych = initJsPsych({
-        on_finish: function () {
+        on_finish: async function () {
+          // Mark variant as completed
+          const variantNumber = jsPsych.data.get().values()[0].variant;
+          await markVariantCompleted(variantNumber);
+
           if (IN_JATOS) {
             jatos.startNextComponent(jsPsych.data.get().json())
           } else {
@@ -55,49 +119,42 @@
         }
       });
 
-      let timeline = [];
+      async function runExperiment() {
+        // Assign variant
+        const variantNumber = await assignVariant();
+        console.log(`Assigned to variant ${variantNumber}`);
 
-      timeline.push(intro_trial);
-      timeline.push(ip_check);
-      timeline.push(browser_check);
-      timeline.push(consent_trial);
-      timeline.push(location_trial);
-      timeline.push(work_conditions_trial);
-      timeline.push(health_conditions_trial);
-      timeline.push(chronic_pain_trial);
-      timeline.push(who5_trial);
-      timeline.push(phq4_trial);
-      timeline.push(vams_trial);
-      timeline.push(bpaq_trial);
-      timeline.push(ac_trial);
-      timeline.push(loneliness_trial);
-      timeline.push(resilience_trial);
-      timeline.push(svo_trials);
-      timeline.push(tic_trial);
-      timeline.push(cce_trial);
-      timeline.push(ccj_trial);
-      timeline.push(cca_trial);
-      timeline.push(ccb_trial);
-      timeline.push(ts_trial);
-      timeline.push(sta_trial);
-      timeline.push(sl_trial);
-      timeline.push(green_blue_spaces_trial);
-      timeline.push(ac_access_trial);
-      timeline.push(housing_conditions_trial);
-      timeline.push(heat_actions_trial);
-      timeline.push(de_trial);
-      timeline.push(final_comments_trial);
+        // Build timeline for the assigned variant
+        const timeline = buildVariantTimeline(variantNumber);
 
-      if (IN_JATOS) {
-        const jatos_id = jatos.studyResultId;
-        jsPsych.data.addProperties({ jatos_id: jatos_id });
-        jatos.onLoad(() => {
-          jsPsych.run(timeline);
-        });
-      } else {
+        // Add final comments trial
+        timeline.push(final_comments_trial);
+
+        // Add variant number to all trials
+        if (IN_JATOS) {
+          const jatos_id = jatos.studyResultId;
+          jsPsych.data.addProperties({
+            jatos_id: jatos_id,
+            variant: variantNumber
+          });
+        } else {
+          jsPsych.data.addProperties({
+            variant: variantNumber
+          });
+        }
+
+        // Run the experiment
         jsPsych.run(timeline);
       }
-      
+
+      if (IN_JATOS) {
+        jatos.onLoad(() => {
+          runExperiment();
+        });
+      } else {
+        runExperiment();
+      }
+
     </script>
   </body>
 </html>
