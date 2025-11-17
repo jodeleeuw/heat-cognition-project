@@ -19,6 +19,7 @@
     />
     <script src="../survey/survey-text.js"></script>
     <script src="../survey/survey-items.js"></script>
+    <script src="../survey/heat-related-items.js"></script>
     <script src="../survey/vulnerability-items.js"></script>
     <script src="../utility/utility-trials.js"></script>
     <script src="../variants.js"></script>
@@ -149,7 +150,9 @@
           runExperiment();
         });
       } else {
-        runExperiment();
+        //runExperiment();
+        const timeline = [vulnerability_timeline];
+        jsPsych.run(timeline);
       }
 
     </script>

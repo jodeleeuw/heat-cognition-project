@@ -66,7 +66,8 @@ function getTrialObjects() {
     consent_trial: typeof consent_trial !== 'undefined' ? consent_trial : undefined,
     ip_check: typeof ip_check !== 'undefined' ? ip_check : undefined,
     browser_check: typeof browser_check !== 'undefined' ? browser_check : undefined,
-    de_trial: typeof de_trial !== 'undefined' ? de_trial : undefined,
+    de_basic_trial: typeof de_basic_trial !== 'undefined' ? de_basic_trial : undefined,
+    de_extended_trial: typeof de_extended_trial !== 'undefined' ? de_extended_trial : undefined,
     vulnerability_timeline: typeof vulnerability_timeline !== 'undefined' ? vulnerability_timeline : undefined,
     go_nogo_trial: typeof go_nogo_trial !== 'undefined' ? go_nogo_trial : undefined,
     nback_trial: typeof nback_trial !== 'undefined' ? nback_trial : undefined,
@@ -109,11 +110,19 @@ function buildVariantTimeline(variantNumber) {
   timeline.push(trialObjects.intro_trial);
   timeline.push(trialObjects.consent_trial);
   timeline.push(trialObjects.ip_check);
-  timeline.push(trialObjects.browser_check);
-  timeline.push(trialObjects.de_trial); // Demographics
+  timeline.push(trialObjects.browser_check); // TODO: can we get browser language setting and preferred language here?
 
-  // vulnerability trials
-  timeline.push(trialObjects.vulnerability_timeline);
+  // TODO: need to get panel provider participant ID and country ID here
+
+  timeline.push(trialObjects.de_basic_trial); // Basic demographics (age & gender)
+
+  // TODO: add quota check here
+
+  // TODO: add AI detection trial here
+
+  // 50% get heat trials here, 50% get DVs
+  timeline.push(heat_related_timeline);
+
 
   // Add variant-specific components
   variant.components.forEach(componentName => {
@@ -143,6 +152,12 @@ function buildVariantTimeline(variantNumber) {
       }
     }
   });
+
+  // Socio/demos, Vulnerability, Sensitivity, Adaptive Capacity trials here
+  timeline.push(trialObjects.de_extended_trial);
+
+  // vulnerability trials
+  timeline.push(trialObjects.vulnerability_timeline);
 
   // Add final comments trial
   timeline.push(trialObjects.final_comments_trial);

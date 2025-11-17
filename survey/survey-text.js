@@ -201,13 +201,53 @@ const SL_PROMPTS = {
 const DE_AGE_TITLE = "What is your age?";
 const DE_GENDER_TITLE = "What is your gender?";
 const DE_GENDER_CHOICES = ["Female", "Male", "Non-binary/Other", "Prefer not to say"];
+const DE_HOUSEHOLD_TITLE = "How many people live in your household, you included?";
+const DE_HOUSEHOLD_CHOICES = [
+    "1",
+    "2",
+    "3",
+    "4-6",
+    "7-10",
+    "More than 10"
+];
+const DE_HOUSEHOLD_CHILDREN_TITLE = "Of these, how many are children under 18?";
+const DE_HOUSEHOLD_CHILDREN_CHOICES = [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "More than 4"
+];
+const DE_RELATIONSHIP_STATUS_TITLE = "What is your current relationship status?";
+const DE_RELATIONSHIP_STATUS_CHOICES = [
+    "Single / Not in a relationship",
+    "In a relationship, not living together",
+    "In a relationship, living together",
+    "Married or in a registered partnership",
+    "Separated or divorced",
+    "Widowed",
+];
+const DE_RELATIONSHIP_STATUS_OTHER_TEXT =  "Other (please specify)";
+const DE_PREGNANT_TITLE = "Are you currently pregnant?";
+const DE_PREGNANT_CHOICES = [
+    "No",
+    "Yes",
+    "Don't know",
+    "Prefer not to say"
+];
 const DE_EDUCATION_TITLE = "How many years of formal education have you completed? Please select the one that is closest to your level of education.";
 const DE_EDUCATION_CHOICES = [
     "0-6 (Up to grade school/elementary school)",
     "7-12 (Up to high school)",
     "13-16 (College/undergraduate university/certificate training)",
-    "17+ (doctorate degree, medical degree, etc.)"
+    "More than 17 years (doctorate degree, medical degree, etc.)"
 ];
+const DE_MINORITY_TITLE = "Do you identify as a minority?";
+const DE_MINORITY_CHOICES = [
+    "No",
+];
+const DE_MINORITY_OTHER_TEXT = "Yes, namely:";
 const DE_POLITICAL_HTML = "What is your <b>political orientation</b> for the issues listed below?<br>Please note, by 'liberal' we mean classically left-wing, and by 'conservative', we mean classically right-wing.";
 const DE_POLITICAL_SOCIAL_TITLE = "For social issues (e.g., health care, education, etc.)";
 const DE_POLITICAL_ECONOMIC_TITLE = "For economic issues (e.g., taxes)";
@@ -271,75 +311,140 @@ const CONSENT_CHECKBOXES = [
 // ============================================================================
 // Location Questions
 // ============================================================================
-const LOC_CITY_TITLE = "What city or region are you currently located in?";
-const LOC_COUNTRY_TITLE = "What country are you currently located in?";
+const LOC_COUNTRY_TITLE = "In which country are you currently?";
+const LOC_COUNTRY_CHOICES = [
+  { value: "US", text: "United States" },
+  { value: "CA", text: "Canada" },
+  { value: "GB", text: "United Kingdom" },
+  { value: "AU", text: "Australia" },
+  { value: "DE", text: "Germany" },
+  { value: "FR", text: "France" },
+  { value: "IT", text: "Italy" },
+  { value: "ES", text: "Spain" },
+  { value: "NL", text: "Netherlands" },
+  { value: "SE", text: "Sweden" },
+  { value: "NO", text: "Norway" },
+]
+const LOC_POSTAL_TITLE = "What is the postal/zip code of the location you have spent the majority of time in the last 2-3 days? If you don't know the zip code, please provide the name of the location instead.";
+const LOC_POSTAL_CURRENT_TITLE = "What is the postal/zip code of your current location? If you don't know the zip code, please provide the name of the location instead.";
+const LOC_CHOICES = [
+  "Does not apply (no zip code)",
+  "Don't know",
+  "Prefer not to say"
+];
+
+// ===========================================================================
+// McArthur Scale of Subjective Social Status
+// ============================================================================
+const MACARTHUR_LADDER_INSTRUCTIONS = "Think of this ladder as representing where people stand in your country. At the top are people who have the highest income. At the bottom are the people who are worst off. Where would you place yourself on this ladder? Please choose the rung where you feel you stand right now.";
+const MACARTHUR_LADDER_TOP_LABEL = "Highest group";
+const MACARTHUR_LADDER_BOTTOM_LABEL = "Lowest group";
+const MACARTHUR_FINANCES_TITLE = "During the past year, did you/your household…";
+const MACARTHUR_FINANCES_CHOICES = [
+  { value: 1, text: "save money" },
+  { value: 2, text: "just get by" },
+  { value: 3, text: "spend some savings" },
+  { value: 4, text: "spend savings and borrowed money" }
+];
 
 // ============================================================================
 // Work Conditions
 // ============================================================================
-const WC_EMPLOYMENT_TITLE = "What is your current employment status?";
+const WC_EMPLOYMENT_TITLE = "Which of the following describes your current employment status?";
 const WC_EMPLOYMENT_CHOICES = [
-  "Employed full-time",
-  "Employed part-time",
-  "Self-employed",
-  "Unemployed",
+  "Working full-time as employee or self-employed",
+  "Working part-time as employee or self-employed",
   "Student",
+  "Homemaker",
+  "Parental leave",
   "Retired",
-  "Unable to work",
-  "Prefer not to say"
+  "Unemployed",
 ];
-const WC_LOCATION_TITLE = "Where do you primarily work?";
+const WC_EMPLOYMENT_OTHER_TEXT = "Other (please specify)";
+const WC_LOCATION_TITLE = "How is your typical work/study setting?";
 const WC_LOCATION_CHOICES = [
-  "From home",
-  "At an office or workplace",
-  "Outdoors",
-  "Mixed/varies",
-  "Not applicable",
-  "Prefer not to say"
+  "Mainly indoors",
+  "Mix of indoor & outdoor",
+  "Mainly outdoors",
+  "In a vehicle most of the day",
+  "Remote / home-based"
 ];
-const WC_AC_TITLE = "Does your primary work location have air conditioning?";
-const WC_AC_CHOICES = [
-  "Yes, and it works well",
-  "Yes, but it doesn't work well",
-  "No",
-  "Not applicable",
-  "Don't know"
+const WC_PHYSICAL_TITLE = "How physically demanding is your job?";
+const WC_PHYSICAL_CHOICES = [
+  "Not at all",
+  "A little",
+  "Moderately",
+  "Quite a bit",
+  "Very much"
 ];
 
 // ============================================================================
 // Mental & Physical Health Conditions
 // ============================================================================
-const MH_PREAMBLE = "Have you ever been diagnosed with any of the following conditions? (Select all that apply)";
+const MH_PREAMBLE = "Are you currently experiencing any of the following diagnosed mental or physical health conditions? (Check all that apply)";
 const MH_MENTAL_TITLE = "Mental health conditions:";
 const MH_MENTAL_CHOICES = [
-  "Depression",
+  "Memory-related conditions",
+  "Sleep disorder",
+  "Alcohol or drug use disorder (addiction)",
   "Anxiety disorder",
+  "Depression",
   "Bipolar disorder",
-  "Post-traumatic stress disorder (PTSD)",
-  "Other mental health condition",
-  "None of the above",
-  "Prefer not to say"
+  "Schizophrenia or other psychotic disorder"
 ];
 const MH_PHYSICAL_TITLE = "Physical health conditions:";
 const MH_PHYSICAL_CHOICES = [
-  "Cardiovascular disease (heart disease, hypertension, etc.)",
-  "Diabetes",
-  "Respiratory condition (asthma, COPD, etc.)",
-  "Chronic pain condition",
-  "Neurological condition",
-  "Other chronic physical health condition",
-  "None of the above",
-  "Prefer not to say"
+  "Respiratory condition",
+  "Cardiovascular disease",
+  "Diabetes or high blood sugar",
+  "Epilepsy or seizure disorder",
+  "Migraine or frequent headaches",
+  "Multiple sclerosis (MS)"
+];
+const MH_NONE_TEXT = "None of the above";
+const MH_REFUSE_TEXT = "Prefer not to say";
+const MH_SYMPTOMS_TITLE = "Over the last 2-3 days, have your symptoms changed?";
+const MH_SYMPTOMS_LABEL = "My symptoms are...";
+const MH_SYMPTOMS_SCALE = [
+  "much worse than usual",
+  "worse",
+  "slightly worse",
+  "not different than usual",
+  "slightly better",
+  "better",
+  "much better than usual"
+];
+const MH_WEIGHT_TITLE = "As which category would your doctor best describe your weight?";
+const MH_WEIGHT_CHOICES = [
+  { value: 1, text: "Underweight" },
+  { value: 2, text: "Medium weight" },
+  { value: 3, text: "Overweight" },
+  { value: 4, text: "Obese" },
+  { value: -98, text: "Don't know" },
+  { value: -99, text: "Prefer not to say" }
+];
+const MH_DEHYDRATION_TITLE = "Have you felt unusually thirsty, light-headed, or had dry mouth today?";
+const MH_DEHYDRATION_SCALE = [
+  "not at all",
+  "a little",
+  "moderately",
+  "quite a bit",
+  "very much"
 ];
 
 // ============================================================================
 // Chronic Pain
 // ============================================================================
-const CP_PREAMBLE = "The following questions are about chronic pain.";
-const CP_EXPERIENCE_TITLE = "Do you experience chronic pain (pain lasting 3 months or longer)?";
-const CP_EXPERIENCE_CHOICES = ["Yes", "No", "Prefer not to say"];
-const CP_SEVERITY_TITLE = "Over the last 2-3 days, how would you rate your pain on average?";
-const CP_SEVERITY_LABELS = ["No pain", "Worst imaginable pain"];
+const CP_EXPERIENCE_TITLE = "In the past three months, how often did you have physical pain? For example: headaches, period pains, muscle pains, back pains, arthritis, cancer-related pain, etc.";
+const CP_EXPERIENCE_CHOICES = ["Never", "Some days", "Most days", "Every day", "Don't know"];
+const CP_PREAMBLE = "The following four questions refer to the physical pain you experienced in the last 2-3 days.";
+const CP_STRENGTH_TITLE = "How strong was your physical pain in the last 2-3 days (on average)?";
+const CP_STRENGTH_LABELS = ["no pain", "moderate pain", "worst pain imaginable"];
+const CP_DISTRESS_TITLE = "How much pain-related distress did you experience in the last 2-3 days because of your physical pain (on average)?";
+const CP_DISTRESS_LABELS = ["no pain-related distress", "moderate distress", "extreme pain-related distress"];
+const CP_INTERFERENCE_TITLE = "How much did the physical pain interfere with your activities in the last 2-3 days (on average)?";
+const CP_INTERFERENCE_LABELS = ["no interference", "moderate interference", "unable to carry on activities"];
+const CP_SOURCE_TITLE = "Optional: What is the source of your physical pain (for example, back pain, headache, arthritis, fibromyalgia, cancer-related pain etc.)?";
 
 // ============================================================================
 // Loneliness Scale (UCLA 3-item)
@@ -370,70 +475,96 @@ const BRS_PROMPTS = {
 // Green and Blue Spaces Access
 // ============================================================================
 const GBS_PREAMBLE = "The following questions are about your access to natural environments.";
-const GBS_SCALE = ["strongly disagree", "disagree", "neutral", "agree", "strongly agree"];
+const GBS_SCALE = ["strongly disagree", "somewhat disagree", "neither agree nor disagree", "somewhat agree", "strongly agree", "don't know", "does not apply"];
 const GBS_PROMPTS = {
-  GBS1: "I have easy access to green spaces (parks, forests, gardens, etc.).",
-  GBS2: "I have easy access to blue spaces (lakes, rivers, oceans, etc.).",
-  GBS3: "I regularly spend time in natural outdoor environments.",
-  GBS4: "The natural spaces near me are well-maintained and pleasant."
+  PGB1: "It's easy for me to reach a nearby green area with trees, such as a park or forest.",
+  PGB2: "It's easy for me to reach a nearby water area, such as a lake or the sea.",
+  PGB3: "It's easy for me to reach a nearby cooled facility, such as an air conditioned library or mall."
 };
 
 // ============================================================================
 // Air Conditioning Access
 // ============================================================================
-const AC_ACCESS_PREAMBLE = "The following questions are about your access to cooling resources.";
-const AC_HOME_TITLE = "Does your home have air conditioning?";
-const AC_HOME_CHOICES = [
-  "Yes, central air conditioning throughout the home",
-  "Yes, air conditioning in some rooms",
-  "Yes, portable air conditioning unit(s)",
-  "No air conditioning",
-  "Prefer not to say"
+const AC_ACCESS_PREAMBLE = "The following questions are about how you cool your home. For this purpose, air conditioning (AC) = any device that actively cools indoor air (e.g., split/central air, window unit, portable unit). Please note, this does not include fans or similar devices.";
+const AC_HOME_TITLE = "Do you use air conditioning in your home?";
+const AC_HOME_CHOICES = ["No", "Yes"];
+const AC_HOURS_TITLE = "Over the last 48 hours, how many hours have you spent in an air conditioned environment?";
+const AC_SLEEP_TITLE = "In the last two nights, did you use AC while sleeping?";
+const AC_SLEEP_CHOICES = [
+  { value: 0, text: "No" },
+  { value: 1, text: "Yes" },
+  { value: -98, text: "I don't know" }
 ];
-const AC_FREQUENCY_TITLE = "Over the last 2-3 days, how often did you use air conditioning at home?";
-const AC_FREQUENCY_CHOICES = [
-  "Not at all",
-  "Rarely",
-  "Sometimes",
-  "Most of the time",
-  "All of the time",
-  "Not applicable (no air conditioning)"
+const AC_LIMIT_TITLE = "In the last 48 hours, did you limit your AC use because of any concerns or constraints (e.g., electricity costs, health worries)?";
+const AC_LIMIT_CHOICES = ["No", "Yes"];
+const AC_OTHER_TITLE = "Do you have any other cooling options?";
+const AC_OTHER_CHOICES = [
+  "Yes, fan(s)",
+  "Yes, evaporative cooler (\"swamp cooler\")",
+  "Yes, cool roof / roof spraying / water sprinkling",
+  "No"
 ];
-const AC_PUBLIC_TITLE = "Do you have access to air-conditioned public spaces (libraries, shopping centers, community centers, etc.) in your area?";
-const AC_PUBLIC_CHOICES = ["Yes", "No", "Don't know"];
+const AC_OTHER_TEXT = "Yes, other (please specify:)";
 
 // ============================================================================
 // Housing Conditions
 // ============================================================================
 const HC_PREAMBLE = "The following questions are about your current housing situation.";
-const HC_TYPE_TITLE = "What type of housing do you currently live in?";
-const HC_TYPE_CHOICES = [
-  "Detached single-family home",
-  "Attached home (townhouse, duplex, etc.)",
-  "Apartment/flat in a building",
-  "Mobile home",
-  "Other",
-  "Prefer not to say"
-];
 const HC_OWN_TITLE = "Do you own or rent your home?";
-const HC_OWN_CHOICES = ["Own", "Rent", "Other arrangement", "Prefer not to say"];
-const HC_QUALITY_TITLE = "How would you rate the overall condition of your housing?";
-const HC_QUALITY_SCALE = ["very poor", "poor", "fair", "good", "excellent"];
-const HC_INSULATION_TITLE = "How well insulated is your home against outdoor temperatures?";
-const HC_INSULATION_SCALE = ["very poorly", "poorly", "adequately", "well", "very well"];
+const HC_OWN_CHOICES = [
+  { value: 1, text: "I own it" },
+  { value: 2, text: "I rent/sublet it" }
+];
+const HC_TYPE_TITLE = "What type of dwelling do you live in?";
+const HC_TYPE_CHOICES = [
+  { value: 1, text: "Detached house (single-family)" },
+  { value: 2, text: "Semi-detached / duplex" },
+  { value: 3, text: "Row / townhouse" },
+  { value: 4, text: "Apartment—low/mid-rise (less than 7 floors)" },
+  { value: 5, text: "Apartment—high-rise (more than 8 floors)" },
+  { value: -99, text: "Prefer not to say" }
+];
+const HC_TYPE_OTHER_TEXT = "Other:";
+const HC_TOP_FLOOR_TITLE = "Is your dwelling on the top floor or under the roof?";
+const HC_TOP_FLOOR_CHOICES = ["No", "Yes"];
+const HC_OUTDOOR_TITLE = "Do you have a private outdoor space such as personal garden, balcony or terrace?";
+const HC_OUTDOOR_CHOICES = ["No", "Yes"];
+const HC_SIZE_TITLE = "What is the size of your living space?";
+const HC_SIZE_CHOICES = [
+  { value: 1, text: "up to 30m² / up to 320 feet²" },
+  { value: 2, text: "31 - 50 m² / 321 - 540 feet²" },
+  { value: 3, text: "51 - 100 m² / 541 - 1000 feet²" },
+  { value: 4, text: "Over 100 m² / over 1000 feet²" },
+  { value: -98, text: "I don't know" }
+];
+const HC_WINDOWS_TITLE = "Can you fully open your windows?";
+const HC_WINDOWS_CHOICES = ["No", "Yes"];
+const HC_CROSS_VENT_TITLE = "Do you have the option to open windows on two sides of your dwelling to let the air flow?";
+const HC_CROSS_VENT_CHOICES = ["No", "Yes"];
+const HC_SUNLIGHT_TITLE = "When does direct sunlight enter your dwelling?";
+const HC_SUNLIGHT_CHOICES = [
+  { value: 1, text: "Morning" },
+  { value: 2, text: "Midday" },
+  { value: 3, text: "Evening" },
+  { value: 0, text: "Never" },
+  { value: -98, text: "I don't know" }
+];
 
 // ============================================================================
 // Heat Actions - City Level
 // ============================================================================
-const HA_PREAMBLE = "The following questions are about climate and heat-related actions in your city or community.";
-const HA_SCALE = ["strongly disagree", "disagree", "neutral", "agree", "strongly agree", "don't know"];
-const HA_PROMPTS = {
-  HA1: "My city/community has adequate plans to deal with extreme heat events.",
-  HA2: "My city/community provides sufficient cooling centers or public spaces during heat waves.",
-  HA3: "My city/community is taking meaningful action to address climate change.",
-  HA4: "I am satisfied with my local government's response to climate change.",
-  HA5: "My city/community has adequate green spaces and tree cover to provide shade and cooling."
-};
+const HA_PREAMBLE = "Heat actions on city level";
+const HA_AWARENESS_TITLE = "Are you aware of any official protective actions against extreme heat in your district?";
+const HA_AWARENESS_CHOICES = ["No"];
+const HA_AWARENESS_OTHER_TEXT = "Yes, namely:";
+const HA_SUFFICIENCY_TITLE = "In your view, current protective actions against extreme heat in your district are…";
+const HA_SUFFICIENCY_SCALE = [
+  { value: 1, text: "completely insufficient" },
+  { value: 2, text: "" },
+  { value: 3, text: "" },
+  { value: 4, text: "" },
+  { value: 5, text: "completely sufficient" }
+];
 
 // ============================================================================
 // Final Comments

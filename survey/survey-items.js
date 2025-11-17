@@ -636,102 +636,11 @@ const ccb_trial = {
   },
 };
 
-const ts_trial = {
-  type: jsPsychSurvey,
-  data: { survey_page: "TS" },
-  survey_json: {
-    showQuestionNumbers: false,
-    completeText: "Continue",
-    pages: [
-      {
-        title: TS_PREAMBLE,
-        elements: [
-          {
-            type: "radiogroup",
-            name: "TS1",
-            title: TS_PROMPTS.TS1.prompt,
-            choices: TS_PROMPTS.TS1.labels.map((label, i) => ({
-              value: i,
-              text: label,
-            })),
-            isRequired: true,
-          },
-          {
-            type: "radiogroup",
-            name: "TS2",
-            title: TS_PROMPTS.TS2.prompt,
-            choices: TS_PROMPTS.TS2.labels.map((label, i) => ({
-              value: i,
-              text: label,
-            })),
-            isRequired: true,
-          },
-        ],
-      },
-    ],
-  },
-  min_width: "min(100vw, 1200px)",
-};
 
-const sta_trial = {
-  type: jsPsychSurvey,
-  data: { survey_page: "STA" },
-  survey_json: {
-    showQuestionNumbers: false,
-    completeText: "Continue",
-    pages: [
-      {
-        elements: [
-          {
-            type: "matrix",
-            name: "sta",
-            title: STA_PREAMBLE,
-            rows: Object.keys(STA_PROMPTS).map((key) => ({
-              value: `A-${key}`,
-              text: STA_PROMPTS[key],
-            })),
-            columns: STA_SCALE.map((label, i) => ({
-              value: i,
-              text: label,
-            })),
-            isRequired: true,
-          },
-        ],
-      },
-    ],
-  },
-  min_width: "min(100vw, 1200px)",
-};
 
-const sl_trial = {
-  type: jsPsychSurvey,
-  data: { survey_page: "SL" },
-  survey_json: {
-    showQuestionNumbers: false,
-    completeText: "Continue",
-    pages: [
-      {
-        elements: [
-          {
-            type: "matrix",
-            name: "sl",
-            title: SL_PREAMBLE,
-            rows: Object.keys(SL_PROMPTS).map((key) => ({
-              value: `A-${key}`,
-              text: SL_PROMPTS[key],
-            })),
-            columns: SL_SCALE.map((label, i) => ({
-              value: i,
-              text: label,
-            })),
-            isRequired: true,
-          },
-        ],
-      },
-    ],
-  },
-  min_width: "min(100vw, 1200px)",
-};
+
+
+
 
 const intro_trial = {
   type: jsPsychSurvey,
@@ -797,7 +706,8 @@ const consent_trial = {
 };
 
 
-const de_json = {
+// Basic demographics - age and gender only
+const de_basic_json = {
   elements: [
     {
       name: "A-DE1",
@@ -814,13 +724,71 @@ const de_json = {
       choices: DE_GENDER_CHOICES,
       colCount: 1,
     },
+  ],
+};
+
+const de_basic_trial = {
+  type: jsPsychSurvey,
+  data: { survey_page: "Demographics" },
+  survey_json: de_basic_json,
+  min_width: "min(100vw, 1200px)",
+};
+
+// Extended demographics - education and political views
+const de_extended_json = {
+  elements: [
+    {
+      name: "A-DE3",
+      type: "radiogroup",
+      title: DE_HOUSEHOLD_TITLE,
+      isRequired: true,
+      choices: DE_HOUSEHOLD_CHOICES,
+      colCount: 1,
+    },
+    {
+      name: "A-DE4",
+      type: "radiogroup",
+      title: DE_HOUSEHOLD_CHILDREN_TITLE,
+      isRequired: true,
+      choices: DE_HOUSEHOLD_CHILDREN_CHOICES,
+      colCount: 1,
+    },
+    {
+      name: "A-DE5",
+      type: "radiogroup",
+      title: DE_RELATIONSHIP_STATUS_TITLE,
+      isRequired: true,
+      choices: DE_RELATIONSHIP_STATUS_CHOICES,
+      colCount: 1,
+      showOtherItem: true,
+      otherText: DE_RELATIONSHIP_STATUS_OTHER_TEXT,
+
+    },
     {
       name: "A-DE6",
+      type: "radiogroup",
+      title: DE_PREGNANT_TITLE,
+      isRequired: true,
+      choices: DE_PREGNANT_CHOICES,
+      colCount: 1,
+    },
+    {
+      name: "A-DE7",
       type: "radiogroup",
       title: DE_EDUCATION_TITLE,
       isRequired: true,
       choices: DE_EDUCATION_CHOICES,
       colCount: 1,
+    },
+    {
+      name: "A-DE8",
+      type: "radiogroup",
+      title: DE_MINORITY_TITLE,
+      isRequired: true,
+      choices: DE_MINORITY_CHOICES,
+      colCount: 1,
+      showOtherItem: true,
+      otherText: DE_MINORITY_OTHER_TEXT,
     },
     {
       type: "html",
@@ -832,7 +800,7 @@ const de_json = {
       title: DE_POLITICAL_SOCIAL_TITLE,
       elements: [
         {
-          name: "A-DE7",
+          name: "A-PO1",
           title: " ",
           type: "slider",
           min: -50,
@@ -844,10 +812,10 @@ const de_json = {
             { value: 0, text: DE_POLITICAL_LABELS["50"] },
             { value: 50, text: DE_POLITICAL_LABELS["100"] },
           ],
-          visibleIf: "{A-DE7a} notcontains 'Prefer not to say'",
+          visibleIf: "{A-PO1a} notcontains 'Prefer not to say'",
         },
         {
-          name: "A-DE7a",
+          name: "A-PO1a",
           type: "checkbox",
           title: " ",
           choices: [DE_PREFER_NOT_TO_SAY],
@@ -864,7 +832,7 @@ const de_json = {
       title: DE_POLITICAL_ECONOMIC_TITLE,
       elements: [
         {
-          name: "A-DE8",
+          name: "A-PO2",
           type: "slider",
           title: " ",
           min: -50,
@@ -876,10 +844,10 @@ const de_json = {
             { value: 0, text: DE_POLITICAL_LABELS["50"] },
             { value: 50, text: DE_POLITICAL_LABELS["100"] },
           ],
-          visibleIf: "{A-DE8a} notcontains 'Prefer not to say'",
+          visibleIf: "{A-PO2a} notcontains 'Prefer not to say'",
         },
         {
-          name: "A-DE8a",
+          name: "A-PO2a",
           type: "checkbox",
           title: " ",
           choices: [DE_PREFER_NOT_TO_SAY],
@@ -889,11 +857,10 @@ const de_json = {
   ],
 };
 
-// fix the prefer not to say item
-const de_trial = {
+const de_extended_trial = {
   type: jsPsychSurvey,
-  data: { survey_page: "Demographics" },
-  survey_json: de_json,
+  data: { survey_page: "DemographicsExtended" },
+  survey_json: de_extended_json,
   button_label: DE_BUTTON_LABEL,
   on_finish: function (data) {
     if (
@@ -909,6 +876,7 @@ const de_trial = {
       data.response["A-DE8"] = -99;
     }
   },
+  min_width: "min(100vw, 1200px)",
 };
 
 const final_comments_trial = {
