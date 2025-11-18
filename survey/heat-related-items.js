@@ -10,7 +10,7 @@ const ts_trial = {
         elements: [
           {
             type: "radiogroup",
-            name: "TS1",
+            name: "A-TS1",
             title: TS_PROMPTS.TS1.prompt,
             choices: TS_PROMPTS.TS1.labels.map((label, i) => ({
               value: i,
@@ -20,7 +20,7 @@ const ts_trial = {
           },
           {
             type: "radiogroup",
-            name: "TS2",
+            name: "A-TS2",
             title: TS_PROMPTS.TS2.prompt,
             choices: TS_PROMPTS.TS2.labels.map((label, i) => ({
               value: i,
@@ -96,5 +96,9 @@ const sl_trial = {
 };
 
 const heat_related_timeline = {
-  timeline: [ts_trial, sta_trial, sl_trial]
+  timeline: [
+    ts_trial, 
+    sta_trial, 
+    sl_trial
+  ]
 }
